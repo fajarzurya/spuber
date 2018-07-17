@@ -558,7 +558,7 @@ class keuangan extends CI_Controller
 		$jenis_pembayaran	= $_GET['jenis_pembayaran'];
 		$kelas				= $_GET['kelas'];
 		$data				= $this->db->get_where('keuangan_biaya_kuliah',array('prodi_id'=>$kelas,'jenis_bayar_id'=>$jenis_pembayaran))->result();
-		if(!empty($kelas)){
+		//if(!empty($kelas)){
 			if($jenis_pembayaran==1){ //Jika SPP
 				foreach($data as $x){
 					echo inputan('text', 'jumlah','col-sm-8','', 1,$x->jumlah,array('readonly'=>'readonly'));
@@ -567,10 +567,9 @@ class keuangan extends CI_Controller
 				foreach($data as $x){
 					echo inputan('text', 'jumlah','col-sm-8','', 1,$x->jumlah,array('readonly'=>'readonly'));
 				}
+			}else{
+				echo inputan('text', 'jumlah','col-sm-8','', 1,'','');
 			}
-		}else{
-			echo inputan('text', 'jumlah','col-sm-8','', 1,'',array('readonly'=>'readonly'));
-		}
 	}
 
 
