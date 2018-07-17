@@ -23,11 +23,10 @@ class keuangan extends CI_Controller
             $data['tanggal1']="";
             $data['tanggal2']="";
         }
-        $query="SELECT sm.nama,sm.nim,jb.keterangan,pd.tanggal,pd.jumlah,pd.semester,ak.nama_konsentrasi
-                FROM keuangan_pembayaran_detail as pd,keuangan_jenis_bayar as jb,student_mahasiswa as sm,akademik_konsentrasi as ak
-                WHERE pd.jenis_bayar_id=jb.jenis_bayar_id and ak.konsentrasi_id=sm.konsentrasi_id and sm.nim=pd.nim and left(pd.tanggal,10) 
+        $query="SELECT sm.nama,sm.nim,jb.keterangan,pd.tanggal,pd.jumlah,pd.semester,ap.nama_prodi FROM keuangan_pembayaran_detail as pd,keuangan_jenis_bayar as jb,student_siswa as sm,akademik_prodi as ap WHERE pd.jenis_bayar_id=jb.jenis_bayar_id and ap.prodi_id=sm.prodi_id and sm.nim=pd.nim and left(pd.tanggal,10) 
                 BETWEEN '".$data['tanggal1']."' and '".$data['tanggal2']."'";
         $data['transaksi']=  $this->db->query($query)->result();
+		$data['title']=  $this->title;
         $this->template->load('template', 'keuangan/view',$data);
     }
     

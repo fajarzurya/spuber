@@ -16,6 +16,8 @@ if($this->session->userdata('id_users')=='')
     <!-- CSS Files -->
     <link href="<?php echo base_url();?>assets/css/bootstrap.min.css" rel="stylesheet" />
     <link href="<?php echo base_url();?>assets/css/now-ui-kit.css?v=1.1.0" rel="stylesheet" />
+	<!-- DatePicker CSS -->
+	<link href="<?php echo base_url();?>assets/datepicker/css/datepicker.css" rel="stylesheet" />
 	<!-- DataTables CSS -->
     <link href="<?php echo base_url(); ?>assets/datatables/datatables.min.css" rel="stylesheet">
   </head>
@@ -107,12 +109,20 @@ if($this->session->userdata('id_users')=='')
 <!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
 <script src="<?php echo base_url();?>assets/js/plugins/nouislider.min.js" type="text/javascript"></script>
 <!--  Plugin for the DatePicker, full documentation here: https://github.com/uxsolutions/bootstrap-datepicker -->
-<script src="<?php echo base_url();?>assets/js/plugins/bootstrap-datepicker.js" type="text/javascript"></script>
 <!-- Control Center for Now Ui Kit: parallax effects, scripts for the example pages etc -->
 <script src="<?php echo base_url();?>assets/js/now-ui-kit.js?v=1.1.0" type="text/javascript"></script>
 <!-- DataTables JavaScript -->
-<script src="<?php echo base_url(); ?>assets/datatables/datatables.min.js"></script>
+<script src="<?php echo base_url(); ?>assets/datatables/datatables.min.js" type="text/javascript"></script>
+<!-- DatePicker JavaScript -->
+<script src="<?php echo base_url(); ?>assets/datepicker/js/bootstrap-datepicker.js" type="text/javascript"></script>
 <script>
+$(function(){
+   $('#datepicker').datepicker({
+      format: 'yy-mm-dd'
+    });
+});
+</script>
+<!--<script>
 	$(function() {
 		$( "#datepicker" ).datepicker({
                 changeMonth: true,
@@ -161,7 +171,7 @@ if($this->session->userdata('id_users')=='')
                 changeYear: true
                 });
 	});
-	</script>
+	</script>-->
         
 
         <!-- Javascript code only for this page -->

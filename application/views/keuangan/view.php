@@ -1,4 +1,11 @@
-
+<h2 style="font-weight: normal;"><?php echo $title;?></h2>
+<div class="push">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><i class='fa fa-home'></i> <a href="javascript:void(0)">Home</a></li>
+        <li class="breadcrumb-item"><?php echo anchor($this->uri->segment(1),$title);?></li>
+        <li class="breadcrumb-item active">Jurnal</li>
+    </ol>
+</div>
 <?php
 
 $status=array(0=>'Lunas',1=>'Pembayaran Ke 1',2=>'Pembayaran Ke 2',3=>'Pembayaran Ke 3',4=>'Pembayaran Ke 4');
