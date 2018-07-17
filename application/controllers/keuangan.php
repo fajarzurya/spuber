@@ -6,6 +6,7 @@ class keuangan extends CI_Controller
     var $tables =   "";
     var $pk     =   "";
     var $title  =   "Keuangan";
+	var $token	=	"590086026:AAGfE5F9UArMVX4WyxMKxt_9L6JsbyeF3xQ";
     
     function __construct() {
         parent::__construct();
@@ -404,7 +405,9 @@ class keuangan extends CI_Controller
             $data['biodata']=  $this->db->query($query)->row_array();
             //$data['semester']=getField('student_mahasiswa', 'semester_aktif', 'nim', $nim_session);
 			$data['semester']=getField('student_siswa', 'semester_aktif', 'nim', $nim_session);
-           $this->load->view('keuangan/cetakpersonal',$data); 
+			
+           $this->telegram($nim_session);
+		   $this->load->view('keuangan/cetakpersonal',$data); 
         }
     }
     
@@ -571,6 +574,70 @@ class keuangan extends CI_Controller
 			}
 	}
 
+	function telegram($nis)
+	{
+		//$data['telegram']=$this->telegram->getChatId($nis);
+		$data	= $this->db->get_where('telegram', array('nis'=>$nis))->result();
+		$token = "590086026:AAGfE5F9UArMVX4WyxMKxt_9L6JsbyeF3xQ";
+		//foreach($data['telegram'] as $c)
+		foreach($data as $c)
+		{
+			$url = "https://api.telegram.org/bot" . $token . "/sendMessage?chat_id=" . $c->chat_id;
+    		$url = $url . "&text=Testing";
+			$ch = curl_init($url);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+			curl_setopt($ch, CURLOPT_TIMEOUT, 60);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    		// $optArray = array(
+				// CURLOPT_URL => $url,
+    			// CURLOPT_RETURNTRANSFER => true
+    			// );
+    		// curl_setopt_array($ch, $optArray);
+    		// curl_exec($ch);
+    		// curl_close($ch);
+			$this->exec_curl_request($ch);
+		}
+	}
+	
+	function exec_curl_request($handle)
+{
+    $response = curl_exec($handle);
 
+    if ($response === false) {
+        $errno = curl_errno($handle);
+        $error = curl_error($handle);
+        error_log("Curl returned error $errno: $error\n");
+        curl_close($handle);
+
+        return false;
+    }
+
+    $http_code = intval(curl_getinfo($handle, CURLINFO_HTTP_CODE));
+    curl_close($handle);
+
+    if ($http_code >= 500) {
+        // do not wat to DDOS server if something goes wrong
+    sleep(10);
+
+        return false;
+    } elseif ($http_code != 200) {
+        $response = json_decode($response, true);
+        error_log("Request has failed with error {$response['error_code']}: {$response['description']}\n");
+        if ($http_code == 401) {
+            throw new Exception('Invalid access token provided');
+        }
+
+        return false;
+    } else {
+        $response = json_decode($response, true);
+        if (isset($response['description'])) {
+            error_log("Request was successfull: {$response['description']}\n");
+        }
+        $response = $response['result'];
+    }
+
+    return $response;
+}
 }
 ?>

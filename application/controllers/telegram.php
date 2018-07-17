@@ -37,21 +37,25 @@ $token = "isiTokenBotmu";
 //require_once 'token.php';
 
 // masukkan bot token di sini
-define('BOT_TOKEN', '590086026:AAGfE5F9UArMVX4WyxMKxt_9L6JsbyeF3xQ');
+//define('BOT_TOKEN', '590086026:AAGfE5F9UArMVX4WyxMKxt_9L6JsbyeF3xQ');
+var $BOT_TOKEN = "590086026:AAGfE5F9UArMVX4WyxMKxt_9L6JsbyeF3xQ";
 
 // versi official telegram bot
- define('API_URL', 'https://api.telegram.org/bot'.BOT_TOKEN.'/');
+//define('API_URL', 'https://api.telegram.org/bot'.BOT_TOKEN.'/');
+var $API_URL = 'https://api.telegram.org/bot'.BOT_TOKEN.'/';
 
 // versi 3rd party, biar bisa tanpa https / tanpa SSL.
 //define('API_URL', 'https://api.pwrtelegram.xyz/bot'.BOT_TOKEN.'/');
-define('SpuberBot', '0.1');
-define('LastUpdate', '16 Juli 2018');
+//define('Version', '0.1');
+var $Version = '0.1';
+//define('LastUpdate', '16 Juli 2018');
+var $LastUpdate = '16 Juli 2018';
 
 // ambil databasenya
 //require_once 'database.php';
 
 // aktifkan ini jika ingin menampilkan debugging poll
-$debug = false;
+var $debug = true;
 
 function exec_curl_request($handle)
 {
@@ -154,11 +158,6 @@ function apiRequestJson($method, $parameters)
     return exec_curl_request($handle);
 }
 
-// jebakan token, klo ga diisi akan mati
-if (strlen(BOT_TOKEN) < 20) {
-    die(PHP_EOL."-> -> Token BOT API nya mohon diisi dengan benar!\n");
-}
-
 function getUpdates($last_id = null)
 {
     $params = [];
@@ -214,14 +213,14 @@ function processMessage($message)
             $katapertama = strtolower($pecah[0]);
             switch ($katapertama) {
         case '/start':
-          $text = "Selamat Datang di Sistem Keuangan SMP Sepuluh Nopember Sidoarjo `$namamu`.. Akhirnya kita bertemu!\n\nUntuk bantuan ketik: /help";
+          $text = "Selamat Datang `$namamu` di BOT SMP Sepuluh Nopember Sidoarjo\n\nUntuk bantuan ketik: /help";
           break;
 
         case '/help':
-          $text = '💁🏼 Ini adalah *Spuber Bot* ver.`'.SpuberBot."`\n";
+          $text = '💁🏼 Ini adalah *Spuber Bot* ver.`'.Version."`\n";
           $text .= "🎓 Oleh _Fidhya Utami_\n⌛️".lastUPDATE."\n\n";
           $text .= "💌 Berikut menu yang tersedia \n\n";
-          $text .= "➕ /daftar `[NIS]` untuk Mendaftarkan ID Telegram dengan Sistem Keuangan SMP Sepuluh Nopember Sidoarjo\n";
+          $text .= "➕ /daftar `[NIS]` untuk Mendaftarkan ID Telegram dengan BOT SMP Sepuluh Nopember Sidoarjo\n";
           $text .= "🆘 /help Info bantuan ini\n\n";
           break;
 		  
@@ -229,7 +228,8 @@ function processMessage($message)
           if (isset($pecah[1])) {
               $pesanproses = $pecah[1];
               //$r = diarytambah($iduser, $pesanproses);
-              $text = '😘 Pendaftaran ke sistem sedang di proses';
+			  $r = spuberdaftar($iduser, $pesanproses);
+              $text = '😘 Pendaftaran ke sistem sedang di proses\n `$iduser` Sudah berhasil terdaftar di BOT';
           } else {
               $text = '⛔️ *ERROR:* _Pesan yang ditambahkan tidak boleh kosong!_';
               $text .= "\n\nContoh: `/pesan besok aku sahur mau puasa sunnah`";
@@ -254,7 +254,7 @@ function processMessage($message)
 }
 
 // pencetakan versi dan info waktu server, berfungsi jika test hook
-echo 'Ver. '.SpuberBot.' OK Start!'.PHP_EOL.date('Y-m-d H:i:s').PHP_EOL;
+//echo 'Ver. '.Version.' OK Start!'.PHP_EOL.date('Y-m-d H:i:s').PHP_EOL;
 
 function printUpdates($result)
 {
@@ -269,19 +269,21 @@ function printUpdates($result)
 
 // AKTIFKAN INI jika menggunakan metode poll
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-$last_id = null;
-while (true) {
-    $result = getUpdates($last_id);
-    if (!empty($result)) {
-        echo '+';
-        $last_id = printUpdates($result);
-    } else {
-        echo '-';
-    }
+var $last_id = null;
+function start_bot()
+{
+	while (true) {
+		$result = getUpdates($last_id);
+		if (!empty($result)) {
+			echo '+';
+			$last_id = printUpdates($result);
+		} else {
+			echo '-';
+		}
 
-    sleep(1);
+		sleep(1);
+	}
 }
-
 // AKTIFKAN INI jika menggunakan metode webhook
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 /*$content = file_get_contents("php://input");
