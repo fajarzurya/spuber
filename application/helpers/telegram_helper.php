@@ -1,6 +1,8 @@
-<?php
-class telegram extends CI_Controller
+<?php //if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+if ( ! function_exists('generatehtml'))
 {
+
 /**
  * Bot PHP Telegram ver Curl
  * Lebih Bersih
@@ -37,25 +39,21 @@ $token = "isiTokenBotmu";
 //require_once 'token.php';
 
 // masukkan bot token di sini
-//define('BOT_TOKEN', '590086026:AAGfE5F9UArMVX4WyxMKxt_9L6JsbyeF3xQ');
-var $BOT_TOKEN = "590086026:AAGfE5F9UArMVX4WyxMKxt_9L6JsbyeF3xQ";
+define('BOT_TOKEN', '590086026:AAGfE5F9UArMVX4WyxMKxt_9L6JsbyeF3xQ');
 
 // versi official telegram bot
-//define('API_URL', 'https://api.telegram.org/bot'.BOT_TOKEN.'/');
-var $API_URL = 'https://api.telegram.org/bot'.BOT_TOKEN.'/';
+define('API_URL', 'https://api.telegram.org/bot'.BOT_TOKEN.'/');
 
 // versi 3rd party, biar bisa tanpa https / tanpa SSL.
 //define('API_URL', 'https://api.pwrtelegram.xyz/bot'.BOT_TOKEN.'/');
-//define('Version', '0.1');
-var $Version = '0.1';
-//define('LastUpdate', '16 Juli 2018');
-var $LastUpdate = '16 Juli 2018';
+define('myVERSI', '0.1');
+define('lastUPDATE', '10 September 2016');
 
 // ambil databasenya
 //require_once 'database.php';
 
 // aktifkan ini jika ingin menampilkan debugging poll
-var $debug = true;
+$debug = true;
 
 function exec_curl_request($handle)
 {
@@ -213,26 +211,70 @@ function processMessage($message)
             $katapertama = strtolower($pecah[0]);
             switch ($katapertama) {
         case '/start':
-          $text = "Selamat Datang `$namamu` di BOT SMP Sepuluh Nopember Sidoarjo\n\nUntuk bantuan ketik: /help";
+          $text = "Hai `$namamu`.. Akhirnya kita bertemu!\n\nUntuk bantuan ketik: /help";
           break;
 
         case '/help':
-          $text = '💁🏼 Ini adalah *Spuber Bot* ver.`'.Version."`\n";
-          $text .= "🎓 Oleh _Fidhya Utami_\n⌛️".lastUPDATE."\n\n";
-          $text .= "💌 Berikut menu yang tersedia \n\n";
-          $text .= "➕ /daftar `[NIS]` untuk Mendaftarkan ID Telegram dengan BOT SMP Sepuluh Nopember Sidoarjo\n";
-          $text .= "🆘 /help Info bantuan ini\n\n";
+          $text = '💁🏼 Aku adalah *diary bot* ver.`'.myVERSI."`\n";
+          $text .= "🎓 Oleh _Hasanudin HS_\n⌛️".lastUPDATE."\n\n";
+          $text .= "💌 Berikut menu yang tersedia spesial buat kamu, iya kamu..\n\n";
+          $text .= "➕ /tambah `[pesan]` untuk menambah catatan\n";
+          $text .= "🔃 /list melihat daftar catatan tersedia\n";
+          $text .= "🔍 /cari mencari catatan\n";
+          $text .= "⌛️ /time info waktu sekarang\n";
+          $text .= "🆘 /help info bantuan ini\n\n";
+          $text .= '😎 *Ingin diskusi?* Silakan bergabung ke @botphp';
           break;
-		  
-        case '/daftar':
+
+        case '/time':
+          $text = "⌛️ Waktu Sekarang :\n";
+          $text .= date('d-m-Y H:i:s');
+          break;
+
+        case '/tambah':
           if (isset($pecah[1])) {
               $pesanproses = $pecah[1];
-              //$r = diarytambah($iduser, $pesanproses);
-			  $r = spuberdaftar($iduser, $pesanproses);
-              $text = '😘 Pendaftaran ke sistem sedang di proses\n `$iduser` Sudah berhasil terdaftar di BOT';
+              $r = diarytambah($iduser, $pesanproses);
+              $text = '😘 Goresan catatan indahmu telah berhasil kusematkan di dalam hatiku!';
           } else {
               $text = '⛔️ *ERROR:* _Pesan yang ditambahkan tidak boleh kosong!_';
               $text .= "\n\nContoh: `/pesan besok aku sahur mau puasa sunnah`";
+          }
+          break;
+
+        case '/view':
+          if (isset($pecah[1])) {
+              $pesanproses = $pecah[1];
+              $text = diaryview($iduser, $pesanproses);
+          } else {
+              $text = '⛔️ *ERROR:* `nomor pesan tidak boleh kosong.`';
+          }
+          break;
+
+        case '/hapus':
+          if (isset($pecah[1])) {
+              $pesanproses = $pecah[1];
+              $text = diaryhapus($iduser, $pesanproses);
+          } else {
+              $text = '⛔️ *ERROR:* `nomor pesan tidak boleh kosong.`';
+          }
+          break;
+
+        case '/list':
+          $text = diarylist($iduser);
+          if ($GLOBALS['debug']) {
+              print_r($text);
+          }
+          break;
+
+        case '/cari':
+          // saya gunakan pregmatch ini salah satunya untuk mencegah SQL injection
+          // hanya huruf dan angka saja yang akan diproses
+          if (preg_match("/^\/cari ((\w| )+)$/i", $pesan, $cocok)) {
+              $pesanproses = $cocok[1];
+              $text = diarycari($iduser, $pesanproses);
+          } else {
+              $text = '⛔️ *ERROR:* `kata kunci harus berupa kata (huruf dan angka) saja.`';
           }
           break;
 
@@ -254,7 +296,7 @@ function processMessage($message)
 }
 
 // pencetakan versi dan info waktu server, berfungsi jika test hook
-//echo 'Ver. '.Version.' OK Start!'.PHP_EOL.date('Y-m-d H:i:s').PHP_EOL;
+//echo 'Ver. '.myVERSI.' OK Start!'.PHP_EOL.date('Y-m-d H:i:s').PHP_EOL;
 
 function printUpdates($result)
 {
@@ -269,20 +311,18 @@ function printUpdates($result)
 
 // AKTIFKAN INI jika menggunakan metode poll
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-var $last_id = null;
-function start_bot()
-{
-	while (true) {
-		$result = getUpdates($last_id);
-		if (!empty($result)) {
-			echo '+';
-			$last_id = printUpdates($result);
-		} else {
-			echo '-';
-		}
+// $last_id = null;
+// while (true) {
+    // $result = getUpdates($last_id);
+    // if (!empty($result)) {
+        // echo '+';
+        // $last_id = printUpdates($result);
+    // } else {
+        // echo '-';
+    // }
 
-		sleep(1);
-	}
+    // sleep(1);
+// }
 }
 // AKTIFKAN INI jika menggunakan metode webhook
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -303,4 +343,3 @@ if (!$update) {
 Sekian.
 
 */
-}
