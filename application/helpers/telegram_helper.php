@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php //if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 if ( ! function_exists('generatehtml'))
 {
@@ -53,7 +53,7 @@ define('lastUPDATE', '10 September 2016');
 //require_once 'database.php';
 
 // aktifkan ini jika ingin menampilkan debugging poll
-$debug = false;
+$debug = true;
 
 function exec_curl_request($handle)
 {
