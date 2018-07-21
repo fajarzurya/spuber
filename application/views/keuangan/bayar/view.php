@@ -152,14 +152,14 @@ echo form_open('keuangan/pembayaran');
 <?php
 if($statuss!="kosong"){
 ?>
-<table class="table table-bordered">
+<table class="table table-bordered=">
     <tr class="success"><th colspan="7">Riwayat Transaksi</th></tr>
     <tr><th width="10">No</th>
         <th width="240">Jenis Pembayaran</th>
-        <th width="180">Harus Dibayar</th>
+		<th width="180">Harus Dibayar</th>
         <th width="180">Sudah Dibayar</th>
         <th width="80">Sisa</th>
-        <th width="120">Persentase %</th>
+        <th width="100">Persentase %</th>
         <th>Keterangan</th></tr>
     <?php
     
@@ -174,13 +174,13 @@ if($statuss!="kosong"){
             //$jumlah_bayar   =(int) get_biaya_kuliah($tahun_akademik_id, $jb->jenis_bayar_id, $konsentrasi_id, 'jumlah');
 			$jumlah_bayar   =(int)get_biaya_sekolah($tahun_akademik_id, $jb->jenis_bayar_id, $kelas, 'jumlah');
             $sudah_bayar    =(int)get_biaya_sudah_bayar($nim, $jb->jenis_bayar_id);
-            $sisa           = $jumlah_bayar-$sudah_bayar;
+			$sisa           = $jumlah_bayar-$sudah_bayar;
             $ket           = $sisa<=0?'Lunas':'Tunggakan '.rp($sisa);
             echo "<tr><td>$no</td>
                 <td>".  strtoupper($jb->keterangan)."</td>
                 <td>".rp($jumlah_bayar)."</td>
                 <td>".rp($sudah_bayar)."</td>
-                <td>".rp($sisa)."</td>
+				<td>".rp($sisa)."</td>
                 <td>".  get_persentase_pembayaran($jumlah_bayar, $sudah_bayar)." %</td>
                 <td>$ket</td>
                 </tr>";
@@ -195,13 +195,15 @@ if($statuss!="kosong"){
             //$spp            =   (int) get_biaya_kuliah($tahun_akademik_id, 3, $konsentrasi_id, 'jumlah');
 			$spp            =   (int) get_biaya_sekolah($tahun_akademik_id, 3, $kelas, 'jumlah');
             $spp_udah_bayar =   (int)get_semester_sudah_bayar($nim, $i);
-            $sisa           =   $spp-$spp_udah_bayar;
+            $tanggal		= tanggal;
+			//$tanggal		= tanggal;
+			$sisa           =   $spp-$spp_udah_bayar;
             $keterangan           =   $sisa<=0?'Lunas':'Tunggakan '.$sisa;
             echo "<tr><td>$no</td>
                 <td>SPP ".getbln($i)."</td>
                 <td>".rp($spp)."</td>
                 <td>".rp($spp_udah_bayar)."</td>
-                <td>$sisa</td>
+				<td>$sisa</td>
                 <td>".  rp(get_persentase_pembayaran($spp, $spp_udah_bayar))." %</td>
                 <td>$keterangan</td></tr>";
             $no++;
@@ -230,6 +232,7 @@ if($statuss!="kosong"){
             <td>Rp ".rp((int)$r->jumlah)."</td>
             <td>".  strtoupper($r->nama)."</td>
             <td align='center'>".anchor('keuangan/delete/'.$r->pembayara_detail_id,'<i class="fa fa-trash-o"></i>',array('title'=>'Hapus Catatan'))."</td></tr>";
+			//<td align='center'>".anchor('keuangan/delete/'.$r->pembayara_detail_id,'<i class="fa fa-trash-o"></i>',array('title'=>'Hapus Catatan'))."</td></tr>";
         $i++;
     }
     ?> 
