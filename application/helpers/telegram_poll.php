@@ -4,6 +4,7 @@ require_once 'telegram_helper.php';
 
 // AKTIFKAN INI jika menggunakan metode poll
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+echo 'SpuberBot Ver. '.myVERSI.' OK Start!'.PHP_EOL.date('Y-m-d H:i:s').PHP_EOL;
 $last_id = null;
 while (true) {
     $result = getUpdates($last_id);

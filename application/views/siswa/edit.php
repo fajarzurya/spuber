@@ -96,12 +96,12 @@ else
     <tr>
     <td width="050">Kelas</td><td>
        <div class="row">
-		<div class="col-sm-6">
             <?php
             //$prodi=  getField('akademik_konsentrasi', 'prodi_id', 'konsentrasi_id', $r['konsentrasi_id'])
             ?>
         <?php //echo buatcombo('prodi', 'akademik_prodi', '', 'nama_prodi', 'prodi_id', $param, array('id'=>'prodi'))?>
-		<?php echo editcombo('kelas','akademik_prodi','','nama_prodi','prodi_id','','',$r['prodi_id']); ?>
+		<?php echo editcombo('kelas','akademik_prodi','col-sm-6','nama_prodi','prodi_id','','',$r['prodi_id']); ?>
+		<?php echo editcombo('tipe kelas','app_kelas','col-sm-3','keterangan','kelas_id','','',$r['kelas_id']); ?>
         </div>
 	   </div>
     </td>

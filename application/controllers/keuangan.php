@@ -9,7 +9,7 @@ class keuangan extends CI_Controller
     
     function __construct() {
         parent::__construct();
-		//$this->load->helper('telegram');
+		$this->load->helper('telegram');
     }
     
     function index()
@@ -577,21 +577,16 @@ class keuangan extends CI_Controller
 	
 	function notifikasi($nis)
 	{
-		$data	= $this->db->get_where('telegram', array('nis'=>$nis))->result();
-		$token	= "590086026:AAGfE5F9UArMVX4WyxMKxt_9L6JsbyeF3xQ";
-		foreach($data as $c)
-		{
-			$url = "https://api.telegram.org/bot" . $token . "/sendMessage?chat_id=" . $c->chat_id;
-    		$url = $url . "&text=Testing";
-			$ch = curl_init($url);
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
-			curl_setopt($ch, CURLOPT_TIMEOUT, 60);
-			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-			exec_curl_request($ch);
-			//echo $kirim;
-			//$this->exec_curl_request($ch);
-		}
+		$id			= $this->db->get_where('telegram', array('nis'=>$nis))->row();
+		$nama		= $this->db->get_where('student_siswa',array('nim'=>$nis))->row();
+		$tgl_bayar 	= $this->db->get_where('keuangan_pembayaran_detail', array('nim'=>$nis))->row();
+		$text	= 'Yth Bpk/Ibu. Siswa/i '.$nama->nama.' sudah melakukan Pembayaran Sekolah pada tanggal '.$tgl_bayar->tanggal;
+		$data = [
+				'chat_id'             => $id->chat_id,
+				'text'                => $text,
+				'parse_mode'          => 'Markdown'
+				];
+		apiRequest('sendMessage', $data);
 	}
 }
 ?>

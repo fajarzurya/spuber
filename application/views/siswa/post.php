@@ -94,8 +94,8 @@ else
                                        <tr><td>Kelas</td>
                                            <td>
                                                <div class="row">
-												<div class="col-sm-3">
-                                                  <?php echo buatcombo('kelas', 'akademik_prodi', '', 'nama_prodi', 'prodi_id', $param, array('id'=>'prodi'))?>
+                                                  <?php echo buatcombo('kelas', 'akademik_prodi', 'col-sm-3', 'nama_prodi', 'prodi_id', $param, array('id'=>'prodi'))?>
+												  <?php echo buatcombo('tipe kelas','app_kelas','col-sm-2','keterangan','kelas_id','',''); ?>
 												</div></div>
 											</td>
 										</tr>
