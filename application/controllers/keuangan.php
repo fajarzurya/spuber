@@ -9,7 +9,7 @@ class keuangan extends CI_Controller
     
     function __construct() {
         parent::__construct();
-		$this->load->helper('telegram');
+		//$this->load->helper('telegram');
     }
     
     function index()

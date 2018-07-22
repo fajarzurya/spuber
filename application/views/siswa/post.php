@@ -95,7 +95,7 @@ else
                                            <td>
                                                <div class="row">
                                                   <?php echo buatcombo('kelas', 'akademik_prodi', 'col-sm-3', 'nama_prodi', 'prodi_id', $param, array('id'=>'prodi'))?>
-												  <?php echo buatcombo('tipe kelas','app_kelas','col-sm-2','keterangan','kelas_id','',''); ?>
+												  <?php echo buatcombo('tipe','app_kelas','col-sm-2','keterangan','kelas_id','',''); ?>
 												</div></div>
 											</td>
 										</tr>

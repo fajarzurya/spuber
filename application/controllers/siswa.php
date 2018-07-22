@@ -274,12 +274,25 @@ class siswa extends CI_Controller{
         }
     }
     
+	    //function tampilkankonsentrasi()
+		//tampil tipe kelas ex: 7A
+	function tampiltipe()
+    {
+        $tipe  =   $_GET['tipe'];
+        //$data   = $this->db->get_where('akademik_konsentrasi',array('prodi_id'=>$prodi))->result();
+		$data   = $this->db->get_where('app_kelas',array('kelas_id'=>$tipe))->result();
+        foreach ($data as $r)
+        {
+            echo "<option value='$r->kelas_id'>".  strtoupper($r->keterangan)."</option>";
+        }
+    }
     
     //function tampilkanmahasiswa()
 	function tampilsiswa()
     {
         //$konsentrasi    =   $_GET['konsentrasi'];
-		$prodi    =   $_GET['prodi'];
+		$prodi    		=   $_GET['prodi'];
+		$tipex    		=   $_GET['tipe'];
         $tahun_angkatan =   $_GET['tahun_angkatan'];
         //$data           =   $this->db->get_where('student_mahasiswa',array('konsentrasi_id'=>$konsentrasi,'angkatan_id'=>$tahun_angkatan))->result();
 		//$data           =   $this->db->get_where('student_mahasiswa',array('prodi_id'=>$prodi,'angkatan_id'=>$tahun_angkatan))->result();
@@ -292,7 +305,7 @@ class siswa extends CI_Controller{
 		$config['total_rows'] = $total;
 		$config['per_page'] = 20;
 		$this->pagination->initialize($config);
-		$data = $this->db->get_where('student_siswa',array('prodi_id'=>$prodi,'angkatan_id'=>$tahun_angkatan),$config['per_page'],$from)->result();
+		$data = $this->db->get_where('student_siswa',array('prodi_id'=>$prodi,'angkatan_id'=>$tahun_angkatan,'kelas_id'=>$tipex),$config['per_page'],$from)->result();
 		
 	    echo "<table class='table table-bordered' id='example-datatables'>
 			<tr><th width='5'>No</th><th width='70'>NIS</th><th>NAMA</th>

@@ -26,6 +26,14 @@ $(document).ready(function(){
 
 <script>
 $(document).ready(function(){
+  $("#tipe").change(function(){
+	  loadsiswa();
+  });
+});
+</script>
+
+<script>
+$(document).ready(function(){
   $("#tahun_angkatan").change(function(){
       loadkelas();
   });
@@ -37,13 +45,16 @@ function loadsiswa()
 {
     //var konsentrasi=$("#konsentrasi").val();
 	var prodi=$("#prodi").val();
+	var tipe=$("#tipe").val();
+	//var prodi=$("#prodi").val();
     var tahun_angkatan=$("#tahun_angkatan").val();
     $.ajax({
     url:"<?php echo base_url();?>siswa/tampilsiswa",
 	//url:"<?php echo base_url();?>mahasiswa/tampilsiswa",
     //data:"konsentrasi=" + konsentrasi + "&tahun_angkatan=" + tahun_angkatan ,
-	data:"prodi=" + prodi + "&tahun_angkatan=" + tahun_angkatan ,
-    success: function(html)
+	data:"prodi=" + prodi + "&tahun_angkatan=" + tahun_angkatan + "&tipe=" + tipe ,
+    //data:"prodi=" + prodi + "&tahun_angkatan=" + tahun_angkatan ,
+	success: function(html)
        {
           $("#siswa").html(html);
        }
@@ -52,8 +63,6 @@ function loadsiswa()
 </script>
 
 <script type="text/javascript">
-
-
 //function loadjurusan()
 function loadkelas()
 {
@@ -75,6 +84,23 @@ function loadkelas()
 }
 </script>
 
+<script type="text/javascript">
+//function loadjurusan()
+function loadtipe()
+{
+    var tipe=$("#tipe").val();
+    $.ajax({
+	url:"<?php echo base_url();?>siswa/tampiltipe",
+	data:"tipe=" + tipe ,
+	success: function(html)
+	{
+			$("#tipe").html(html);
+			loadsiswa();
+            
+	}
+	});
+}
+</script>
 
 <script type="text/javascript">
 function hapus(id)
@@ -107,6 +133,8 @@ else
     
     <table class="table table-bordered">
     <tr><td>Kelas<?php echo buatcombo('prodi', 'akademik_prodi', '', 'nama_prodi', 'prodi_id', $param, array('id'=>'prodi'))?></td></tr>
+	<tr><td>Tipe<?php echo buatcombo('tipe', 'app_kelas', '','keterangan', 'kelas_id', $param, array('id'=>'tipe'))?></td></tr>
+	<?php //echo buatcombo('tipe kelas','app_kelas','col-sm-2','keterangan','kelas_id','',''); ?>
     <tr><td>Tahun Angkatan
             <?php echo buatcombo('tahun_angkatan', 'student_angkatan', '', 'keterangan', 'angkatan_id', '', array('id'=>'tahun_angkatan'))?>
         </td></tr>

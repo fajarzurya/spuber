@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php //if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 if ( ! function_exists('generatehtml'))
 {
@@ -214,18 +214,17 @@ function processMessage($message)
     }
 }
 
-function daftar($iduser, $nis)
-	{
-		$CI =& get_instance();
-		$CI->load->model('mcrud');
-		$data = array(
-			'chat_id'    => $iduser,
-			'tgl_daftar' => date('Y-m-d H:i:s').' WIB',
-			'nis' => $nis,
-			'status' => 'y');
-		$daftar=$CI->mcrud->insert('telegram',$data);
-		return $daftar;
-	}
+// function daftar($iduser, $nis)
+	// {
+		// $c =& get_instance();
+		// $data = array(
+			// 'chat_id'    => $iduser,
+			// 'tgl_daftar' => date('Y-m-d H:i:s').' WIB',
+			// 'nis' => $nis,
+			// 'status' => 'y');
+		// $daftar=$c->db->insert('telegram',$data);
+		// return $daftar;
+	// }
 // pencetakan versi dan info waktu server, berfungsi jika test hook
 //echo 'Ver. '.myVERSI.' OK Start!'.PHP_EOL.date('Y-m-d H:i:s').PHP_EOL;
 

@@ -10,7 +10,7 @@ class telegram_action extends CI_Controller
 	{
 		$data = array(
 			'chat_id'    => $iduser,
-			'tgl_daftar' => date('Y-m-d H:i:s').' WIB',
+			'tgl_daftar' => date('Y-m-d'),
 			'nis' => $nis,
 			'status' => 'y');
 		$this->db->insert('telegram',$data);
