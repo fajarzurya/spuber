@@ -152,33 +152,7 @@ echo form_open('keuangan/pembayaran');
 <?php
 if($statuss!="kosong"){
 ?>
-<table class="table table-bordered">
-    <tr class="success"><th colspan="7">Riwayat Transaksi Detail</th></tr>
-    <tr><th width="10">No</th>
-        <th width="500">Jenis Pembayaran</th>
-        <th width="120">Tanggal</th>
-        <th width="160">Jumlah</th>
-        <th width="200">Petugas</th><th width="10">Operasi</th></tr>
-    <?php
-    $i=1;
-    
-    foreach ($transaksi as $r)
-    {
-        $smt=$r->jenis_bayar_id==3?$r->semester:'';
-        echo "<tr>
-            <td>$i</td>
-            <td>".  strtoupper($r->keterangan)." $smt</td>
-            <td>".  tgl_indo($r->tanggal)."</td>
-            <td>Rp ".rp((int)$r->jumlah)."</td>
-            <td>".  strtoupper($r->nama)."</td>
-            <td align='center'>".anchor('keuangan/delete/'.$r->pembayara_detail_id,'<i class="fa fa-trash-o"></i>',array('title'=>'Hapus Catatan'))."</td></tr>";
-			//<td align='center'>".anchor('keuangan/delete/'.$r->pembayara_detail_id,'<i class="fa fa-trash-o"></i>',array('title'=>'Hapus Catatan'))."</td></tr>";
-        $i++;
-    }
-    ?> 
-</table>
-
-<table class="table table-bordered">
+<table class="table table-bordered=">
     <tr class="success"><th colspan="7">Riwayat Transaksi</th></tr>
     <tr><th width="10">No</th>
         <th width="240">Jenis Pembayaran</th>
@@ -237,6 +211,33 @@ if($statuss!="kosong"){
     ?>
     <tr><td colspan="7"><?php echo anchor('keuangan/cetakpersonal','Cetak Data',array('class'=>'btn btn-danger','target'=>'new'))?></td></tr>
 </table>
+
+<table class="table table-bordered">
+    <tr class="success"><th colspan="7">Riwayat Transaksi Detail</th></tr>
+    <tr><th width="10">No</th>
+        <th width="500">Jenis Pembayaran</th>
+        <th width="120">Tanggal</th>
+        <th width="160">Jumlah</th>
+        <th width="200">Petugas</th><th width="10">Operasi</th></tr>
+    <?php
+    $i=1;
+    
+    foreach ($transaksi as $r)
+    {
+        $smt=$r->jenis_bayar_id==3?$r->semester:'';
+        echo "<tr>
+            <td>$i</td>
+            <td>".  strtoupper($r->keterangan)." $smt</td>
+            <td>".  tgl_indo($r->tanggal)."</td>
+            <td>Rp ".rp((int)$r->jumlah)."</td>
+            <td>".  strtoupper($r->nama)."</td>
+            <td align='center'>".anchor('keuangan/delete/'.$r->pembayara_detail_id,'<i class="fa fa-trash-o"></i>',array('title'=>'Hapus Catatan'))."</td></tr>";
+			//<td align='center'>".anchor('keuangan/delete/'.$r->pembayara_detail_id,'<i class="fa fa-trash-o"></i>',array('title'=>'Hapus Catatan'))."</td></tr>";
+        $i++;
+    }
+    ?> 
+</table>
+
 
 <?php
 }

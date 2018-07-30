@@ -305,7 +305,8 @@ class siswa extends CI_Controller{
 		$config['total_rows'] = $total;
 		$config['per_page'] = 20;
 		$this->pagination->initialize($config);
-		$data = $this->db->get_where('student_siswa',array('prodi_id'=>$prodi,'angkatan_id'=>$tahun_angkatan,'kelas_id'=>$tipex),$config['per_page'],$from)->result();
+		//$data = $this->db->get_where('student_siswa',array('prodi_id'=>$prodi,'angkatan_id'=>$tahun_angkatan,'kelas_id'=>$tipex),$config['per_page'],$from)->result();
+		$data = $this->db->get_where('student_siswa',array('prodi_id'=>$prodi,'angkatan_id'=>$tahun_angkatan,'kelas_id'=>$tipex))->result();
 		
 	    echo "<table class='table table-bordered' id='example-datatables'>
 			<tr><th width='5'>No</th><th width='70'>NIS</th><th>NAMA</th>
