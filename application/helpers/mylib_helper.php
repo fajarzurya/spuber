@@ -358,13 +358,13 @@ if ( ! function_exists('generatehtml'))
     }
     
     //function get_biaya_kuliah($tahun_akademik,$jenis_biaya_kuliah,$prodi,$field)
-	function get_biaya_sekolah($tahun_akademik,$jenis_biaya_kuliah,$field)
+	function get_biaya_sekolah($tahun_akademik,$jenis_biaya_kuliah,$prodi,$field)
     {
         $CI =& get_instance();
         $where  =   array(  'angkatan_id'=>$tahun_akademik,
-                            'jenis_bayar_id'=>$jenis_biaya_kuliah);
+                            'jenis_bayar_id'=>$jenis_biaya_kuliah,
                             //'konsentrasi_id'=>$konsentrasi);
-							//'prodi_id'=>$prodi);
+							'prodi_id'=>$prodi);
         $r      =  $CI->db->get_where('keuangan_biaya_kuliah',$where);
         if($r->num_rows()>0)
         {

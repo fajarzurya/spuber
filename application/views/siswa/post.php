@@ -9,7 +9,7 @@
  
   <script src="<?php echo base_url()?>assets/js/jquery.min.js"> </script>
 
-<script>
+<!--<script>
 $(document).ready(function(){
           loadjurusan();  
   });
@@ -20,8 +20,8 @@ function loadjurusan()
 {
      var prodi=$("#prodi").val();   
       $.ajax({
-	url:"<?php echo base_url();?>siswa/tampilkankonsentrasi",
-	//url:"<?php echo base_url();?>mahasiswa/tampilkankonsentrasi",
+	url:"<?php //echo base_url();?>siswa/tampilkankonsentrasi",
+	//url:"<?php //echo base_url();?>mahasiswa/tampilkankonsentrasi",
 	data:"prodi=" + prodi ,
 	success: function(html)
 	{
@@ -38,7 +38,7 @@ $(document).ready(function(){
         loadjurusan();
   });
 });
-</script>
+</script>-->
 <?php
 echo $this->session->flashdata('pesan');
 echo form_open_multipart($this->uri->segment(1).'/post');

@@ -343,7 +343,7 @@ class keuangan extends CI_Controller
             /*$query=     "SELECT sm.nama,ak.nama_konsentrasi,ap.nama_prodi
                         FROM student_mahasiswa as sm,akademik_konsentrasi as ak,akademik_prodi as ap
                         WHERE sm.konsentrasi_id=ak.konsentrasi_id and ap.prodi_id=ak.prodi_id and sm.nim='$nim_session'";*/
-			$query=     "SELECT sm.nama,ap.prodi_id,ap.nama_prodi
+			$query=     "SELECT sm.nama,ap.prodi_id,ap.nama_prodi,sm.angkatan_id
                         FROM student_siswa as sm,akademik_prodi as ap
                         WHERE sm.prodi_id=ap.prodi_id and sm.nim='$nim_session'";
             $data['transaksi']=  $this->db->query($query2)->result();
@@ -356,7 +356,8 @@ class keuangan extends CI_Controller
             {
                 $data['statuss']="ada";
             }
-			$data['jenis_bayar']=  $this->db->query('select * from keuangan_jenis_bayar where jenis_bayar_id not in("3")')->result();
+			//$data['jenis_bayar']=  $this->db->query('select * from keuangan_jenis_bayar where jenis_bayar_id not in("3")')->result();
+			$data['jenis_bayar']=  $this->db->query('select * from keuangan_jenis_bayar where keterangan not like "%SPP%"')->result();
             $data['nim']=$nim_session;
             $data['semester']=getField('student_siswa', 'semester', 'nim', $nim_session);
             $data['title']=  $this->title;
@@ -560,13 +561,14 @@ class keuangan extends CI_Controller
 	{
 		$jenis_pembayaran	= $_GET['jenis_pembayaran'];
 		$kelas				= $_GET['kelas'];
-		$data				= $this->db->get_where('keuangan_biaya_kuliah',array('prodi_id'=>$kelas,'jenis_bayar_id'=>$jenis_pembayaran))->result();
+		$tahun				= $_GET['tahun'];
+		$data				= $this->db->get_where('keuangan_biaya_kuliah',array('prodi_id'=>$kelas,'jenis_bayar_id'=>$jenis_pembayaran,'angkatan_id'=>$tahun))->result();
 		//if(!empty($kelas)){
 			if($jenis_pembayaran==1){ //Jika SPP
 				foreach($data as $x){
 					echo inputan('text', 'jumlah','col-sm-8','', 1,$x->jumlah,array('readonly'=>'readonly'));
 				}
-			}elseif($jenis_pembayaran==5 || $jenis_pembayaran==6){
+			}elseif($jenis_pembayaran==5 || $jenis_pembayaran==6){ //Jika UTS dan UAS
 				foreach($data as $x){
 					echo inputan('text', 'jumlah','col-sm-8','', 1,$x->jumlah,array('readonly'=>'readonly'));
 				}
@@ -580,7 +582,8 @@ class keuangan extends CI_Controller
 		$id			= $this->db->get_where('telegram', array('nis'=>$nis))->row();
 		$nama		= $this->db->get_where('student_siswa',array('nim'=>$nis))->row();
 		$tgl_bayar 	= $this->db->get_where('keuangan_pembayaran_detail', array('nim'=>$nis))->row();
-		$text	= 'Yth Bpk/Ibu. Siswa/i '.$nama->nama.' sudah melakukan Pembayaran Sekolah pada tanggal '.$tgl_bayar->tanggal;
+		$jenis_bayar= $this->db->get_where('keuangan_jenis_bayar', array('jenis_bayar_id'=>$tgl_bayar->jenis_bayar_id))->row();
+		$text	= 'Yth Bpk/Ibu. Siswa/i '.$nama->nama.' sudah melakukan Pembayaran '.$jenis_bayar->keterangan.' sebesar Rp.'.rp((int)$tgl_bayar->jumlah).' pada tanggal '.$tgl_bayar->tanggal;
 		$data = [
 				'chat_id'             => $id->chat_id,
 				'text'                => $text,

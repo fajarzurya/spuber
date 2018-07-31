@@ -31,9 +31,10 @@ function loadbiaya()
 {
 	var jenis_pembayaran=$("#jenis_pembayaran").val();
 	var kelas=$("#kelas").val();
+	var tahun=$("#tahun").val();
 	$.ajax({
 	url:"<?php echo base_url();?>keuangan/tampilbiaya",
-	data:"jenis_pembayaran=" + jenis_pembayaran + "&kelas=" + kelas,
+	data:"jenis_pembayaran=" + jenis_pembayaran + "&kelas=" + kelas + "&tahun=" + tahun,
 	success: function(html)
 	{
 			$("#biaya").html(html);
@@ -87,7 +88,9 @@ echo form_open('keuangan/pembayaran');
 		<?php 
 			echo $statuss=="kosong"?"":strtoupper($profile['nama_prodi']);
 		?>
-		<?php echo $statuss=="kosong"?"":inputan('hidden','kelas','','',0,$profile['prodi_id'],array('id'=>'kelas'));?>
+		<?php echo $statuss=="kosong"?"":inputan('hidden','kelas','','',0,$profile['prodi_id'],array('id'=>'kelas'));
+		echo $statuss=="kosong"?"":inputan('hidden','kelas','','',0,$profile['angkatan_id'],array('id'=>'tahun'));
+		?>
 	</td></tr>
  
 </table>
@@ -152,13 +155,15 @@ echo form_open('keuangan/pembayaran');
 <?php
 if($statuss!="kosong"){
 ?>
-<table class="table table-bordered">
-    <tr class="success"><th colspan="7">Riwayat Transaksi Detail</th></tr>
+<table class="table table-responsive table-hover">
+	<thead>
+    <tr class="success"><th colspan="7"><div align="center">Riwayat Transaksi Detail</div></th></tr>
     <tr><th width="10">No</th>
         <th width="500">Jenis Pembayaran</th>
         <th width="120">Tanggal</th>
         <th width="160">Jumlah</th>
         <th width="200">Petugas</th><th width="10">Operasi</th></tr>
+	</thead>
     <?php
     $i=1;
     
@@ -175,11 +180,12 @@ if($statuss!="kosong"){
 			//<td align='center'>".anchor('keuangan/delete/'.$r->pembayara_detail_id,'<i class="fa fa-trash-o"></i>',array('title'=>'Hapus Catatan'))."</td></tr>";
         $i++;
     }
-    ?> 
+    ?>
 </table>
 
-<table class="table table-bordered">
-    <tr class="success"><th colspan="7">Riwayat Transaksi</th></tr>
+<table class="table table-responsive table-hover">
+<thead>
+    <tr class="success"><th colspan="7"><div align="center">Riwayat Transaksi</div></th></tr>
     <tr><th width="10">No</th>
         <th width="240">Jenis Pembayaran</th>
 		<th width="180">Harus Dibayar</th>
@@ -187,6 +193,7 @@ if($statuss!="kosong"){
         <th width="80">Sisa</th>
         <th width="100">Persentase %</th>
         <th>Keterangan</th></tr>
+</thead>
     <?php
     
     // tahun akademik ketika masuk
@@ -213,15 +220,16 @@ if($statuss!="kosong"){
             $no++;
         }
        // get semester aktif
-       $smt_aktif = getField('student_siswa', 'semester_aktif', 'nim', $nim);
+       //$smt_aktif = getField('student_siswa', 'semester_aktif', 'nim', $nim);
         // looping semester
-        for($i=1;$i<=$smt_aktif;$i++)
-		//for($i=1;$i<=12;$i++)
+        //for($i=1;$i<=$smt_aktif;$i++)
+		for($i=1;$i<=12;$i++)
         {
             //$spp            =   (int) get_biaya_kuliah($tahun_akademik_id, 3, $konsentrasi_id, 'jumlah');
-			$spp            =   (int) get_biaya_sekolah($tahun_akademik_id, 3, $kelas, 'jumlah');
+			//$spp            =   (int) get_biaya_sekolah($tahun_akademik_id, 3, $kelas, 'jumlah');
+			$spp            =   (int) get_biaya_sekolah($tahun_akademik_id, 1, $kelas, 'jumlah'); //Untuk SPP
             $spp_udah_bayar =   (int)get_semester_sudah_bayar($nim, $i);
-            $tanggal		= tanggal;
+            //$tanggal		= tanggal;
 			//$tanggal		= tanggal;
 			$sisa           =   $spp-$spp_udah_bayar;
             $keterangan           =   $sisa<=0?'Lunas':'Tunggakan '.$sisa;

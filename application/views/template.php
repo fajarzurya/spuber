@@ -116,13 +116,13 @@ if($this->session->userdata('id_users')=='')
 <!-- DatePicker JavaScript -->
 <script src="<?php echo base_url(); ?>assets/datepicker/js/bootstrap-datepicker.js" type="text/javascript"></script>
 <script>
-$(function(){
-   $('#datepicker').datepicker({
-      format: 'yy-mm-dd'
-    });
-});
+// $(function(){
+   // $('#datepicker').datepicker({
+      // format: 'yy-mm-dd'
+    // });
+// });
 </script>
-<!--<script>
+<script>
 	$(function() {
 		$( "#datepicker" ).datepicker({
                 changeMonth: true,
@@ -171,7 +171,7 @@ $(function(){
                 changeYear: true
                 });
 	});
-	</script>-->
+	</script>
         
 
         <!-- Javascript code only for this page -->

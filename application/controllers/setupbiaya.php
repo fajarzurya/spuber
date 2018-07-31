@@ -22,6 +22,7 @@ class setupbiaya extends CI_Controller
         echo "<table class='table table-responsive table-hover'>
               <tr class='danger'>
                 <th rowspan='2'>No</th>
+				<th rowspan='2'>Kelas</th>
                 <th colspan='".$jenis_bayar->num_rows()."'><div align='center'>JENIS BIAYA</div></th>
                 </tr>
             <tr class='danger'>";
@@ -34,29 +35,29 @@ class setupbiaya extends CI_Controller
 
             echo"";
             $no=1;
-			echo"<tr>
-				<th rowspan='2'>$no</th></tr>";
-			foreach ($jenis_bayar->result() as $jb)
-                    {
-                        
-						$jumlah =   $this->get_biaya_sekolah($tahun, $jb->jenis_bayar_id,'jumlah');
-						echo"<td>Rp ".$jumlah."</td>";
-						$no++;
-                    }
-			echo"</tr>";
-            // foreach ($prodi as $p) 
-            // {
-                // echo"<tr>
-					 // <th>$no</th>
-                     // <!--<th colspan='".($jenis_bayar->num_rows()+2)."'>".  strtoupper($p->nama_prodi)."</th>-->
-					 // <th>".  strtoupper($p->nama_prodi)."</th>";
-					 // // forach jenis bayar
-                    // foreach ($jenis_bayar->result() as $jb)
+			// echo"<tr>
+				// <th rowspan='2'>$no</th></tr>";
+			// foreach ($jenis_bayar->result() as $jb)
                     // {
-                        // $jumlah =   $this->get_biaya_sekolah($tahun, $jb->jenis_bayar_id,$p->prodi_id,'jumlah');
+                        
+						// $jumlah =   $this->get_biaya_sekolah($tahun, $jb->jenis_bayar_id,'jumlah');
 						// echo"<td>Rp ".$jumlah."</td>";
+						// $no++;
                     // }
-                // echo"</tr>";
+			// echo"</tr>";
+            foreach ($prodi as $p) 
+            {
+                echo"<tr>
+					 <th>$no</th>
+                     <!--<th colspan='".($jenis_bayar->num_rows()+2)."'>".  strtoupper($p->nama_prodi)."</th>-->
+					 <th>".  strtoupper($p->nama_prodi)."</th>";
+					 // forach jenis bayar
+                    foreach ($jenis_bayar->result() as $jb)
+                    {
+                        $jumlah =   $this->get_biaya_sekolah($tahun, $jb->jenis_bayar_id,$p->prodi_id,'jumlah');
+						echo"<td>Rp ".$jumlah."</td>";
+                    }
+                echo"</tr>";
                 // foreach kelas
                 //$konsentrasi=  $this->db->query("select konsentrasi_id,nama_konsentrasi from akademik_konsentrasi where prodi_id='$p->prodi_id'")->result();
 				//$kelas=  $this->db->query("select prodi_id,nama_prodi from akademik_prodi")->result();
@@ -75,18 +76,18 @@ class setupbiaya extends CI_Controller
                   // echo"</tr>";
                 // }*/
                 // end load kelas
-                // $no++;
-            // }
+                $no++;
+            }
                 
           echo"</table>";
     }
     
     //function get_biaya_kuliah($tahun_akademik,$jenis_biaya_kuliah,$konsentrasi,$field)
-	function get_biaya_sekolah($tahun_akademik,$jenis_biaya_kuliah,$field)
+	function get_biaya_sekolah($tahun_akademik,$jenis_biaya_kuliah,$kelas,$field)
     {
         $where  =   array(  'angkatan_id'=>$tahun_akademik,
-                            'jenis_bayar_id'=>$jenis_biaya_kuliah);
-                            //'prodi_id'=>$kelas);
+                            'jenis_bayar_id'=>$jenis_biaya_kuliah,
+                            'prodi_id'=>$kelas);
         $r      =  $this->db->get_where('keuangan_biaya_kuliah',$where);
         if($r->num_rows()>0)
         {
