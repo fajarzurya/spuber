@@ -5,6 +5,7 @@ class setting extends CI_Controller
     var $folder =   "setting";
     var $tables =   "setting";
     var $pk     =   "kelompok_id";
+	var $title  =   "Setting";
     
     function __construct() 
     {
@@ -13,19 +14,20 @@ class setting extends CI_Controller
     
     function index()
     {
-        
+			$this->profilekampus();
     }
     
-    function  profilekampus()
+    function profilekampus()
     {
-        if(isset($_POST['submit']))
+        $data['title']=  $this->title;
+		if(isset($_POST['submit']))
         {
             $nama   =   $this->input->post('nama');
             $alamat =   $this->input->post('alamat');
             $telpon =   $this->input->post('telpon');
             $data   =   array('nama_kampus'=>$nama,'alamat_kampus'=>$alamat,'telpon'=>$telpon);
             $this->mcrud->update($this->tables,$data, 'id',1);
-            redirect('setting/profilekampus');
+            redirect('siswa');
         }
         else
         {

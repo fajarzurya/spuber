@@ -133,7 +133,7 @@ else
     
     <table class="table table-bordered">
     <tr><td>Kelas<?php echo buatcombo('prodi', 'akademik_prodi', '', 'nama_prodi', 'prodi_id', $param, array('id'=>'prodi'))?></td></tr>
-	<tr><td>Tipe<?php echo buatcombo('tipe', 'app_kelas', '','keterangan', 'kelas_id', $param, array('id'=>'tipe'))?></td></tr>
+	<tr><td>Tipe<?php echo buatcombo('tipe', 'app_kelas', '','keterangan', 'kelas_id', '', array('id'=>'tipe'))?></td></tr>
 	<?php //echo buatcombo('tipe kelas','app_kelas','col-sm-2','keterangan','kelas_id','',''); ?>
     <tr><td>Tahun Angkatan
             <?php echo buatcombo('tahun_angkatan', 'student_angkatan', '', 'keterangan', 'angkatan_id', '', array('id'=>'tahun_angkatan'))?>
