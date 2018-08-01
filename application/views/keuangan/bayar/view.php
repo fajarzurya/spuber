@@ -77,7 +77,7 @@ echo form_open('keuangan/pembayaran');
 	<td>NIS Siswa</td>
 	<td>
 		<div class="row">
-		<?php echo inputan('text', 'nim','col-sm-10','Masukan Nim ..', 1, '','');?>
+		<?php echo inputan('text', 'nim','col-sm-10','Masukan NIS ..', 1, '','');?>
 		</div>
 		<input type="submit" value="OK" name="submit" class="btn btn-danger"> <?php echo anchor('keuangan/reset','Reset',array('class'=>'btn btn-danger'));?>
 	</td>
@@ -135,7 +135,7 @@ echo form_open('keuangan/pembayaran');
 							// {
 								// echo "<option VALUE='genap'>SEMESTER GENAP</option>";
 							// }
-							echo $sms==1?"<option VALUE='".$gjl."'>SEMESTER ".strtoupper($gjl)."</option>":"<option VALUE='".$gnp."'>SEMESTER ".strtoupper($gnp)."</option>";
+							echo $sms==1?"<option VALUE='$sms'>SEMESTER ".strtoupper($gjl)."</option>":"<option VALUE='$sms'>SEMESTER ".strtoupper($gnp)."</option>";
                         }
                         ?>
                     </select>
@@ -159,8 +159,8 @@ if($statuss!="kosong"){
 	<thead>
     <tr class="success"><th colspan="7"><div align="center">Riwayat Transaksi Detail</div></th></tr>
     <tr><th width="10">No</th>
-        <th width="500">Jenis Pembayaran</th>
-        <th width="120">Tanggal</th>
+        <th width="400">Jenis Pembayaran</th>
+        <th width="220">Tanggal</th>
         <th width="160">Jumlah</th>
         <th width="200">Petugas</th><th width="10">Operasi</th></tr>
 	</thead>
@@ -169,14 +169,26 @@ if($statuss!="kosong"){
     
     foreach ($transaksi as $r)
     {
-        $smt=$r->jenis_bayar_id==3?$r->semester:'';
+        //$smt=$r->jenis_bayar_id==3?$r->semester:'';
+		//$kondisi=$r->jenis_bayar_id==1?$r->semester:''; //variable spp
+		$a = $r->jenis_bayar_id;
+		if($a==1)
+		{
+			$kondisi = strtoupper(getbln($r->semester));
+		}elseif($a==5 || $a==6)
+		{
+			$kondisi =$r->semester==0?'GANJIL':'GENAP';
+		}else
+		{
+			$kondisi = '';
+		}
         echo "<tr>
             <td>$i</td>
-            <td>".  strtoupper($r->keterangan)." $smt</td>
+            <td>".  strtoupper($r->keterangan)." ".$kondisi."</td>
             <td>".  tgl_indo($r->tanggal)."</td>
             <td>Rp ".rp((int)$r->jumlah)."</td>
             <td>".  strtoupper($r->nama)."</td>
-            <td align='center'>".anchor('keuangan/delete/'.$r->pembayara_detail_id,'<i class="fa fa-trash-o"></i>',array('title'=>'Hapus Catatan'))."</td></tr>";
+            <td align='center'>".anchor('keuangan/delete/'.$r->pembayara_detail_id,'<i class="fa fa-trash-o"></i>',array('title'=>'Hapus Transaksi'))."</td></tr>";
 			//<td align='center'>".anchor('keuangan/delete/'.$r->pembayara_detail_id,'<i class="fa fa-trash-o"></i>',array('title'=>'Hapus Catatan'))."</td></tr>";
         $i++;
     }
@@ -228,7 +240,8 @@ if($statuss!="kosong"){
             //$spp            =   (int) get_biaya_kuliah($tahun_akademik_id, 3, $konsentrasi_id, 'jumlah');
 			//$spp            =   (int) get_biaya_sekolah($tahun_akademik_id, 3, $kelas, 'jumlah');
 			$spp            =   (int) get_biaya_sekolah($tahun_akademik_id, 1, $kelas, 'jumlah'); //Untuk SPP
-            $spp_udah_bayar =   (int)get_semester_sudah_bayar($nim, $i);
+            //$spp_udah_bayar =   (int)get_semester_sudah_bayar($nim, $i);
+			$spp_udah_bayar =   (int)get_spp_sudah_bayar($nim, $i);
             //$tanggal		= tanggal;
 			//$tanggal		= tanggal;
 			$sisa           =   $spp-$spp_udah_bayar;

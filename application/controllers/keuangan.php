@@ -258,7 +258,7 @@ class keuangan extends CI_Controller
             // simpan transaksi
             $jenis  =   $this->input->post('jenis');
             $jumlah =   $this->input->post('jumlah');
-            $semester=  $this->input->post('semester');
+            $bulan	=  $this->input->post('semester');
             // chek dulu udah lunas belum jenis bayarnya, jika sudah berikan pesan
             $idnim=$this->session->userdata('pembayaran_mahasiswa_nim');
             $tahun_akademik = getField('student_siswa', 'angkatan_id', 'nim', $idnim);
@@ -268,44 +268,47 @@ class keuangan extends CI_Controller
             //$jumlah_bayar   = get_biaya_kuliah($tahun_akademik, $jenis, $konsentrasi_id, 'jumlah');
 			$jumlah_bayar   = get_biaya_sekolah($tahun_akademik, $jenis, $kelas, 'jumlah');
             $sudah_bayar    = get_biaya_sudah_bayar($idnim, $jenis);
-            $sisa           = $jumlah_bayar-$sudah_bayar;
+            $sisa           = $jumlah_bayar-$sudah_bayar; //sisa pembayaran sesuai variable jenis yang dipilih
             // end chek
             
             // chek jenis inputan
-            // jika spp maka chek dia semetter berapa dan apakah dy sudah lunas untuk semester itu
+            // jika spp maka chek dia semetter berapa dan apakah dy sudah lunas untuk bulan itu
             // jika selain spp chek sudah lunas atau belum
             
-             if($jenis==3)
+             //if($jenis==3)
+			if($jenis==1) //jenis pembayaran spp
              {
-                 if($semester>$semester_aktif)
+                 //if($bulan>$semester_aktif)
+				if($bulan>12)
                  {
-                     // semester yang dipilih lebih tinggi daripada semeser aktif
-                    $this->session->set_flashdata('pesan', "<div class='alert alert-danger'><i class='fa fa-bullhorn'></i> SEMESTER YANG ANDA INPUTKAN TIDAK SESUAI DENGAN DATA MAHASISWA</div>");
+                     // bulan yang dipilih lebih tinggi daripada semeser aktif
+                    $this->session->set_flashdata('pesan', "<div class='alert alert-danger'><i class='fa fa-bullhorn'></i> BULAN YANG ANDA INPUTKAN TIDAK SESUAI DENGAN DATA SISWA</div>");
                  }
                  else
                  {
-                     // chek spp semester itu udah lunas belum
-                    $sdh_bayar_semester= $this->chek_sudah_bayar_semester($idnim, $semester);
-                    if($jumlah_bayar<=$sdh_bayar_semester)
+                     // chek spp bulan itu udah lunas belum
+                    //$sdh_bayar_semester= $this->chek_sudah_bayar_semester($idnim, $semester);
+					$sdh_bayar= $this->chek_sudah_bayar($idnim, $bulan);
+                    if($jumlah_bayar<=$sdh_bayar)
                     {
-                        $this->session->set_flashdata('pesan', "<div class='alert alert-danger'><i class='fa fa-bullhorn'></i> PEMBAYARAN UNTUK SEMESTER $semester <B>SUDAH LUNAS</B></div>");
+                        $this->session->set_flashdata('pesan', "<div class='alert alert-danger'><i class='fa fa-bullhorn'></i> PEMBAYARAN UNTUK BULAN ".strtoupper(getbln($bulan))." <B>SUDAH LUNAS</B></div>");
      
                         
                     }
                     else
                     {
-                        // save bayar semester
+                        // save bayar spp bulan
                     $data   =   array(  'jenis_bayar_id'=>$jenis,
                                         'jumlah'=>$jumlah,
                                         'id_users'=> $this->session->userdata('id_users'),
                                         'tanggal'=>  waktu(),
-                                        'semester'=>$semester,
+                                        'semester'=>$bulan,
                                         'nim'=>$this->session->userdata('pembayaran_mahasiswa_nim'));
                     $this->db->insert('keuangan_pembayaran_detail',$data);
                     }
                  }
              }
-             else
+             else //jenis pemnayaran selain spp
              {
                  // chek udah lunas belum
                  // kalau udah lunas tampilkan pesan udah lunas
@@ -369,11 +372,12 @@ class keuangan extends CI_Controller
     
   
     
-    function chek_sudah_bayar_semester($nim,$semester)
+    //function chek_sudah_bayar_semester($nim,$semester)
+	function chek_sudah_bayar($nim,$bulan)
     {
         $sql=   "SELECT sum(jumlah) as jumlah 
                 FROM keuangan_pembayaran_detail
-                WHERE jenis_bayar_id=3 and nim='$nim' and semester='$semester'";
+                WHERE jenis_bayar_id=1 and nim='$nim' and semester='$bulan'";
         $data=  $this->db->query($sql)->row_array();
         if($data['jumlah']==null)
         {
@@ -563,18 +567,21 @@ class keuangan extends CI_Controller
 		$kelas				= $_GET['kelas'];
 		$tahun				= $_GET['tahun'];
 		$data				= $this->db->get_where('keuangan_biaya_kuliah',array('prodi_id'=>$kelas,'jenis_bayar_id'=>$jenis_pembayaran,'angkatan_id'=>$tahun))->result();
-		//if(!empty($kelas)){
+		if($kelas==null){ //kosong
+			echo inputan('text', 'jumlah','col-sm-8','Jumlah', 1,'Jumlah','');
+		}else{
 			if($jenis_pembayaran==1){ //Jika SPP
 				foreach($data as $x){
 					echo inputan('text', 'jumlah','col-sm-8','', 1,$x->jumlah,array('readonly'=>'readonly'));
 				}
 			}elseif($jenis_pembayaran==5 || $jenis_pembayaran==6){ //Jika UTS dan UAS
 				foreach($data as $x){
-					echo inputan('text', 'jumlah','col-sm-8','', 1,$x->jumlah,array('readonly'=>'readonly'));
+					echo inputan('text', 'jumlah','col-sm-8','', 1,$x->jumlah/2,array('readonly'=>'readonly'));
 				}
 			}else{
-				echo inputan('text', 'jumlah','col-sm-8','', 1,'','');
+				echo inputan('text', 'jumlah','col-sm-8','Jumlah', 1,'Jumlah','');
 			}
+		}
 	}
 	
 	function notifikasi($nis)
@@ -582,6 +589,10 @@ class keuangan extends CI_Controller
 		$id			= $this->db->get_where('telegram', array('nis'=>$nis))->row();
 		$nama		= $this->db->get_where('student_siswa',array('nim'=>$nis))->row();
 		$tgl_bayar 	= $this->db->get_where('keuangan_pembayaran_detail', array('nim'=>$nis))->row();
+		$query		= "SELECT sum(jumlah) as jumlah 
+                    from keuangan_pembayaran_detail 
+                    where nim='$nis' and jenis_bayar_id='$jenis_bayar_id' 
+                    group by jenis_bayar_id";
 		$jenis_bayar= $this->db->get_where('keuangan_jenis_bayar', array('jenis_bayar_id'=>$tgl_bayar->jenis_bayar_id))->row();
 		$text	= 'Yth Bpk/Ibu. Siswa/i '.$nama->nama.' sudah melakukan Pembayaran '.$jenis_bayar->keterangan.' sebesar Rp.'.rp((int)$tgl_bayar->jumlah).' pada tanggal '.$tgl_bayar->tanggal;
 		$data = [

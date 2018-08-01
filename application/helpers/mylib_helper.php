@@ -410,12 +410,13 @@ if ( ! function_exists('generatehtml'))
         }
     }
     
-    function get_semester_sudah_bayar($nim,$semester)
+    //function get_semester_sudah_bayar($nim,$semester)
+	function get_spp_sudah_bayar($nim,$bulan)
     {
         $CI     =   & get_instance();
         $query  =   "SELECT sum(jumlah) as jumlah 
                     from keuangan_pembayaran_detail 
-                    where nim='$nim' and jenis_bayar_id='3' and semester='$semester' 
+                    where nim='$nim' and jenis_bayar_id='1' and semester='$bulan' 
                     group by jenis_bayar_id";
         $data   =   $CI->db->query($query);
         if($data->num_rows()>0)
