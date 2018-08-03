@@ -6,6 +6,13 @@
         <li class="breadcrumb-item active">Laporan Keuangan</li>
     </ol>
 </div>
+
+<link href="<?php echo base_url()?>assets/datepicker/bootstrap-datepicker3.css" rel="stylesheet" type="text/css">
+<script src="<?php echo base_url()?>assets/datepicker/bootstrap-datepicker.js"></script>
+<script>
+$('#demo-1,#demo-2,#demo-3').datepicker();
+</script>
+
 <?php
 
 $status=array(0=>'Lunas',1=>'Pembayaran Ke 1',2=>'Pembayaran Ke 2',3=>'Pembayaran Ke 3',4=>'Pembayaran Ke 4');
@@ -29,7 +36,7 @@ echo form_open('keuangan');
 									<label>Tanggal Mulai</label>
 									</div>
 									<div class="col-md-3">
-									<?php echo inputan('text', 'tanggal1','col-xs-3 ','Tanggal Awal', 1, $tanggal1,array('id'=>'datepicker'));?>
+									<?php echo inputan('text', 'tanggal1','col-xs-3 ','Tanggal Awal', 1, $tanggal1,array('id'=>'demo-1'));?>
 									</div>
 									<div class="col-md-7"></div>
 									<div class="col-md-12">&nbsp;&nbsp;&nbsp;</div>
@@ -44,7 +51,7 @@ echo form_open('keuangan');
 								</div>
                             </div>
 							<input type="submit" name="submit" value="Preview" class="btn btn-primary  btn-sm"> 
-							<?php echo anchor(base_url().'keuangan/laporanpembayaran/'.$tanggal1.'/'.$tanggal2.'/cetak','Cetak',array('class'=>'btn btn-primary   btn-sm','target'=>'_blank'))?>
+							<?php echo anchor(base_url().'keuangan/laporanpembayaran/'.$tanggal1.'/'.$tanggal2.'/cetak','Export Excel',array('class'=>'btn btn-primary   btn-sm','target'=>'_blank'))?>
 							</div>    
                             </div>
 	</div>

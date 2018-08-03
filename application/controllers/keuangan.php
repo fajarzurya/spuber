@@ -364,7 +364,7 @@ class keuangan extends CI_Controller
             //$query="SELECT sm.nim,sm.nama,ap.nama_prodi,ta.keterangan FROM student_mahasiswa as sm,akademik_prodi as ap,student_angkatan as ta WHERE sm.prodi_id=ap.prodi_id and ta.angkatan_id=sm.angkatan_id and sm.nim='$session'";
 			$query="SELECT sm.nim,sm.nama,ap.nama_prodi,ta.keterangan FROM student_siswa as sm,akademik_prodi as ap,student_angkatan as ta WHERE sm.prodi_id=ap.prodi_id and ta.angkatan_id=sm.angkatan_id and sm.nim='$session'";
             $nim_session=$this->session->userdata('pembayaran_mahasiswa_nim');
-            $data['jenis_bayar']=  $this->db->query('select * from keuangan_jenis_bayar where jenis_bayar_id not in("3")')->result();
+            $data['jenis_bayar']=  $this->db->query('select * from keuangan_jenis_bayar where jenis_bayar_id not in("1")')->result();
             $data['biodata']=  $this->db->query($query)->row_array();
             //$data['semester']=getField('student_mahasiswa', 'semester_aktif', 'nim', $nim_session);
 			$data['semester']=getField('student_siswa', 'semester_aktif', 'nim', $nim_session);
@@ -583,10 +583,7 @@ class keuangan extends CI_Controller
 		$id			= $this->db->get_where('telegram', array('nis'=>$nis))->row();
 		$nama		= $this->db->get_where('student_siswa',array('nim'=>$nis))->row();
 		$tgl_bayar 	= $this->db->get_where('keuangan_pembayaran_detail', array('nim'=>$nis))->row();
-		$query		= "SELECT sum(jumlah) as jumlah 
-                    from keuangan_pembayaran_detail 
-                    where nim='$nis' and jenis_bayar_id='$jenis_bayar_id' 
-                    group by jenis_bayar_id";
+		//$query		= "SELECT sum(jumlah) as jumlah from keuangan_pembayaran_detail where nim='$nis' and jenis_bayar_id='$jenis_bayar_id' group by jenis_bayar_id";
 		$jenis_bayar= $this->db->get_where('keuangan_jenis_bayar', array('jenis_bayar_id'=>$tgl_bayar->jenis_bayar_id))->row();
 		$text	= 'Yth Bpk/Ibu. Siswa/i '.$nama->nama.' sudah melakukan Pembayaran '.$jenis_bayar->keterangan.' sebesar Rp.'.rp((int)$tgl_bayar->jumlah).' pada tanggal '.$tgl_bayar->tanggal;
 		$data = [

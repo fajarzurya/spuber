@@ -78,12 +78,13 @@
 			// looping semester
 			for($i=1;$i<=$semester;$i++)
 			{
-				$spp            =   (int) get_biaya_kuliah($tahun_akademik_id, 3, $konsentrasi_id, 'jumlah');
-				$spp_udah_bayar =   (int)get_semester_sudah_bayar($biodata['nim'], $i);
+				//$spp            =   (int) get_biaya_kuliah($tahun_akademik_id, 3, $konsentrasi_id, 'jumlah');
+				$spp            =   (int) get_biaya_sekolah($tahun_akademik_id, 1, $kelas, 'jumlah');
+				$spp_udah_bayar =   (int)get_spp_sudah_bayar($biodata['nim'], $i);
 				$sisa           =   $spp-$spp_udah_bayar;
 				$keterangan           =   $sisa<=0?'Lunas':'Tunggakan '.$sisa;
 				echo "<tr><td>$no</td>
-					<td>SPP SEMESTER $i</td>
+					<td>SPP BULAN ".strtoupper(getbln($i))."</td>
 					<td>".rp($spp)."</td>
 					<td>".rp($spp_udah_bayar)."</td>
 					<td>".rp($sisa)."</td>";
