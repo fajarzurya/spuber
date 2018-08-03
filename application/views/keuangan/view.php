@@ -3,7 +3,7 @@
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><i class='fa fa-home'></i> <a href="javascript:void(0)">Home</a></li>
         <li class="breadcrumb-item"><?php echo anchor($this->uri->segment(1),$title);?></li>
-        <li class="breadcrumb-item active">Jurnal</li>
+        <li class="breadcrumb-item active">Laporan Keuangan</li>
     </ol>
 </div>
 <?php
@@ -11,47 +11,99 @@
 $status=array(0=>'Lunas',1=>'Pembayaran Ke 1',2=>'Pembayaran Ke 2',3=>'Pembayaran Ke 3',4=>'Pembayaran Ke 4');
 echo form_open('keuangan');
 ?>
-<table class="table table-bordered">
-    <tr class="success"><td colspan="2">PERIODE LAPORAN</td></tr>
-    <tr><td width="150">Tanggal Mulai</td><td><?php echo inputan('text', 'tanggal1','col-sm-3','Tanggal Awal ..', 1, $tanggal1,array('id'=>'datepicker'));?></td></tr>
-     <tr><td>Tanggal Sampai</td><td><?php echo inputan('text', 'tanggal2','col-sm-3','Tanggal Akhir ..', 1, $tanggal2,array('id'=>'datepicker1'));?></td></tr>
-     <tr><td colspan="2"><input type="submit" name="submit" value="Preview" class="btn btn-danger  btn-sm"> 
-             <?php echo anchor(base_url().'keuangan/laporanpembayaran/'.$tanggal1.'/'.$tanggal2.'/cetak','cetak',array('class'=>'btn btn-danger   btn-sm','target'=>'_blank'))?>
-             <?php echo anchor(base_url().'keuangan/laporanpembayaran/'.$tanggal1.'/'.$tanggal2.'/download','Export Ke Ms.Word',array('class'=>'btn btn-danger   btn-sm','target'=>'_blank'))?>
-</table>
+<div class="row">
+	<div class="col-md-12 clearfix">
+							<div class="card">
+                            <ul id="example-tabs" class="nav nav-tabs nav-tabs-neutral" role="tablist" data-background-color="orange">
+                                <li class="nav-item"><a class="nav-link active" data-toggle="tab" role="tab">LAPORAN KEUANGAN</a></li>
+                            </ul>
+
+                            <div class="card-body">
+							<div class="tab-content">
+                                <div class="tab-pane active" role="tabpanel">
+								
+								<!--<table class="table table-bordered">
+									<tr class="success"><td colspan="2">PERIODE LAPORAN</td></tr>-->
+								<div class="row">
+									<div class="col-md-2">
+									<label>Tanggal Mulai</label>
+									</div>
+									<div class="col-md-3">
+									<?php echo inputan('text', 'tanggal1','col-xs-3 ','Tanggal Awal', 1, $tanggal1,array('id'=>'datepicker'));?>
+									</div>
+									<div class="col-md-7"></div>
+									<div class="col-md-12">&nbsp;&nbsp;&nbsp;</div>
+									<div class="col-md-2">
+									<label>Tanggal Sampai</label>
+									</div>
+									<div class="col-md-3">
+									<?php echo inputan('text', 'tanggal2','col-xs-3','Tanggal Akhir', 1, $tanggal2,array('id'=>'datepicker1'));?>
+									</div>
+								<!--</table>-->
+								</div>
+								</div>
+                            </div>
+							<input type="submit" name="submit" value="Preview" class="btn btn-primary  btn-sm"> 
+							<?php echo anchor(base_url().'keuangan/laporanpembayaran/'.$tanggal1.'/'.$tanggal2.'/cetak','Cetak',array('class'=>'btn btn-primary   btn-sm','target'=>'_blank'))?>
+							</div>    
+                            </div>
+	</div>
+</div>
 </form>
 <?php
 if(isset($_POST['submit']))
 {
 ?>
-<table class="table table-bordered">
-    <tr><th width="10">No</th><th width="90">Tanggal</th>
-        <th width="70">Nim</th>
-        <th>Nama Mahasiswa</th>
-        <th width="200">Program Studi</th>
-        <th width="220">Jenis Bayar</th>
-        <th width="60">Jumlah</th></tr>
+<div class="card">
+<div class="card-body">
+							<div class="tab-content">
+                                <div class="tab-pane active" role="tabpanel">
+<table class="table table-responsive table-hover">
+	<thead>
+	<?php echo "<tr><th colspan=".($jenis_bayar->num_rows()+4)."><div align='center'>LAPORAN KEUANGAN PERIODE ".strtoupper(getbln(substr($tanggal1,6,2)))."</div></th></tr>";?>
+    <tr><th rowspan='2'>No</th>
+        <th rowspan='2'>NIS</th>
+        <th rowspan='2'>Nama Siswa</th>
+		<?php
+		foreach ($jenis_bayar->result() as $j)
+            {
+               echo"<th>".  strtoupper($j->keterangan)."</th>";
+            }
+		?>
+        <th rowspan='2'>Jumlah</th></tr>
+	</thead>
     <?php
+	//-------------------------
     $no=1;
-    $jumlah=0;
-    foreach ($transaksi as $r)
+    $grandttl=0;
+    //foreach ($transaksi as $r)
+	foreach ($jurnal as $r)
     {
         echo "<tr>
-            <td>$no</td>
-            <td>".  tgl_indo($r->tanggal)."</td>
-            <td>".  strtoupper($r->nim)."</td>
-            <td>".  strtoupper($r->nama)."</td>
-            <td>".  strtoupper($r->nama_konsentrasi)."</td>
-            <td>".  strtoupper($r->keterangan)."</td>
-     
-            <td align='right'>".  rp((int)$r->jumlah)."</td>
-            </tr>";
-        $jumlah=$jumlah+$r->jumlah;
+            <th>$no</th>
+            <th>".  strtoupper($r->nim)."</th>
+            <th>".  strtoupper($r->nama)."</th>";
+			$jumlah=0;
+			foreach($jenis_bayar->result() as $a)
+			{
+				$sudah_bayar=(int)pivot_laporan($r->nim, $a->jenis_bayar_id, $tanggal1, $tanggal2);
+				echo"<td>Rp ".rp($sudah_bayar)."</td>";
+				$jumlah=$jumlah+$sudah_bayar;
+			}
+		echo"<td>".rp((int) $jumlah)."</td></tr>";
+        $grandttl=$grandttl+$jumlah;
         $no++;
     }
-    ?>
-    <tr><td colspan="6"><p align='right'>Grand Total</p></td><td align='right'><?php echo rp($jumlah);?></td></tr>
+	echo"<tr>
+        <td colspan=".$jenis_bayar->num_rows()."></td>
+        <td colspan=3>Grand Total</td><td><b>".rp((int)$grandttl)."</b></td>
+        </tr>";
+	?>
 </table>
+</div>
+</div>
+</div>
+</div>
 <?php } ?>
 
 <script type="text/javascript">

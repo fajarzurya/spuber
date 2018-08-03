@@ -21,30 +21,29 @@ $class="class='form-control'";
                             <div class="card-body">
 							<div class="tab-content">
                                 <div class="tab-pane active" id="biodata" role="tabpanel">
-								
-<table class="table table-bordered">
-    <tr class="success"><td colspan="2">PROFILE SEKOLAH</td></tr>
-    <tr>
-    <td width="150">Nama Sekolah</td><td>
-        <?php echo inputan('text', 'nama','col-sm-4','Nama Lengkap ..', 1, strtoupper($r['nama_kampus']),'');?>
-    </td>
-    </tr>
- 
-            <tr>
-    <td width="150">Alamat Sekolah</td><td>
-        <?php echo textarea('alamat', '', 'col-sm-5', 2, strtoupper($r['alamat_kampus']));?>
-    </td>
-    </tr>
-      <tr>
-    <td width="150">No Telepon</td><td>
-        <?php echo inputan('text', 'telpon','col-sm-4','No Telpon ..', 1, $r['telpon'],'');?>
-    </td>
-    </tr>
-</table>		
+								<table class="table table-bordered">
+									<tr class="success"><td colspan="2">PROFILE SEKOLAH</td></tr>
+									<tr>
+									<td width="150">Nama Sekolah</td><td>
+										<?php echo inputan('text', 'nama','col-sm-4','Nama Lengkap ..', 1, strtoupper($r['nama_kampus']),'');?>
+									</td>
+									</tr>
+								 
+											<tr>
+									<td width="150">Alamat Sekolah</td><td>
+										<?php echo textarea('alamat', '', 'col-sm-5', 2, strtoupper($r['alamat_kampus']));?>
+									</td>
+									</tr>
+									  <tr>
+									<td width="150">No Telepon</td><td>
+										<?php echo inputan('text', 'telpon','col-sm-4','No Telpon ..', 1, $r['telpon'],'');?>
+									</td>
+									</tr>
+								</table>		
                                 </div>    
                             </div>
-            <input type="submit" name="submit" value="Simpan" class="btn btn-danger  btn-sm">
-            <?php echo anchor($this->uri->segment(1),'Kembali',array('class'=>'btn btn-danger btn-sm'));?>
+							<input type="submit" name="submit" value="Simpan" class="btn btn-danger  btn-sm">
+							<?php echo anchor($this->uri->segment(1),'Kembali',array('class'=>'btn btn-danger btn-sm'));?>
     
 							</div>    
                             </div>

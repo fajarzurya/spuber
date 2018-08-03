@@ -17,7 +17,7 @@ class setupbiaya extends CI_Controller
     function loaddata()
     {
         $tahun          =  $_GET['tahun_akademik'];
-        $prodi          =  $this->db->get('akademik_prodi')->result();
+        $kelas          =  $this->db->get('akademik_prodi')->result();
         $jenis_bayar    =  $this->db->get('keuangan_jenis_bayar');
         echo "<table class='table table-responsive table-hover'>
               <tr class='danger'>
@@ -45,7 +45,7 @@ class setupbiaya extends CI_Controller
 						// $no++;
                     // }
 			// echo"</tr>";
-            foreach ($prodi as $p) 
+            foreach ($kelas as $p) 
             {
                 echo"<tr>
 					 <th>$no</th>

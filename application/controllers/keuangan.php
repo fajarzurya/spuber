@@ -25,9 +25,9 @@ class keuangan extends CI_Controller
             $data['tanggal1']="";
             $data['tanggal2']="";
         }
-        $query="SELECT sm.nama,sm.nim,jb.keterangan,pd.tanggal,pd.jumlah,pd.semester,ap.nama_prodi FROM keuangan_pembayaran_detail as pd,keuangan_jenis_bayar as jb,student_siswa as sm,akademik_prodi as ap WHERE pd.jenis_bayar_id=jb.jenis_bayar_id and ap.prodi_id=sm.prodi_id and sm.nim=pd.nim and left(pd.tanggal,10) 
-                BETWEEN '".$data['tanggal1']."' and '".$data['tanggal2']."'";
-        $data['transaksi']=  $this->db->query($query)->result();
+		$jurnal="SELECT kd.nim, s.nama FROM keuangan_pembayaran_detail as kd JOIN student_siswa as s ON kd.nim = s.nim WHERE left(kd.tanggal,10) BETWEEN '".$data['tanggal1']."' and '".$data['tanggal2']."' GROUP BY kd.nim";
+		$data['jurnal']	= $this->db->query($jurnal)->result();
+		$data['jenis_bayar'] = $this->db->get('keuangan_jenis_bayar');
 		$data['title']=  $this->title;
         $this->template->load('template', 'keuangan/view',$data);
     }
@@ -50,49 +50,6 @@ class keuangan extends CI_Controller
         $this->load->view('keuangan/cetaklap',$data);
     }
     
-    
-    function tampilkandata2($konsentrasi,$tahun_angkatan)
-    {
-        echo   "<table class='table table-bordered'>
-                <tr><td width='150'>Konsentrasi</td><td>". strtoupper( getField('akademik_konsentrasi', 'nama_konsentrasi', 'konsentrasi_id', $konsentrasi))."</td></tr>
-                <tr><td>Tahun Angkatan</td><td>".  getField('student_angkatan', 'keterangan', 'angkatan_id', $tahun_angkatan)."</td></tr>
-                </table>";
-        $jenis_bayar=  $this->db->get('keuangan_jenis_bayar');
-        echo   "<table class='table table-bordered'>
-                <tr><th rowspan='2' width='7'>No</th><th width='16' rowspan='2'>NIM</th>
-                <th  rowspan='2' width='200'>NAMA</th>";
-                // head atas
-                foreach ($jenis_bayar->result() as $j)
-                {
-                    echo "<th colspan='2' align='center'>".  strtoupper($j->keterangan)."</th>";
-                }
-        echo   "</tr><tr>";
-                 // head keterangan bawah
-                foreach ($jenis_bayar->result() as $j)
-                {
-                    echo "<th>01</th><th>02</th>";
-                }
-        echo   "</tr>";
-        $no=1;
-        $mahassiwa =  $this->db->get_where('student_mahasiswa',array('konsentrasi_id'=>$konsentrasi,'angkatan_id'=>$tahun_angkatan))->result();
-        foreach ($mahassiwa as $m)
-        {
-            echo"<tr><td>$no</td><td>$m->nim</td><td>$m->nama</td>";
-               // data bayaran
-                foreach ($jenis_bayar->result() as $j)
-                {
-                    $harus_bayar=chek_bayar($m->nim, $j->jenis_bayar_id, 01);
-                    $sudah_bayar=chek_bayar($m->nim, $j->jenis_bayar_id, 02);
-                    $sisa1=$harus_bayar-$sudah_bayar;
-                    $sisa=$sisa1==0?'Lunas':rp((int) $sisa1);
-                    echo "<td>$sudah_bayar</td><td>$sisa1</td>";
-                }
-            echo"</tr>";
-            $no++;
-        }
-        echo   "<table>";
-    }
-
 
     function loadlaporan()
     {
@@ -419,7 +376,44 @@ class keuangan extends CI_Controller
     
     function laporanpembayaran()
     {
-        $tanggal1=  $this->uri->segment(3);
+        $data			="SELECT kd.nim, s.nama FROM keuangan_pembayaran_detail as kd JOIN student_siswa as s ON kd.nim = s.nim WHERE left(kd.tanggal,10) BETWEEN '".$tanggal1."' and '".$tanggal2."' GROUP BY kd.nim";
+		$jurnal			= $this->db->query($data)->result();
+		$jenis_bayar	= $this->db->get('keuangan_jenis_bayar');
+		echo "<thead>
+		<tr><th rowspan='2'>No</th>
+			<th rowspan='2'>NIS</th>
+			<th rowspan='2'>Nama Siswa</th>";
+			foreach ($jenis_bayar->result() as $j)
+				{
+				   echo"<th>".  strtoupper($j->keterangan)."</th>";
+				}
+		echo"<th rowspan='2'>Jumlah</th></tr>
+		</thead>";
+		//-------------------------
+		$no=1;
+		$grandttl=0;
+		foreach ($jurnal as $r)
+		{
+			echo "<tr>
+				<th>$no</th>
+				<th>".  strtoupper($r->nim)."</th>
+				<th>".  strtoupper($r->nama)."</th>";
+				$jumlah=0;
+				foreach($jenis_bayar->result() as $a)
+				{
+					$sudah_bayar=(int)pivot_laporan($r->nim, $a->jenis_bayar_id, $tanggal1, $tanggal2);
+					echo"<td>Rp ".rp($sudah_bayar)."</td>";
+					$jumlah=$jumlah+$sudah_bayar;
+				}
+			echo"<td>".rp((int) $jumlah)."</td></tr>";
+			$grandttl=$grandttl+$jumlah;
+			$no++;
+		}
+		echo"<tr>
+			<td colspan=".$jenis_bayar->num_rows()."></td>
+			<td colspan=3>Grand Total</td><td><b>".rp((int)$grandttl)."</b></td>
+			</tr>";
+		$tanggal1=  $this->uri->segment(3);
         $tanggal2=  $this->uri->segment(4);
         $query="SELECT sm.nama,sm.nim,jb.keterangan,pd.tanggal,pd.jumlah,pd.semester,ak.nama_konsentrasi
                 FROM keuangan_pembayaran_detail as pd,keuangan_jenis_bayar as jb,student_mahasiswa as sm,akademik_konsentrasi as ak
@@ -579,7 +573,7 @@ class keuangan extends CI_Controller
 					echo inputan('text', 'jumlah','col-sm-8','', 1,$x->jumlah/2,array('readonly'=>'readonly'));
 				}
 			}else{
-				echo inputan('text', 'jumlah','col-sm-8','Jumlah', 1,'Jumlah','');
+				echo inputan('text', 'jumlah','col-sm-8','Jumlah', 1,'','');
 			}
 		}
 	}
