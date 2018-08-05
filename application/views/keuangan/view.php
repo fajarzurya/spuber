@@ -124,11 +124,15 @@ if(isset($_POST['submit']))
             <th>".  strtoupper($r->nim)."</th>
             <th>".  strtoupper($r->nama)."</th>";
 			$jumlah=0;
+			$jumlah_jb=array();
 			foreach($jenis_bayar->result() as $a)
 			{
-				$sudah_bayar=(int)pivot_laporan($r->nim, $a->jenis_bayar_id, $tanggal1, $tanggal2,'');
-				$gtsudah_byr=(int)pivot_laporan($r->nim, $a->jenis_bayar_id, $tanggal1, $tanggal2,'GT');
+				$id = $a->jenis_bayar_id;
+				$jumlah_jb[$id]=0;
+				$sudah_bayar=(int)pivot_laporan($r->nim, $id, $tanggal1, $tanggal2,'');
+				$gtsudah_byr=(int)pivot_laporan($r->nim, $id, $tanggal1, $tanggal2,'GT');
 				echo"<td>Rp ".rp($sudah_bayar)."</td>";
+				$jumlah_jb[$id]=$jumlah_jb[$id]+$gtsudah_byr;
 				$jumlah=$jumlah+$sudah_bayar;
 			}
 		echo"<td>".rp((int) $jumlah)."</td></tr>";
@@ -136,9 +140,12 @@ if(isset($_POST['submit']))
         $no++;
     }
 	echo"<tr>
-        <td colspan=3><b><div align='right'>Grand Total</div></b></td>
-		<td colspan=4>".rp($gtsudah_byr)."</td>
-		<td colspan=".($jenis_bayar->num_rows()+3)."><b>".rp((int)$grandttl)."</b></td>
+        <th colspan=3><div align='right'>Grand Total</div></th>";
+		foreach($jenis_bayar->result() as $b)
+		{
+			echo"<th>Rp ".rp($jumlah_jb[$b->jenis_bayar_id])."</th>";
+		}
+	echo"<th>".rp((int)$grandttl)."</th>
         </tr>";
 	?>
 </table>
@@ -183,9 +190,9 @@ if(isset($_POST['submit2']))
 	foreach ($nama as $nm)
     {
         echo "<tr>
-            <td>$no</td>
-            <td>".  strtoupper($nm->nim)."</td>
-            <td>".  strtoupper($nm->nama)."</td>";
+            <th>$no</th>
+            <th>".  strtoupper($nm->nim)."</th>
+            <th>".  strtoupper($nm->nama)."</th>";
 			$tunggakan=0;
 			$jumlah=0;
 			foreach($jenis_bayar->result() as $b)
@@ -206,9 +213,9 @@ if(isset($_POST['submit2']))
         $no++;
     }
 	echo"<tr>
-        <td colspan=".($jenis_bayar->num_rows()+3)."><b><div align='right'>Grand Total</div></b></td>
-		<td><b>".rp($grand_jumlah)."</b></td>
-		<td><b>".rp($grand_kredit)."</b></td>
+        <th colspan=".($jenis_bayar->num_rows()+3)."><div align='right'>Grand Total</div></td>
+		<th>".rp($grand_jumlah)."</th>
+		<th>".rp($grand_kredit)."</th>
 		<td></td>
         </tr>";
 	?>
