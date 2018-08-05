@@ -67,7 +67,11 @@ echo $this->session->flashdata('pesan');
 $status=array(0=>'Lunas',1=>'Pembayaran Ke 1',2=>'Pembayaran Ke 2',3=>'Pembayaran Ke 3',4=>'Pembayaran Ke 4');
 ?>
 <div class="row">
-<div class="col-sm-6">
+<div class="col-sm-6 clearfix">
+	<div class="card">
+	<div class="card-body">
+		<div class="tab-content">
+		<div class="tab-pane active" role="tabpanel">
 <?php
 echo form_open('keuangan/pembayaran');
 ?>   
@@ -96,8 +100,16 @@ echo form_open('keuangan/pembayaran');
 </table>
 </form>
 </div>
+</div>
+</div>
+</div>
+</div>
 
-<div class="col-sm-6">
+<div class="col-sm-6 clearfix">
+	<div class="card">
+	<div class="card-body">
+		<div class="tab-content">
+		<div class="tab-pane active" role="tabpanel">
 <?php
 echo form_open('keuangan/pembayaran');
 ?>
@@ -150,6 +162,10 @@ echo form_open('keuangan/pembayaran');
 				<input type="submit" name="submit2" value="Simpan" class="btn btn-danger"></td></tr>
     </table>
 </form>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 <?php

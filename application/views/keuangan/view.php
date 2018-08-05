@@ -7,12 +7,6 @@
     </ol>
 </div>
 
-<link href="<?php echo base_url()?>assets/datepicker/bootstrap-datepicker3.css" rel="stylesheet" type="text/css">
-<script src="<?php echo base_url()?>assets/datepicker/bootstrap-datepicker.js"></script>
-<script>
-$('#demo-1,#demo-2,#demo-3').datepicker();
-</script>
-
 <?php
 
 $status=array(0=>'Lunas',1=>'Pembayaran Ke 1',2=>'Pembayaran Ke 2',3=>'Pembayaran Ke 3',4=>'Pembayaran Ke 4');
@@ -22,12 +16,13 @@ echo form_open('keuangan');
 	<div class="col-md-12 clearfix">
 							<div class="card">
                             <ul id="example-tabs" class="nav nav-tabs nav-tabs-neutral" role="tablist" data-background-color="orange">
-                                <li class="nav-item"><a class="nav-link active" data-toggle="tab" role="tab">LAPORAN KEUANGAN</a></li>
+                                <li class="nav-item"><a class="nav-link active" href="#bulan" data-toggle="tab" role="tab">Laporan Bulanan</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#kelas" data-toggle="tab" role="tab">Laporan Per Kelas</a></li>
                             </ul>
 
                             <div class="card-body">
 							<div class="tab-content">
-                                <div class="tab-pane active" role="tabpanel">
+                                <div class="tab-pane active" id="bulan" role="tabpanel">
 								
 								<!--<table class="table table-bordered">
 									<tr class="success"><td colspan="2">PERIODE LAPORAN</td></tr>-->
@@ -36,7 +31,9 @@ echo form_open('keuangan');
 									<label>Tanggal Mulai</label>
 									</div>
 									<div class="col-md-3">
-									<?php echo inputan('text', 'tanggal1','col-xs-3 ','Tanggal Awal', 1, $tanggal1,array('id'=>'demo-1'));?>
+										<div class="form-group">
+											<input type="text" class="form-control date-picker" data-datepicker-color="primary" name="tanggal1" placeholder="Tanggal Awal">
+									   </div>
 									</div>
 									<div class="col-md-7"></div>
 									<div class="col-md-12">&nbsp;&nbsp;&nbsp;</div>
@@ -44,19 +41,56 @@ echo form_open('keuangan');
 									<label>Tanggal Sampai</label>
 									</div>
 									<div class="col-md-3">
-									<?php echo inputan('text', 'tanggal2','col-xs-3','Tanggal Akhir', 1, $tanggal2,array('id'=>'datepicker1'));?>
+									<div class="form-group">
+											<input type="text" class="form-control date-picker" data-datepicker-color="primary" name="tanggal2" placeholder="Tanggal Akhir">
+									   </div>
 									</div>
 								<!--</table>-->
 								</div>
+								<input type="submit" name="submit" value="Preview" class="btn btn-primary  btn-sm">
+								</div>
+								
+								
+								<!-- KELAS -->
+								<div class="tab-pane" id="kelas" role="tabpanel">
+								
+								<!--<table class="table table-bordered">
+									<tr class="success"><td colspan="2">PERIODE LAPORAN</td></tr>-->
+								<div class="row">
+									<div class="col-md-2">
+									<label>Kelas</label>
+									</div>
+									<div class="col-md-3">
+									<?php echo buatcombo('kelas', 'akademik_prodi', '', 'nama_prodi', 'prodi_id', '', array('id'=>'kelas'))?>
+									</div>
+									<div class="col-md-7"></div>
+									<div class="col-md-12"></div>
+									<div class="col-md-2">
+									<label>Tipe Kelas</label>
+									</div>
+									<div class="col-md-3">
+									<?php echo buatcombo('tipe', 'app_kelas', '', 'keterangan', 'kelas_id', '', array('id'=>'tipe'))?>
+									</div>
+									<div class="col-md-7"></div>
+									<div class="col-md-12"></div>
+									<div class="col-md-2">
+									<label>Tahun Angkatan</label>
+									</div>
+									<div class="col-md-3">
+									<?php echo buatcombo('tahun_angkatan', 'student_angkatan', '', 'keterangan', 'angkatan_id', '', array('id'=>'tahun_akademik'))?>
+									</div>
+								<!--</table>-->
+								</div>
+								<input type="submit" name="submit2" value="Preview" class="btn btn-primary  btn-sm"> 
 								</div>
                             </div>
-							<input type="submit" name="submit" value="Preview" class="btn btn-primary  btn-sm"> 
-							<?php echo anchor(base_url().'keuangan/laporanpembayaran/'.$tanggal1.'/'.$tanggal2.'/cetak','Export Excel',array('class'=>'btn btn-primary   btn-sm','target'=>'_blank'))?>
-							</div>    
                             </div>
+	</div>
 	</div>
 </div>
 </form>
+
+<!-- BULANAN -->
 <?php
 if(isset($_POST['submit']))
 {
@@ -83,7 +117,6 @@ if(isset($_POST['submit']))
 	//-------------------------
     $no=1;
     $grandttl=0;
-    //foreach ($transaksi as $r)
 	foreach ($jurnal as $r)
     {
         echo "<tr>
@@ -93,7 +126,8 @@ if(isset($_POST['submit']))
 			$jumlah=0;
 			foreach($jenis_bayar->result() as $a)
 			{
-				$sudah_bayar=(int)pivot_laporan($r->nim, $a->jenis_bayar_id, $tanggal1, $tanggal2);
+				$sudah_bayar=(int)pivot_laporan($r->nim, $a->jenis_bayar_id, $tanggal1, $tanggal2,'');
+				$gtsudah_byr=(int)pivot_laporan($r->nim, $a->jenis_bayar_id, $tanggal1, $tanggal2,'GT');
 				echo"<td>Rp ".rp($sudah_bayar)."</td>";
 				$jumlah=$jumlah+$sudah_bayar;
 			}
@@ -102,8 +136,9 @@ if(isset($_POST['submit']))
         $no++;
     }
 	echo"<tr>
-        <td colspan=".$jenis_bayar->num_rows()."></td>
-        <td colspan=3>Grand Total</td><td><b>".rp((int)$grandttl)."</b></td>
+        <td colspan=3><b><div align='right'>Grand Total</div></b></td>
+		<td colspan=4>".rp($gtsudah_byr)."</td>
+		<td colspan=".($jenis_bayar->num_rows()+3)."><b>".rp((int)$grandttl)."</b></td>
         </tr>";
 	?>
 </table>
@@ -113,6 +148,76 @@ if(isset($_POST['submit']))
 </div>
 <?php } ?>
 
+<!-- KELAS -->
+<?php
+if(isset($_POST['submit2']))
+{
+?>
+<div class="card">
+<div class="card-body">
+							<div class="tab-content">
+                                <div class="tab-pane active" role="tabpanel">
+<table class="table table-responsive table-hover">
+	<thead>
+	<?php echo "<tr><th colspan=".($jenis_bayar->num_rows()+6)."><div align='center'>LAPORAN KEUANGAN</div></th></tr>";?>
+    <tr><th rowspan='2'>No</th>
+        <th rowspan='2'>NIS</th>
+        <th rowspan='2'>Nama Siswa</th>
+		<?php
+		foreach ($jenis_bayar->result() as $j)
+            {
+               echo"<th>".  strtoupper($j->keterangan)."</th>";
+            }
+		?>
+        <th rowspan='2'>Jumlah</th>
+		<th rowspan='2'>Kredit</th>
+		<th rowspan='2'>Keterangan</th>
+	</tr>
+	</thead>
+    <?php
+	//-------------------------
+    $no=1;
+    $grand_jumlah=0;
+	$grand_kredit=0;
+    //foreach ($transaksi as $r)
+	foreach ($nama as $nm)
+    {
+        echo "<tr>
+            <td>$no</td>
+            <td>".  strtoupper($nm->nim)."</td>
+            <td>".  strtoupper($nm->nama)."</td>";
+			$tunggakan=0;
+			$jumlah=0;
+			foreach($jenis_bayar->result() as $b)
+			{
+				$harus_bayar=(int)chek_bayar($nm->nim, $b->jenis_bayar_id, 01);
+				$sudah_bayar=(int)chek_bayar($nm->nim, $b->jenis_bayar_id, 02);
+                $sisa=$harus_bayar-$sudah_bayar;
+				$keterangan	= $sisa==0?'Lunas':'Kredit';
+				echo"<td>".rp($sudah_bayar)."</td>";
+				$jumlah		= $jumlah+$sudah_bayar;
+				$tunggakan	= $tunggakan+$sisa;
+			}
+		echo"<td>".rp((int) $jumlah)."</td>
+			<td>".rp((int) $tunggakan)."</td>
+			<td>$keterangan</td></tr>";
+		$grand_jumlah=$grand_jumlah+$jumlah;
+		$grand_kredit=$grand_kredit+$tunggakan;
+        $no++;
+    }
+	echo"<tr>
+        <td colspan=".($jenis_bayar->num_rows()+3)."><b><div align='right'>Grand Total</div></b></td>
+		<td><b>".rp($grand_jumlah)."</b></td>
+		<td><b>".rp($grand_kredit)."</b></td>
+		<td></td>
+        </tr>";
+	?>
+</table>
+</div>
+</div>
+</div>
+</div>
+<?php } ?>
 <script type="text/javascript">
 function cetak(id,id2)
 {

@@ -46,20 +46,21 @@
         </div>
     </nav>
     <!-- End Navbar -->
-	<div class="page-header" filter-color="orange">
+	<div class="page-header clear-filter" filter-color="orange">
         <div class="page-header-image"></div>
+		<div class="content">
         <div class="container">
-            <div class="col-md-4 content-center">
+            <div class="col-md-4 ml-auto mr-auto">
                 <div class="card card-login card-plain">
                     <?php
 					echo form_open('auth/login');
 					?>
-                        <div class="header header-primary text-center">
+                        <div class="card-header text-center">
                             <div class="logo-container">
                                 <img src="<?php echo base_url();?>assets/img/spuber-logo.png" alt="">
                             </div>
                         </div>
-                        <div class="content">
+                        <div class="card-body">
                             <div class="input-group form-group-no-border input-lg">
                                 <span class="input-group-addon">
                                     <i class="now-ui-icons users_circle-08"></i>
@@ -79,6 +80,7 @@
                 </div>
             </div>
         </div>
+		</div>
         <footer class="footer">
             <div class="container">
                 <div>

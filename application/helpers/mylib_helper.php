@@ -438,35 +438,42 @@ if ( ! function_exists('generatehtml'))
         return $data['tahun_akademik_id'];
     }
     
-	function pivot_laporan($nim,$jenis_bayar,$tgl_awal,$tgl_akhir)
+	function pivot_laporan($nim,$jenis_bayar,$tgl_awal,$tgl_akhir,$kode)
     {
         $CI     =   & get_instance();
 		$m      =   $CI->db->query("select prodi_id,angkatan_id from student_siswa where nim='$nim'")->row_array();
-        $sql="SELECT sum(jumlah) as total from keuangan_pembayaran_detail where nim='$nim' and jenis_bayar_id=$jenis_bayar and left(tanggal,10) BETWEEN '$tgl_awal' and '$tgl_akhir'";
-        $data=$CI->db->query($sql);
-        if($data->num_rows()>0)
-            {
-                $r=$data->row_array();
-                return $r['total'];
-            }
-        else
-            {
-                return 0;
-            }
+		if($kode=='GT')
+		{
+			$sql="SELECT sum(jumlah) as total from keuangan_pembayaran_detail where jenis_bayar_id=$jenis_bayar and left(tanggal,10) BETWEEN '$tgl_awal' and '$tgl_akhir'";
+		}else{
+			$sql="SELECT sum(jumlah) as total from keuangan_pembayaran_detail where nim='$nim' and jenis_bayar_id=$jenis_bayar and left(tanggal,10) BETWEEN '$tgl_awal' and '$tgl_akhir'";
+		}
+		$data=$CI->db->query($sql);
+			if($data->num_rows()>0)
+				{
+					$r=$data->row_array();
+					return $r['total'];
+				}
+			else
+				{
+					return 0;
+				}
     }
 	
     function chek_bayar($nim,$jenis_bayar,$kode)
     {
         // 01 jumlah harus bayar dan 02 jumlah yang sudah dibayar
         $CI     =   & get_instance();
-        //$m      =   $CI->db->query("select konsentrasi_id,angkatan_id from student_mahasiswa where nim='$nim'")->row_array();
 		$m      =   $CI->db->query("select prodi_id,angkatan_id from student_siswa where nim='$nim'")->row_array();
         if($kode==01)
         {
-
-            //$j=$CI->db->get_where('keuangan_biaya_kuliah',array( 'jenis_bayar_id'=>$jenis_bayar,'angkatan_id'=>$m['angkatan_id'],'konsentrasi_id'=>$m['konsentrasi_id']))->row_array();
-			$j=$CI->db->get_where('keuangan_biaya_kuliah',array( 'jenis_bayar_id'=>$jenis_bayar,'angkatan_id'=>$m['angkatan_id'],'prodi_id'=>$m['prodi_id']))->row_array();
-            return  $j['jumlah'];
+            $j=$CI->db->get_where('keuangan_biaya_kuliah',array( 'jenis_bayar_id'=>$jenis_bayar,'angkatan_id'=>$m['angkatan_id'],'prodi_id'=>$m['prodi_id']))->row_array();
+			if($jenis_bayar==1)  //Jika SPP
+			{
+				return  $j['jumlah']*12;
+			}else{
+				return  $j['jumlah'];
+			}
         }
         else
         {

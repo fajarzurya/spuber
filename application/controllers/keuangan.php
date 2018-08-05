@@ -19,16 +19,25 @@ class keuangan extends CI_Controller
         {
             $data['tanggal1']=  $this->input->post('tanggal1');
             $data['tanggal2']=  $this->input->post('tanggal2');
+			$jurnal="SELECT kd.nim, s.nama FROM keuangan_pembayaran_detail as kd JOIN student_siswa as s ON kd.nim = s.nim WHERE left(kd.tanggal,10) BETWEEN '".$data['tanggal1']."' and '".$data['tanggal2']."' GROUP BY kd.nim";
+			$data['jurnal']			= $this->db->query($jurnal)->result();
+        }
+		elseif(isset($_POST['submit2']))
+        {
+            $kelas			=  $this->input->post('kelas');
+            $tipe			=  $this->input->post('tipe');
+			$tahun			=  $this->input->post('tahun_angkatan');
+			//$jurnal2="SELECT kd.nim, s.nama FROM keuangan_pembayaran_detail as kd JOIN student_siswa as s ON kd.nim = s.nim WHERE kd.nim '".$data['tanggal1']."' and '".$data['tanggal2']."' GROUP BY kd.nim";
+			//$data['jurnal2']		= $this->db->query($jurnal2)->result();
+			$data['nama']			=  $this->db->get_where('student_siswa',array('prodi_id'=>$kelas,'angkatan_id'=>$tahun,'kelas_id'=>$tipe))->result();
         }
         else
         {
             $data['tanggal1']="";
             $data['tanggal2']="";
         }
-		$jurnal="SELECT kd.nim, s.nama FROM keuangan_pembayaran_detail as kd JOIN student_siswa as s ON kd.nim = s.nim WHERE left(kd.tanggal,10) BETWEEN '".$data['tanggal1']."' and '".$data['tanggal2']."' GROUP BY kd.nim";
-		$data['jurnal']	= $this->db->query($jurnal)->result();
-		$data['jenis_bayar'] = $this->db->get('keuangan_jenis_bayar');
-		$data['title']=  $this->title;
+		$data['jenis_bayar']	= $this->db->get('keuangan_jenis_bayar');
+		$data['title']			= $this->title;
         $this->template->load('template', 'keuangan/view',$data);
     }
     
