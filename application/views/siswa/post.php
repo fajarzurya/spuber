@@ -88,7 +88,9 @@ else
                                             <td>
 												<div class="row">
 													<?php echo inputan('text', 'tempat_lahir','col-sm-4','Tempat Lahir ..', 0, '','');?>
-													<?php echo inputan('text', 'tanggal_lahir','col-sm-2','Tanggal Lahir ..', 0, '',array('id'=>'datepicker'));?>
+													<div class="form-group">
+														<input type="text" class="form-control date-picker" data-datepicker-color="primary" name="tanggal_lahir" placeholder="Tanggal Lahir">
+												   </div>
 												</div>
                                             </td></tr>
                                        <tr><td>Kelas</td>

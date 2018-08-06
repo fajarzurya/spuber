@@ -76,13 +76,10 @@ else
     <tr>
     <td width="050">Tempat ,Tanggal Lahir</td><td>
        <div class="row">
-	    <?php echo inputan('text', 'tempat_lahir','col-sm-8','Tempat Lahir ..', 0, $r['tempat_lahir'],'');?>
-        <div class="datepicker-container">
-		 <div class="form-group">
+	    <?php echo inputan('text', 'tempat_lahir','col-sm-6','Tempat Lahir ..', 0, $r['tempat_lahir'],'');?>
+		 <div class="form-group col-sm-5">
 			<input type="text" class="form-control date-picker" value="<?php echo $r['tanggal_lahir'] ?>" data-datepicker-color="primary">
 		 </div>
-		</div>
-		<?php echo inputan('text', 'tanggal_lahir','col-sm-4','Tanggal Lahir ..', 0, $r['tanggal_lahir'],array('id'=>'datepicker'));?>
 	   </div>
     </td>
     <td>Alamat Ayah, Ibu</td>
