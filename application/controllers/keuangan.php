@@ -296,6 +296,7 @@ class keuangan extends CI_Controller
                                         'jumlah'=>$jumlah,
                                         'id_users'=> $this->session->userdata('id_users'),
                                         'tanggal'=>  waktu(),
+										'semester'=>$bulan,
                                         'nim'=>$this->session->userdata('pembayaran_mahasiswa_nim'));
             $this->db->insert('keuangan_pembayaran_detail',$data);
                     

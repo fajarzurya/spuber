@@ -59,11 +59,11 @@ function hidesemster()
 				$("#semester").hide();
 				$("#uts_uas").show();
 			}
-            else
-                {
-                     $("#semester").hide();
-					 $("#uts_uas").hide();
-                }
+        else
+            {
+                $("#semester").hide();
+				$("#uts_uas").hide();
+            }
 }
 </script>
 <?php
@@ -137,21 +137,11 @@ echo form_open('keuangan/pembayaran');
                         }
                         ?>
                     </select>
-					<select name="uts_uas" id="uts_uas" class="form-control">
+					<select name="semester" id="uts_uas" class="form-control">
                         <?php
-						$gjl='ganjil';
-						$gnp='genap';
                         for($sms=1;$sms<=2;$sms++)
                         {
-                            // if($sms==1)
-							// {
-								// echo "<option VALUE='ganjil'>SEMESTER GANJIL</option>";
-							// }
-							// else
-							// {
-								// echo "<option VALUE='genap'>SEMESTER GENAP</option>";
-							// }
-							echo $sms==1?"<option VALUE='$sms'>SEMESTER ".strtoupper($gjl)."</option>":"<option VALUE='$sms'>SEMESTER ".strtoupper($gnp)."</option>";
+							echo $sms==1?"<option VALUE='$sms'>SEMESTER $sms GANJIL</option>":"<option VALUE='$sms'>SEMESTER $sms GENAP</option>";
                         }
                         ?>
                     </select>
@@ -214,7 +204,6 @@ if($statuss!="kosong"){
             <td>Rp ".rp((int)$r->jumlah)."</td>
             <td>".  strtoupper($r->nama)."</td>
             <td align='center'>".anchor('keuangan/delete/'.$r->pembayara_detail_id,'<i class="fa fa-trash-o"></i>',array('title'=>'Hapus Transaksi'))."</td></tr>";
-			//<td align='center'>".anchor('keuangan/delete/'.$r->pembayara_detail_id,'<i class="fa fa-trash-o"></i>',array('title'=>'Hapus Catatan'))."</td></tr>";
         $i++;
     }
     ?>

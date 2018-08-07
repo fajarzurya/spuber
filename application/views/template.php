@@ -42,7 +42,7 @@ if($this->session->userdata('id_users')=='')
                                         //looping
                                         echo "<li class='nav-item dropdown'>
 												<a href='javascript:void(0)' class='nav-link dropdown-toggle' data-toggle='dropdown' id='navbarDropdownMenuLink'>
-													<i class='".$m->icon."'></i> ".  strtoupper($m->nama_mainmenu)."
+													<i class='".$m->icon."'></i> <p>".  strtoupper($m->nama_mainmenu)."</p>
 												</a>
 												<ul class='dropdown-menu' aria-labelledby='navbarDropdownMenuLink'>";
                                         foreach ($submenu->result() as $s)
@@ -67,14 +67,14 @@ if($this->session->userdata('id_users')=='')
                             <ul class="navbar-nav">
                                 <li class="nav-item dropdown">
                                     <a href="javascript:void(0)" class="nav-link dropdown-toggle" data-toggle="dropdown" id="navbarDropdownMenuLink">
-										<i class="fa fa-user" ></i> <?php echo strtoupper($this->session->userdata('username'));?>
+										<i class="fa fa-user fa-lg" >&nbsp;</i> <?php echo strtoupper($this->session->userdata('username'));?>
 									</a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 										<a class="dropdown-item" href="<?php echo base_url().''.$this->uri->segment(0).'users/profile'?>">
-											<i class="fa fa-cogs"></i>Account
+											<i class="fa fa-cogs fa-lg"></i>Account
 										</a>
 										<a class="dropdown-item" href="<?php echo base_url().''.$this->uri->segment(0).'auth/logout'?>">
-											<i class="fa fa-sign-out"></i>Logout
+											<i class="fa fa-sign-out fa-lg"></i>Logout
 										</a>
                                     </ul>
                                 </li>
