@@ -6,8 +6,12 @@
         <li class="breadcrumb-item active">Data</li>
     </ol>
 </div>
-
-
+<style>
+span {
+    position: fixed;
+    right: 5px;
+}
+</style>
 <script src="<?php echo base_url();?>assets/js/1.8.2.min.js"></script>
  
   <script>
@@ -168,6 +172,11 @@ echo form_open('keuangan/pembayaran');
 </div>
 </div>
 </div>
+<a class="pull-right" href="#">
+	<span class="btn btn-primary btn-sm btn-round">UP
+		<i class="fa fa-arrow-up"></i>
+	</span>
+</a>
 <?php
 if($statuss!="kosong"){
 ?>

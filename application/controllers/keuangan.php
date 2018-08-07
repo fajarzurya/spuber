@@ -599,7 +599,7 @@ class keuangan extends CI_Controller
 		{ 
 			$jenis_bayar= getField('keuangan_jenis_bayar', 'keterangan', 'jenis_bayar_id', $tb->jenis_bayar_id);
 			$detail		= $no.". ".$jenis_bayar." sebesar Rp.".rp((int)$tb->jumlah);
-			$text .= " ".$detail .= " pada tanggal ".$tb->tanggal."\n";
+			$text .= " ".$detail .= " tanggal ".$tb->tanggal."\n";
 			$no++;
 		}
 		$data = [
