@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.2.7.1
--- http://www.phpmyadmin.net
+-- version 4.6.5.2
+-- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 31, 2018 at 04:18 PM
--- Server version: 5.6.20-log
--- PHP Version: 5.5.15
+-- Generation Time: Aug 07, 2018 at 04:11 PM
+-- Server version: 10.1.21-MariaDB
+-- PHP Version: 5.6.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,7 +14,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Database: `spuber`
@@ -26,8 +26,8 @@ SET time_zone = "+00:00";
 -- Table structure for table `akademik_konsentrasi`
 --
 
-CREATE TABLE IF NOT EXISTS `akademik_konsentrasi` (
-`konsentrasi_id` int(11) NOT NULL,
+CREATE TABLE `akademik_konsentrasi` (
+  `konsentrasi_id` int(11) NOT NULL,
   `nama_konsentrasi` varchar(100) NOT NULL,
   `ketua` varchar(50) NOT NULL,
   `jenjang` varchar(3) NOT NULL COMMENT '1=D1,2=D2,3=D3,4=D4',
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `akademik_konsentrasi` (
   `kode_nomor` varchar(20) NOT NULL,
   `gelar` varchar(40) NOT NULL,
   `prodi_id` int(11) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=41 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `akademik_konsentrasi`
@@ -72,13 +72,13 @@ INSERT INTO `akademik_konsentrasi` (`konsentrasi_id`, `nama_konsentrasi`, `ketua
 -- Table structure for table `akademik_prodi`
 --
 
-CREATE TABLE IF NOT EXISTS `akademik_prodi` (
-`prodi_id` int(11) NOT NULL,
+CREATE TABLE `akademik_prodi` (
+  `prodi_id` int(11) NOT NULL,
   `nama_prodi` varchar(100) NOT NULL,
   `ketua` varchar(70) NOT NULL,
   `no_izin` varchar(40) NOT NULL,
   `status` int(11) NOT NULL COMMENT '1=aktif ,2=g aktif'
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `akademik_prodi`
@@ -95,13 +95,13 @@ INSERT INTO `akademik_prodi` (`prodi_id`, `nama_prodi`, `ketua`, `no_izin`, `sta
 -- Table structure for table `akademik_tahun_akademik`
 --
 
-CREATE TABLE IF NOT EXISTS `akademik_tahun_akademik` (
-`tahun_akademik_id` int(11) NOT NULL,
+CREATE TABLE `akademik_tahun_akademik` (
+  `tahun_akademik_id` int(11) NOT NULL,
   `keterangan` varchar(15) NOT NULL,
   `batas_registrasi` date NOT NULL,
   `status` enum('n','y') NOT NULL,
   `tahun` int(11) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `akademik_tahun_akademik`
@@ -117,7 +117,7 @@ INSERT INTO `akademik_tahun_akademik` (`tahun_akademik_id`, `keterangan`, `batas
 -- Table structure for table `app_agama`
 --
 
-CREATE TABLE IF NOT EXISTS `app_agama` (
+CREATE TABLE `app_agama` (
   `agama_id` int(11) NOT NULL,
   `keterangan` varchar(15) COLLATE utf8_bin DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
@@ -139,8 +139,8 @@ INSERT INTO `app_agama` (`agama_id`, `keterangan`) VALUES
 -- Table structure for table `app_dosen`
 --
 
-CREATE TABLE IF NOT EXISTS `app_dosen` (
-`dosen_id` int(11) NOT NULL,
+CREATE TABLE `app_dosen` (
+  `dosen_id` int(11) NOT NULL,
   `nama_lengkap` varchar(70) NOT NULL,
   `nidn` varchar(20) NOT NULL,
   `nip` varchar(22) NOT NULL,
@@ -155,7 +155,7 @@ CREATE TABLE IF NOT EXISTS `app_dosen` (
   `hp` varchar(12) NOT NULL,
   `email` varchar(40) NOT NULL,
   `prodi_id` int(11) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=35 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `app_dosen`
@@ -192,10 +192,10 @@ INSERT INTO `app_dosen` (`dosen_id`, `nama_lengkap`, `nidn`, `nip`, `no_ktp`, `t
 -- Table structure for table `app_hari`
 --
 
-CREATE TABLE IF NOT EXISTS `app_hari` (
-`hari_id` int(11) NOT NULL,
+CREATE TABLE `app_hari` (
+  `hari_id` int(11) NOT NULL,
   `hari` varchar(15) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `app_hari`
@@ -217,7 +217,7 @@ INSERT INTO `app_hari` (`hari_id`, `hari`) VALUES
 -- Table structure for table `app_kelas`
 --
 
-CREATE TABLE IF NOT EXISTS `app_kelas` (
+CREATE TABLE `app_kelas` (
   `kelas_id` int(11) NOT NULL,
   `keterangan` varchar(15) COLLATE utf8_bin DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
@@ -242,7 +242,7 @@ INSERT INTO `app_kelas` (`kelas_id`, `keterangan`) VALUES
 -- Table structure for table `app_pekerjaan`
 --
 
-CREATE TABLE IF NOT EXISTS `app_pekerjaan` (
+CREATE TABLE `app_pekerjaan` (
   `pekerjaan_id` varchar(2) NOT NULL,
   `keterangan` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -273,22 +273,22 @@ INSERT INTO `app_pekerjaan` (`pekerjaan_id`, `keterangan`) VALUES
 -- Table structure for table `app_users`
 --
 
-CREATE TABLE IF NOT EXISTS `app_users` (
-`id_users` int(11) NOT NULL,
+CREATE TABLE `app_users` (
+  `id_users` int(11) NOT NULL,
   `username` varchar(20) NOT NULL,
   `nama` varchar(50) NOT NULL,
   `password` varchar(32) NOT NULL,
   `level` int(1) NOT NULL COMMENT '1=admin ,2=pihak jurusan ,3=pegawai ,4=mahasiswa',
   `keterangan` varchar(5) NOT NULL,
   `last_login` datetime NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `app_users`
 --
 
 INSERT INTO `app_users` (`id_users`, `username`, `nama`, `password`, `level`, `keterangan`, `last_login`) VALUES
-(1, 'admin', 'admin', '21232f297a57a5a743894a0e4a801fc3', 1, '', '2018-07-31 21:03:35'),
+(1, 'admin', 'admin', '21232f297a57a5a743894a0e4a801fc3', 1, '', '2018-08-07 20:49:10'),
 (8, 'bendahara', '', 'e10adc3949ba59abbe56e057f20f883e', 2, '1', '2018-07-31 21:02:40');
 
 -- --------------------------------------------------------
@@ -297,7 +297,7 @@ INSERT INTO `app_users` (`id_users`, `username`, `nama`, `password`, `level`, `k
 -- Table structure for table `daemons`
 --
 
-CREATE TABLE IF NOT EXISTS `daemons` (
+CREATE TABLE `daemons` (
   `Start` text NOT NULL,
   `Info` text NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
@@ -308,7 +308,7 @@ CREATE TABLE IF NOT EXISTS `daemons` (
 -- Table structure for table `gammu`
 --
 
-CREATE TABLE IF NOT EXISTS `gammu` (
+CREATE TABLE `gammu` (
   `Version` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -327,7 +327,7 @@ INSERT INTO `gammu` (`Version`) VALUES
 -- Table structure for table `inbox`
 --
 
-CREATE TABLE IF NOT EXISTS `inbox` (
+CREATE TABLE `inbox` (
   `UpdatedInDB` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `ReceivingDateTime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `Text` text NOT NULL,
@@ -337,10 +337,10 @@ CREATE TABLE IF NOT EXISTS `inbox` (
   `SMSCNumber` varchar(20) NOT NULL DEFAULT '',
   `Class` int(11) NOT NULL DEFAULT '-1',
   `TextDecoded` text NOT NULL,
-`ID` int(10) unsigned NOT NULL,
+  `ID` int(10) UNSIGNED NOT NULL,
   `RecipientID` text NOT NULL,
   `Processed` enum('false','true') NOT NULL DEFAULT 'false'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -348,14 +348,14 @@ CREATE TABLE IF NOT EXISTS `inbox` (
 -- Table structure for table `keuangan_biaya_kuliah`
 --
 
-CREATE TABLE IF NOT EXISTS `keuangan_biaya_kuliah` (
-`biaya_kuliah_id` int(11) NOT NULL,
+CREATE TABLE `keuangan_biaya_kuliah` (
+  `biaya_kuliah_id` int(11) NOT NULL,
   `jenis_bayar_id` int(3) NOT NULL,
   `prodi_id` int(3) NOT NULL,
   `konsentrasi_id` int(3) NOT NULL,
   `angkatan_id` int(3) NOT NULL,
   `jumlah` int(11) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=49 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `keuangan_biaya_kuliah`
@@ -365,8 +365,8 @@ INSERT INTO `keuangan_biaya_kuliah` (`biaya_kuliah_id`, `jenis_bayar_id`, `prodi
 (1, 1, 1, 0, 3, 200000),
 (2, 2, 1, 0, 3, 675000),
 (16, 4, 1, 0, 3, 2500000),
-(17, 5, 1, 0, 3, 140000),
-(18, 6, 1, 0, 3, 140000),
+(17, 5, 1, 0, 3, 280000),
+(18, 6, 1, 0, 3, 280000),
 (19, 7, 1, 0, 3, 1900000),
 (20, 8, 1, 0, 3, 0),
 (42, 1, 1, 0, 7, 0),
@@ -383,10 +383,10 @@ INSERT INTO `keuangan_biaya_kuliah` (`biaya_kuliah_id`, `jenis_bayar_id`, `prodi
 -- Table structure for table `keuangan_jenis_bayar`
 --
 
-CREATE TABLE IF NOT EXISTS `keuangan_jenis_bayar` (
-`jenis_bayar_id` int(11) NOT NULL,
+CREATE TABLE `keuangan_jenis_bayar` (
+  `jenis_bayar_id` int(11) NOT NULL,
   `keterangan` varchar(50) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `keuangan_jenis_bayar`
@@ -395,7 +395,7 @@ CREATE TABLE IF NOT EXISTS `keuangan_jenis_bayar` (
 INSERT INTO `keuangan_jenis_bayar` (`jenis_bayar_id`, `keterangan`) VALUES
 (1, 'SPP'),
 (2, 'BUKU'),
-(4, 'DPP+UNAS'),
+(4, 'UNAS'),
 (5, 'UTS'),
 (6, 'UAS');
 
@@ -405,12 +405,12 @@ INSERT INTO `keuangan_jenis_bayar` (`jenis_bayar_id`, `keterangan`) VALUES
 -- Table structure for table `keuangan_pembayaran`
 --
 
-CREATE TABLE IF NOT EXISTS `keuangan_pembayaran` (
-`pembayaran_id` int(11) NOT NULL,
+CREATE TABLE `keuangan_pembayaran` (
+  `pembayaran_id` int(11) NOT NULL,
   `mahasiswa_id` int(11) NOT NULL,
   `semester` int(11) NOT NULL,
   `no_bayar` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -418,34 +418,30 @@ CREATE TABLE IF NOT EXISTS `keuangan_pembayaran` (
 -- Table structure for table `keuangan_pembayaran_detail`
 --
 
-CREATE TABLE IF NOT EXISTS `keuangan_pembayaran_detail` (
-`pembayara_detail_id` int(11) NOT NULL,
+CREATE TABLE `keuangan_pembayaran_detail` (
+  `pembayara_detail_id` int(11) NOT NULL,
   `tanggal` datetime NOT NULL,
   `nim` varchar(11) NOT NULL,
   `jenis_bayar_id` int(11) NOT NULL,
   `id_users` int(11) NOT NULL,
   `jumlah` int(11) NOT NULL,
   `semester` int(11) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=32 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `keuangan_pembayaran_detail`
 --
 
 INSERT INTO `keuangan_pembayaran_detail` (`pembayara_detail_id`, `tanggal`, `nim`, `jenis_bayar_id`, `id_users`, `jumlah`, `semester`) VALUES
-(13, '2014-06-04 14:03:51', 'TI102134', 1, 1, 400000, 0),
-(14, '2014-06-04 14:07:16', 'TI102134', 3, 1, 3400000, 1),
-(15, '2014-06-04 14:07:37', 'TI102134', 3, 1, 3400000, 2),
-(16, '2014-06-04 14:07:49', 'TI102134', 2, 1, 150000, 0),
-(17, '2014-06-14 10:09:00', 'KA131002', 3, 1, 3400000, 1),
-(18, '2014-06-14 10:09:37', 'KA131002', 3, 1, 3400000, 2),
-(19, '2014-06-14 14:57:34', 'ti102134', 10, 1, 100000, 0),
-(20, '2018-01-09 12:19:39', 'KA131002', 3, 1, 500000, 3),
-(21, '2018-01-09 12:20:30', 'KA131002', 9, 1, 100000, 0),
-(23, '2018-07-01 11:34:27', '2048', 4, 1, 1000000, 0),
 (29, '2018-07-21 20:46:55', '2048', 2, 1, 200000, 0),
-(30, '2018-07-21 20:48:12', '2048', 7, 1, 100000, 0),
-(31, '2018-07-25 12:51:02', '2048', 1, 1, 200000, 0);
+(37, '2018-08-01 21:13:37', '2047', 1, 1, 200000, 1),
+(40, '2018-08-01 21:37:11', '2047', 1, 1, 200000, 2),
+(45, '2018-08-01 21:54:58', '2047', 5, 1, 140000, 0),
+(51, '2018-08-03 16:58:28', '2048', 1, 1, 200000, 1),
+(52, '2018-08-03 16:59:59', '2048', 4, 1, 90000, 0),
+(53, '2018-08-07 19:23:39', '2047', 2, 1, 75000, 0),
+(54, '2018-08-07 19:23:49', '2047', 2, 1, 300000, 0),
+(56, '2018-08-07 20:31:56', '2047', 5, 1, 140000, 1);
 
 -- --------------------------------------------------------
 
@@ -453,7 +449,7 @@ INSERT INTO `keuangan_pembayaran_detail` (`pembayara_detail_id`, `tanggal`, `nim
 -- Table structure for table `keuangan_transaksi`
 --
 
-CREATE TABLE IF NOT EXISTS `keuangan_transaksi` (
+CREATE TABLE `keuangan_transaksi` (
   `transaksi_id` int(11) NOT NULL,
   `tanggal` datetime NOT NULL,
   `nim` varchar(8) NOT NULL,
@@ -471,26 +467,26 @@ CREATE TABLE IF NOT EXISTS `keuangan_transaksi` (
 -- Table structure for table `mainmenu`
 --
 
-CREATE TABLE IF NOT EXISTS `mainmenu` (
-`id_mainmenu` int(11) NOT NULL,
+CREATE TABLE `mainmenu` (
+  `id_mainmenu` int(11) NOT NULL,
   `nama_mainmenu` varchar(100) NOT NULL,
-  `icon` varchar(30) NOT NULL,
+  `icon` varchar(60) NOT NULL,
   `aktif` enum('y','t') NOT NULL,
   `link` varchar(50) NOT NULL,
   `level` int(11) NOT NULL COMMENT '1= admin,2=jurusan,3 dosen'
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=43 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `mainmenu`
 --
 
 INSERT INTO `mainmenu` (`id_mainmenu`, `nama_mainmenu`, `icon`, `aktif`, `link`, `level`) VALUES
-(26, 'master data', 'fa fa-bar-chart-o', 'y', '#', 1),
-(29, 'keuangan', 'fa fa-money', 'y', '#', 1),
-(31, 'master data', 'fa fa-group', 'y', '#', 2),
-(40, 'biodata', 'fa fa-user', 'y', 'users/account', 3),
-(41, 'keuangan', 'fa fa-money', 'y', '#', 2),
-(42, 'setting', 'fa fa-qrcode', 'y', '#', 1);
+(26, 'master data', 'fa fa-bar-chart-o fa-lg', 'y', '#', 1),
+(29, 'keuangan', 'fa fa-money fa-lg', 'y', '#', 1),
+(31, 'master data', 'fa fa-group fa-lg', 'y', '#', 2),
+(40, 'biodata', '', 'y', 'users/account', 3),
+(41, 'keuangan', 'fa fa-money fa-lg', 'y', '#', 2),
+(42, 'setting', 'fa fa-cog fa-lg', 'y', '#', 1);
 
 -- --------------------------------------------------------
 
@@ -498,7 +494,7 @@ INSERT INTO `mainmenu` (`id_mainmenu`, `nama_mainmenu`, `icon`, `aktif`, `link`,
 -- Table structure for table `outbox`
 --
 
-CREATE TABLE IF NOT EXISTS `outbox` (
+CREATE TABLE `outbox` (
   `UpdatedInDB` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `InsertIntoDB` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `SendingDateTime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -508,14 +504,14 @@ CREATE TABLE IF NOT EXISTS `outbox` (
   `UDH` text,
   `Class` int(11) DEFAULT '-1',
   `TextDecoded` text NOT NULL,
-`ID` int(10) unsigned NOT NULL,
+  `ID` int(10) UNSIGNED NOT NULL,
   `MultiPart` enum('false','true') DEFAULT 'false',
   `RelativeValidity` int(11) DEFAULT '-1',
   `SenderID` varchar(255) DEFAULT NULL,
   `SendingTimeOut` timestamp NULL DEFAULT '0000-00-00 00:00:00',
   `DeliveryReport` enum('default','yes','no') DEFAULT 'default',
   `CreatorID` text NOT NULL
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=52 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `outbox`
@@ -540,13 +536,13 @@ INSERT INTO `outbox` (`UpdatedInDB`, `InsertIntoDB`, `SendingDateTime`, `Text`, 
 -- Table structure for table `outbox_multipart`
 --
 
-CREATE TABLE IF NOT EXISTS `outbox_multipart` (
+CREATE TABLE `outbox_multipart` (
   `Text` text,
   `Coding` enum('Default_No_Compression','Unicode_No_Compression','8bit','Default_Compression','Unicode_Compression') NOT NULL DEFAULT 'Default_No_Compression',
   `UDH` text,
   `Class` int(11) DEFAULT '-1',
   `TextDecoded` text,
-  `ID` int(10) unsigned NOT NULL DEFAULT '0',
+  `ID` int(10) UNSIGNED NOT NULL DEFAULT '0',
   `SequencePosition` int(11) NOT NULL DEFAULT '1'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -556,12 +552,12 @@ CREATE TABLE IF NOT EXISTS `outbox_multipart` (
 -- Table structure for table `pbk`
 --
 
-CREATE TABLE IF NOT EXISTS `pbk` (
-`ID` int(11) NOT NULL,
+CREATE TABLE `pbk` (
+  `ID` int(11) NOT NULL,
   `GroupID` int(11) NOT NULL DEFAULT '-1',
   `Name` text NOT NULL,
   `Number` text NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -569,10 +565,10 @@ CREATE TABLE IF NOT EXISTS `pbk` (
 -- Table structure for table `pbk_groups`
 --
 
-CREATE TABLE IF NOT EXISTS `pbk_groups` (
+CREATE TABLE `pbk_groups` (
   `Name` text NOT NULL,
-`ID` int(11) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `ID` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -580,7 +576,7 @@ CREATE TABLE IF NOT EXISTS `pbk_groups` (
 -- Table structure for table `phones`
 --
 
-CREATE TABLE IF NOT EXISTS `phones` (
+CREATE TABLE `phones` (
   `ID` text NOT NULL,
   `UpdatedInDB` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `InsertIntoDB` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -608,7 +604,7 @@ INSERT INTO `phones` (`ID`, `UpdatedInDB`, `InsertIntoDB`, `TimeOut`, `Send`, `R
 -- Table structure for table `sentitems`
 --
 
-CREATE TABLE IF NOT EXISTS `sentitems` (
+CREATE TABLE `sentitems` (
   `UpdatedInDB` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `InsertIntoDB` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `SendingDateTime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -620,7 +616,7 @@ CREATE TABLE IF NOT EXISTS `sentitems` (
   `SMSCNumber` varchar(20) NOT NULL DEFAULT '',
   `Class` int(11) NOT NULL DEFAULT '-1',
   `TextDecoded` text NOT NULL,
-  `ID` int(10) unsigned NOT NULL DEFAULT '0',
+  `ID` int(10) UNSIGNED NOT NULL DEFAULT '0',
   `SenderID` varchar(255) NOT NULL,
   `SequencePosition` int(11) NOT NULL DEFAULT '1',
   `Status` enum('SendingOK','SendingOKNoReport','SendingError','DeliveryOK','DeliveryFailed','DeliveryPending','DeliveryUnknown','Error') NOT NULL DEFAULT 'SendingOK',
@@ -662,7 +658,7 @@ INSERT INTO `sentitems` (`UpdatedInDB`, `InsertIntoDB`, `SendingDateTime`, `Deli
 -- Table structure for table `setting`
 --
 
-CREATE TABLE IF NOT EXISTS `setting` (
+CREATE TABLE `setting` (
   `id` int(11) NOT NULL,
   `nama_kampus` varchar(160) NOT NULL,
   `alamat_kampus` text NOT NULL,
@@ -682,11 +678,11 @@ INSERT INTO `setting` (`id`, `nama_kampus`, `alamat_kampus`, `telpon`) VALUES
 -- Table structure for table `student_angkatan`
 --
 
-CREATE TABLE IF NOT EXISTS `student_angkatan` (
-`angkatan_id` int(11) NOT NULL,
+CREATE TABLE `student_angkatan` (
+  `angkatan_id` int(11) NOT NULL,
   `keterangan` varchar(15) NOT NULL,
   `aktif` varchar(1) NOT NULL COMMENT 'y = aktif dan n = tidak'
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `student_angkatan`
@@ -702,8 +698,8 @@ INSERT INTO `student_angkatan` (`angkatan_id`, `keterangan`, `aktif`) VALUES
 -- Table structure for table `student_siswa`
 --
 
-CREATE TABLE IF NOT EXISTS `student_siswa` (
-`siswa_id` int(11) NOT NULL,
+CREATE TABLE `student_siswa` (
+  `siswa_id` int(11) NOT NULL,
   `nim` varchar(13) NOT NULL,
   `nama` varchar(50) NOT NULL,
   `prodi_id` int(2) NOT NULL,
@@ -725,7 +721,7 @@ CREATE TABLE IF NOT EXISTS `student_siswa` (
   `penghasilan_ayah` int(11) NOT NULL,
   `penghasilan_ibu` int(11) NOT NULL,
   `semester_aktif` int(11) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=276 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `student_siswa`
@@ -733,7 +729,7 @@ CREATE TABLE IF NOT EXISTS `student_siswa` (
 
 INSERT INTO `student_siswa` (`siswa_id`, `nim`, `nama`, `prodi_id`, `kelas_id`, `angkatan_id`, `alamat`, `semester`, `gender`, `agama_id`, `tempat_lahir`, `tanggal_lahir`, `nama_ibu`, `nama_ayah`, `no_hp_ortu`, `pekerjaan_id_ibu`, `pekerjaan_id_ayah`, `alamat_ayah`, `alamat_ibu`, `penghasilan_ayah`, `penghasilan_ibu`, `semester_aktif`) VALUES
 (1, '2046', 'ABID MUNSHIF RAFI', 1, 1, 3, 'KARANGAYAM GG PELABUHAN 70A SIDOARJO', 0, '1', 1, 'Sidoarjo', '0000-00-00', 'IRMA ISNAINI', 'BINTANG HERMAWAN', '085655366741', 1, 6, 'KARANGAYAM GG PELABUHAN 70A SIDOARJO', 'KARANGAYAM GG PELABUHAN 70A SIDOARJO', 0, 0, 0),
-(2, '2047', 'ADAM SETYA PRATAMA', 1, 1, 3, 'PERUM SURYA ASRI I BLOK C3 NO 16 36/03 SIDOKEPUNG BUDURAN', 0, '1', 1, 'Sidoarjo', '0000-00-00', 'NATALIA DINIK DEWAYANI', 'SETIYO WAHYUDI', '85101294041', 1, 6, 'PERUM SURYA ASRI I BLOK C3 NO 16 36/03 SIDOKEPUNG BUDURAN', 'PERUM SURYA ASRI I BLOK C3 NO 16 36/03 SIDOKEPUNG BUDURAN', 0, 0, 0),
+(2, '2047', 'ADAM SETYA PRATAMA', 1, 1, 3, 'PERUM SURYA ASRI I BLOK C3 NO 16 36/03 SIDOKEPUNG BUDURAN', 0, '1', 1, 'Sidoarjo', '0000-00-00', 'NATALIA DINIK DEWAYANI', 'SETIYO WAHYUDI', '85101294041', 1, 6, 'PERUM SURYA ASRI I BLOK C3 NO 16 36/03 SIDOKEPUNG BUDURAN', 'PERUM SURYA ASRI I BLOK C3 NO 16 36/03 SIDOKEPUNG BUDURAN', 0, 0, 1),
 (3, '2048', 'AHILLAH HALIMATUS HAWA', 1, 1, 3, 'PERUM GRAHA POS PROPERINDO CA-08 ', 0, '2', 1, 'Sidoarjo', '0000-00-00', 'EVI ANDRIANI', 'DHANI WIBOWO, SE', '85231848468', 1, 5, 'PERUM GRAHA POS PROPERINDO CA-08 ', 'PERUM GRAHA POS PROPERINDO CA-08 ', 0, 0, 0),
 (4, '2049', 'AIDIN FERARISTA ZAKARIYAH', 1, 1, 3, 'PERUM SURYA ASRI I BLOK B6 NO.08 RT.44/03 SIDOKEPUNG BUDURAN ', 0, '1', 1, 'Sidoarjo', '0000-00-00', 'WIWIT WIDOWATI', 'RUDY HARTONO', '8123524515', 1, 6, 'PERUM SURYA ASRI I BLOK B6 NO.08 RT.44/03 SIDOKEPUNG BUDURAN ', 'PERUM SURYA ASRI I BLOK B6 NO.08 RT.44/03 SIDOKEPUNG BUDURAN ', 0, 0, 0),
 (5, '2050', 'ALFITRAH ARDANA PUTRA', 1, 1, 3, 'PANDEAN RT.01 RW.01 BUDURAN-SIDOARJO', 0, '1', 1, 'Sidoarjo', '0000-00-00', 'NURHAYANI', 'R. IRWAN SATRIO', '8135711746', 1, 99, 'PANDEAN RT.01 RW.01 BUDURAN-SIDOARJO', 'PANDEAN RT.01 RW.01 BUDURAN-SIDOARJO', 0, 0, 0),
@@ -744,7 +740,7 @@ INSERT INTO `student_siswa` (`siswa_id`, `nim`, `nama`, `prodi_id`, `kelas_id`, 
 (10, '2055', 'CANTICCA NOVIANA', 1, 1, 3, 'GAJAH MAGERSARI 16/05 SIDOARJO', 0, '2', 2, 'Sidoarjo', '0000-00-00', 'ANNA FITRIA', 'ANTOK ARIYANTO', '82230886174', 1, 9, 'GAJAH MAGERSARI 16/05 SIDOARJO', 'GAJAH MAGERSARI 16/05 SIDOARJO', 0, 0, 0),
 (11, '2056', 'DEWI SUKMA FII AMANILLAH', 1, 1, 3, 'JL. PAHLAWAN GOR DELTA KAV.28 MAGERSARI-SIDOARJO', 0, '2', 1, 'Sidoarjo', '0000-00-00', 'SRI ANDAYANI', 'MAHMUDI', '8563063147', 1, 9, 'JL. PAHLAWAN GOR DELTA KAV.28 MAGERSARI-SIDOARJO', 'JL. PAHLAWAN GOR DELTA KAV.28 MAGERSARI-SIDOARJO', 0, 0, 0),
 (12, '2057', 'DWITA AYU NIRMALA ', 1, 1, 3, 'PAGERWOJO RT.04/04 PAGERWOJO-SIDOARJO', 0, '2', 1, 'Sidoarjo', '0000-00-00', 'AYUTIK', 'EDI SUDARWANTO', '89674180352', 1, 6, 'PAGERWOJO RT.04/04 PAGERWOJO-SIDOARJO', 'PAGERWOJO RT.04/04 PAGERWOJO-SIDOARJO', 0, 0, 0),
-(13, '2058', 'FAIZ AGENG PRATAMA', 1, 1, 3, 'PANDEAN 05/01 BANJARKEMANTREN', 0, '1', 1, 'Sidoarjo', '0000-00-00', 'HENI SOELISTIYOWATI', 'RIFA''I', '81330167691', 1, 6, 'PANDEAN 05/01 BANJARKEMANTREN', 'PANDEAN 05/01 BANJARKEMANTREN', 0, 0, 0),
+(13, '2058', 'FAIZ AGENG PRATAMA', 1, 1, 3, 'PANDEAN 05/01 BANJARKEMANTREN', 0, '1', 1, 'Sidoarjo', '0000-00-00', 'HENI SOELISTIYOWATI', 'RIFA\'I', '81330167691', 1, 6, 'PANDEAN 05/01 BANJARKEMANTREN', 'PANDEAN 05/01 BANJARKEMANTREN', 0, 0, 0),
 (14, '2059', 'FERRARI SHEVKIANO DJAMIR', 1, 1, 3, 'PERUM AL CANDI L3 NO.15 CANDI - SIDOARJO', 0, '1', 1, 'Sidoarjo', '0000-00-00', 'IRA KUSUMA DEWI', 'JULIANDRE CHANIAGO', '81216798089', 1, 9, 'PERUM AL CANDI L3 NO.15 CANDI - SIDOARJO', 'PERUM AL CANDI L3 NO.15 CANDI - SIDOARJO', 0, 0, 0),
 (15, '2060', 'HYMTA ALEXANDER NUGRAHA KADANG', 1, 1, 3, 'PERUM THE TAMAN DHIKA BLOK BROMO F-12', 0, '1', 2, 'Sidoarjo', '0000-00-00', 'OKTAVIA MAHARANI', 'NICOLAS KADANG', '81357222458', 1, 6, 'PERUM THE TAMAN DHIKA BLOK BROMO F-12', 'PERUM THE TAMAN DHIKA BLOK BROMO F-12', 0, 0, 0),
 (16, '2061', 'JASSON HOSHI MACHIDA', 1, 1, 3, 'KEBOAN SIKEP 05/01 GEDANGAN', 0, '1', 1, 'Sidoarjo', '0000-00-00', 'IDA ULFAH', 'BAMBANG HARMINTO MACHIDA', '85954407963', 1, 6, 'KEBOAN SIKEP 05/01 GEDANGAN', 'KEBOAN SIKEP 05/01 GEDANGAN', 0, 0, 0),
@@ -783,7 +779,7 @@ INSERT INTO `student_siswa` (`siswa_id`, `nim`, `nama`, `prodi_id`, `kelas_id`, 
 (49, '02094', 'CHALITA DHUHA WISESA', 1, 2, 3, 'PERUM OMA PESONA BUDURAN BLOK G11/ NO.10 RT.37 RW.07 SIDOKEPUNG BUDURAN SIDOARJO', 0, '2', 1, 'SURABAYA', '0000-00-00', 'WIDIARTIN', 'AMARUDIN DJOKO SUSENO', '081233846421', 1, 10, 'PERUM OMA PESONA BUDURAN BLOK G11/ NO.10 RT.37 RW.07 SIDOKEPUNG BUDURAN SIDOARJO', 'PERUM OMA PESONA BUDURAN BLOK G11/ NO.10 RT.37 RW.07 SIDOKEPUNG BUDURAN SIDOARJO', 0, 0, 0),
 (50, '02095', 'DIAN ARDIANSYAH', 1, 2, 3, 'JL PASAR BUDURAN 10/04 BUDURAN', 0, '1', 1, 'Sidoarjo', '0000-00-00', 'SISWATI', 'DONI SUDIWUL', '081330002599', 1, 7, 'JL PASAR BUDURAN 10/04 BUDURAN', 'JL PASAR BUDURAN 10/04 BUDURAN', 0, 0, 0),
 (51, '02096', 'ELENA ZVONAREVA SALENUSSA', 1, 2, 3, 'BCF JL SEKAWAN WANGI 2A/30 BULU SIDOKARE ', 0, '2', 1, 'Sidoarjo', '0000-00-00', 'IKHA RINA YULIYANTI', 'NICOLAS SALENUSSA', '082232171623', 1, 5, 'BCF JL SEKAWAN WANGI 2A/30 BULU SIDOKARE ', 'BCF JL SEKAWAN WANGI 2A/30 BULU SIDOKARE ', 0, 0, 0),
-(52, '02097', 'FAJAR NUR ASHFIYA''', 1, 2, 3, 'GANTING RT.03 RW.01 GEDANGAN-SIDOARJO', 0, '1', 1, 'NGANJUK', '0000-00-00', 'RO''IKHATUL JANNAH', 'ABDUL WAHIB', '081235651950', 1, 10, 'GANTING RT.03 RW.01 GEDANGAN-SIDOARJO', 'GANTING RT.03 RW.01 GEDANGAN-SIDOARJO', 0, 0, 0),
+(52, '02097', 'FAJAR NUR ASHFIYA\'', 1, 2, 3, 'GANTING RT.03 RW.01 GEDANGAN-SIDOARJO', 0, '1', 1, 'NGANJUK', '0000-00-00', 'RO\'IKHATUL JANNAH', 'ABDUL WAHIB', '081235651950', 1, 10, 'GANTING RT.03 RW.01 GEDANGAN-SIDOARJO', 'GANTING RT.03 RW.01 GEDANGAN-SIDOARJO', 0, 0, 0),
 (53, '02098', 'FARHAN RADITYA SUHENDRO', 1, 2, 3, 'PONDOK JATI AL-22 SIDOARJO', 0, '1', 1, 'JAKARTA', '0000-00-00', 'HENNY WIBOWO', 'SUHENDRO DWI CAHYONO', '081311302816', 1, 5, 'PONDOK JATI AL-22 SIDOARJO', 'PONDOK JATI AL-22 SIDOARJO', 0, 0, 0),
 (54, '02099', 'FIFIN AULIA ALFIANTI', 1, 2, 3, 'SEDATI GEDE GG KELINCI 02/01 SEDATI', 0, '2', 1, 'Sidoarjo', '0000-00-00', 'SUSIANA', 'MOCHAMMAD ROEM', '0818322668', 1, 9, 'SEDATI GEDE GG KELINCI 02/01 SEDATI', 'SEDATI GEDE GG KELINCI 02/01 SEDATI', 0, 0, 0),
 (55, '02100', 'GIBRAN AQSHA HENDRAWAN', 1, 2, 3, 'Jl. SURABAYAN 1 NO.25 SURABAYA', 0, '1', 1, 'SURABAYA', '0000-00-00', 'RATNA PUSPITASARI', 'RISQKI HENDRAWAN', '081330613357', 1, 6, 'Jl. SURABAYAN 1 NO.25 SURABAYA', 'Jl. SURABAYAN 1 NO.25 SURABAYA', 0, 0, 0),
@@ -865,7 +861,7 @@ INSERT INTO `student_siswa` (`siswa_id`, `nim`, `nama`, `prodi_id`, `kelas_id`, 
 (131, '02176', 'FARHAN ZAHRIZAL', 1, 4, 3, 'PERUM CITRA SURYA MAS JLN KELAPA GADING BI-6 43/10 JUMPUT REJO SUKODONO', 0, '1', 1, 'SURAKARTA', '0000-00-00', 'DWI WAHYUNI', 'ZAHRI SURYA', '081915309184', 1, 6, 'PERUM CITRA SURYA MAS JLN KELAPA GADING BI-6 43/10 JUMPUT REJO SUKODONO', 'PERUM CITRA SURYA MAS JLN KELAPA GADING BI-6 43/10 JUMPUT REJO SUKODONO', 0, 0, 0),
 (132, '02177', 'FRISKA PUTRI MEILYASARI HANAFI', 1, 4, 3, 'PERUM JENGGOLO ASRI BLOK Q/7', 0, '2', 1, 'SURABAYA', '0000-00-00', 'FIROELLY NURIAH SOEBAGIO', 'MOCH. SYAIFUL HANAFI', '', 1, 6, 'PERUM JENGGOLO ASRI BLOK Q/7', 'PERUM JENGGOLO ASRI BLOK Q/7', 0, 0, 0),
 (133, '02178', 'HARLITA PUTRI FATIKHA SARI', 1, 4, 3, 'JL. JENGGOLO 1 01/02 PUCANG SIDOARJO', 0, '2', 1, 'SIDOARJO', '0000-00-00', 'HARTATIK', 'HARIANTO', '081235624112', 1, 6, 'JL. JENGGOLO 1 01/02 PUCANG SIDOARJO', 'JL. JENGGOLO 1 01/02 PUCANG SIDOARJO', 0, 0, 0),
-(134, '02179', 'IQBAL RAUL MU''IZUDDIN', 1, 4, 3, 'PENCANTINGAN 04/12 SEKARDANGAN', 0, '1', 1, 'SIDOARJO', '0000-00-00', 'IDA NURYANI', 'SETYO WIBOWO', '081231275700', 1, 9, 'PENCANTINGAN 04/12 SEKARDANGAN', 'PENCANTINGAN 04/12 SEKARDANGAN', 0, 0, 0),
+(134, '02179', 'IQBAL RAUL MU\'IZUDDIN', 1, 4, 3, 'PENCANTINGAN 04/12 SEKARDANGAN', 0, '1', 1, 'SIDOARJO', '0000-00-00', 'IDA NURYANI', 'SETYO WIBOWO', '081231275700', 1, 9, 'PENCANTINGAN 04/12 SEKARDANGAN', 'PENCANTINGAN 04/12 SEKARDANGAN', 0, 0, 0),
 (135, '02180', 'JUVENTINI INDAR PARAWANGSA', 1, 4, 3, 'GEDANGAN GG MERPATI 02/01 NO.27', 0, '2', 1, 'SIDOARJO', '0000-00-00', 'WANTI SULIKAH', 'YEPI ASKARI', '085708074694', 1, 6, 'GEDANGAN GG MERPATI 02/01 NO.27', 'GEDANGAN GG MERPATI 02/01 NO.27', 0, 0, 0),
 (136, '02181', 'LAURA BONITA', 1, 4, 3, 'PERUM MAGERSARI PERMAI D-5 SIDOARJO', 0, '2', 1, 'SURABAYA', '0000-00-00', 'SOELASTRI', 'ARIA CAKRA WIBAWA', '081332236257', 1, 5, 'PERUM MAGERSARI PERMAI D-5 SIDOARJO', 'PERUM MAGERSARI PERMAI D-5 SIDOARJO', 0, 0, 0),
 (137, '02182', 'MAHADHIKA SUKMANAWATI', 1, 4, 3, 'KOMPLEK TNI AL BIII/47 TEBEL ', 0, '1', 1, 'SURABAYA', '0000-00-00', 'SINTA WATI', 'SUKADI', '081330043094', 1, 5, 'KOMPLEK TNI AL BIII/47 TEBEL ', 'KOMPLEK TNI AL BIII/47 TEBEL ', 0, 0, 0),
@@ -886,7 +882,7 @@ INSERT INTO `student_siswa` (`siswa_id`, `nim`, `nama`, `prodi_id`, `kelas_id`, 
 (152, '02197', 'SATRIA NANDA YULIANSYAH', 1, 4, 3, 'KWADENGAN 02/01 LEMAHPUTRO', 0, '1', 1, 'SIDOARJO', '0000-00-00', 'BINTI ALKANA SARI', 'KARIADI', '081332069354', 1, 9, 'KWADENGAN 02/01 LEMAHPUTRO', 'KWADENGAN 02/01 LEMAHPUTRO', 0, 0, 0),
 (153, '02198', 'SHEVA RIZQ ATHALLAH', 1, 4, 3, 'KAHURIPAN BLOK AB7/3 13/06 CEMENGKALANG', 0, '1', 1, 'SIDOARJO', '0000-00-00', 'SRI HARYATI', 'KHALIMI', '085648585513', 1, 6, 'KAHURIPAN BLOK AB7/3 13/06 CEMENGKALANG', 'KAHURIPAN BLOK AB7/3 13/06 CEMENGKALANG', 0, 0, 0),
 (154, '02199', 'TIGRIS WIRYA NANDITA', 1, 4, 3, 'PERUM PARK ROYAL REGENCY BLOK H2 NO.17', 0, '1', 1, 'MADIUN', '0000-00-00', 'SUSIYAM', 'MARIKA LISTYA', '085231861758', 1, 9, 'PERUM PARK ROYAL REGENCY BLOK H2 NO.17', 'PERUM PARK ROYAL REGENCY BLOK H2 NO.17', 0, 0, 0),
-(155, '02200', 'WILDAN MAULANA ISHOM PUTRA', 1, 4, 3, 'PONDOK MUTIARA REGENCY BLOK MEJ-28 SIDOARJO', 0, '1', 1, 'SURABAYA', '0000-00-00', 'NUR KUSUMA DEWI', 'RENY I''TISHOM', '08121644432', 1, 9, 'PONDOK MUTIARA REGENCY BLOK MEJ-28 SIDOARJO', 'PONDOK MUTIARA REGENCY BLOK MEJ-28 SIDOARJO', 0, 0, 0),
+(155, '02200', 'WILDAN MAULANA ISHOM PUTRA', 1, 4, 3, 'PONDOK MUTIARA REGENCY BLOK MEJ-28 SIDOARJO', 0, '1', 1, 'SURABAYA', '0000-00-00', 'NUR KUSUMA DEWI', 'RENY I\'TISHOM', '08121644432', 1, 9, 'PONDOK MUTIARA REGENCY BLOK MEJ-28 SIDOARJO', 'PONDOK MUTIARA REGENCY BLOK MEJ-28 SIDOARJO', 0, 0, 0),
 (156, '02201', 'ZUHAY LAILATUS SARIFAH', 1, 4, 3, 'KLOPO SEPULUH 05/01 SUKODONO', 0, '2', 1, 'SIDOARJO', '0000-00-00', 'LAILATUL QODRIYAH', 'ULIL AMROZIK', '082233743699', 1, 6, 'KLOPO SEPULUH 05/01 SUKODONO', 'KLOPO SEPULUH 05/01 SUKODONO', 0, 0, 0),
 (157, '02202', 'ACHMAD FAIZ AFRIYANTO', 1, 5, 3, 'ANGGASWANGI 05/03', 0, '1', 1, 'SIDOARJO', '0000-00-00', 'SRI UTAMI', 'SYAIFUL HARIYANTO', '085850261142', 1, 6, 'ANGGASWANGI 05/03', 'ANGGASWANGI 05/03', 0, 0, 0),
 (158, '02203', 'ADITYA ANANTA PUTRA SUHERMANTO', 1, 5, 3, 'KEBOAN ANOM RT.01/08 KEBOAN ANOM GEDANGAN', 0, '1', 1, 'SIDOARJO', '0000-00-00', 'WIWIN MARDIANA', 'ONNY SUHERMANTO', '082245561567', 1, 6, 'KEBOAN ANOM RT.01/08 KEBOAN ANOM GEDANGAN', 'KEBOAN ANOM RT.01/08 KEBOAN ANOM GEDANGAN', 0, 0, 0),
@@ -927,7 +923,7 @@ INSERT INTO `student_siswa` (`siswa_id`, `nim`, `nama`, `prodi_id`, `kelas_id`, 
 (192, '02237', 'SILFIA AINUR ROCHMA', 1, 5, 3, 'JL PAHLAWAN TIGA NO. 37 RT. 30 RW.06 SIDOKUMPUL SIDOARJO', 0, '2', 1, 'SIDOARJO', '0000-00-00', 'SUSI TRI RACHMAWATI', 'MOCH. KHOTIM DL GHOZI', '081246403885', 1, 7, 'JL PAHLAWAN TIGA NO. 37 RT. 30 RW.06 SIDOKUMPUL SIDOARJO', 'JL PAHLAWAN TIGA NO. 37 RT. 30 RW.06 SIDOKUMPUL SIDOARJO', 0, 0, 0),
 (193, '02238', 'TIARA VANEZA ANGELINA', 1, 5, 3, 'PERUM GADING FAJAR 1 BLOK B5 NO.47 SIWALANPANJI BUDURAN-SIDOARJO', 0, '2', 1, 'SIDOARJO', '0000-00-00', 'ANIK WIJAYA WARAS', 'HENDRA L', '081357805190', 1, 6, 'PERUM GADING FAJAR 1 BLOK B5 NO.47 SIWALANPANJI BUDURAN-SIDOARJO', 'PERUM GADING FAJAR 1 BLOK B5 NO.47 SIWALANPANJI BUDURAN-SIDOARJO', 0, 0, 0),
 (194, '02239', 'YUDARSONO', 1, 5, 3, 'PERUM MAGERSARI PERMAI RT.32 RW.07 MAGERSARI-SIDOARJO', 0, '1', 1, 'NGAWI', '0000-00-00', 'SUPITRIANI', 'SIPITUNG', '081216348319', 1, 9, 'PERUM MAGERSARI PERMAI RT.32 RW.07 MAGERSARI-SIDOARJO', 'PERUM MAGERSARI PERMAI RT.32 RW.07 MAGERSARI-SIDOARJO', 0, 0, 0),
-(195, '02240', 'ZULFIKA NAULA SHAFA', 1, 5, 3, 'Jl. ERLANGGA 18/06 CELEP', 0, '2', 1, 'SIDOARJO', '0000-00-00', 'MAZRO''ATUL ILMIYAH', 'ABDUL ADHIM', '087854023300', 1, 9, 'Jl. ERLANGGA 18/06 CELEP', 'Jl. ERLANGGA 18/06 CELEP', 0, 0, 0),
+(195, '02240', 'ZULFIKA NAULA SHAFA', 1, 5, 3, 'Jl. ERLANGGA 18/06 CELEP', 0, '2', 1, 'SIDOARJO', '0000-00-00', 'MAZRO\'ATUL ILMIYAH', 'ABDUL ADHIM', '087854023300', 1, 9, 'Jl. ERLANGGA 18/06 CELEP', 'Jl. ERLANGGA 18/06 CELEP', 0, 0, 0),
 (196, '03000', 'BELLA SEPTYA PUTRI YAHYA', 1, 5, 3, 'Gg GALANGAN Rt 15 Rw 4 ENTALSEWU BUDURAN', 0, '2', 1, 'SIDOARJO', '0000-00-00', 'SRI RAHAYU', '-', '-', 1, 6, 'Gg GALANGAN Rt 15 Rw 4 ENTALSEWU BUDURAN', 'Gg GALANGAN Rt 15 Rw 4 ENTALSEWU BUDURAN', 0, 0, 0),
 (197, '02241', 'ACHMAD MAULANA RASYID', 1, 6, 3, 'Jl. PEPELEGI INDAH BLOK A/13 WARU', 0, '1', 1, 'SIDOARJO', '0000-00-00', 'LASTARININGSIH', 'ANDIE RUSTANTO', '081331140904', 1, 6, 'Jl. PEPELEGI INDAH BLOK A/13 WARU', 'Jl. PEPELEGI INDAH BLOK A/13 WARU', 0, 0, 0),
 (198, '02242', 'ADITYA NOVAL PRATAMA', 1, 6, 3, 'PERUM GRAHA KUNCARA C18 RT.12 RW.04, KEMIRI-BUDURAN', 0, '1', 1, 'TUBAN', '0000-00-00', 'NUR HASANAH', 'SUPRAYITNO', '089653387621', 1, 9, 'PERUM GRAHA KUNCARA C18 RT.12 RW.04, KEMIRI-BUDURAN', 'PERUM GRAHA KUNCARA C18 RT.12 RW.04, KEMIRI-BUDURAN', 0, 0, 0),
@@ -939,8 +935,8 @@ INSERT INTO `student_siswa` (`siswa_id`, `nim`, `nama`, `prodi_id`, `kelas_id`, 
 (204, '02248', 'AVIF WILDAN CAHYO', 1, 6, 3, 'PERUM BLURU PERMAI BLOK-CD 11 RT.03 RW.10 BLURU KIDUL SIDOARJO', 0, '1', 1, 'SIDOARJO', '0000-00-00', 'MARIYAMA', 'AKHMAD MARZUKI', '081216781329', 1, 6, 'PERUM BLURU PERMAI BLOK-CD 11 RT.03 RW.10 BLURU KIDUL SIDOARJO', 'PERUM BLURU PERMAI BLOK-CD 11 RT.03 RW.10 BLURU KIDUL SIDOARJO', 0, 0, 0),
 (205, '02249', 'BILKIS PANDORA SALSABILA', 1, 6, 3, 'PERI TERATAI BLOK JA-32 05/08 SIDOARJO', 0, '2', 1, 'PASURUAN', '0000-00-00', 'YULI ISMAWATI', 'AGUS NOVENDRAYANTO', '081230064050', 1, 6, 'PERI TERATAI BLOK JA-32 05/08 SIDOARJO', 'PERI TERATAI BLOK JA-32 05/08 SIDOARJO', 0, 0, 0),
 (206, '02250', 'DANIEL NOVLAND', 1, 6, 3, 'DIAN REGENCY SUKODONO ANUGERAH III/25 RT.63 RW.14 KEBON AGUNG, SUKODONO-SIDOARJO', 0, '1', 2, 'SIDOARJO', '0000-00-00', 'DHIMAS DESTYA UTAMININGTYAS', 'DJOKO NOFTANTO', '031-99036363', 1, 9, 'DIAN REGENCY SUKODONO ANUGERAH III/25 RT.63 RW.14 KEBON AGUNG, SUKODONO-SIDOARJO', 'DIAN REGENCY SUKODONO ANUGERAH III/25 RT.63 RW.14 KEBON AGUNG, SUKODONO-SIDOARJO', 0, 0, 0),
-(207, '02251', 'DWI CHANDRA ARDI SYAHPUTRA', 1, 6, 3, 'Jl. JENGGOLO 3 NO.63 SIDOARJO', 0, '1', 1, 'SIDOARJO', '0000-00-00', 'BIBIT SUPRIATIN', 'NUR ARBA''A YUSRON', '081235117555', 1, 6, 'Jl. JENGGOLO 3 NO.63 SIDOARJO', 'Jl. JENGGOLO 3 NO.63 SIDOARJO', 0, 0, 0),
-(208, '02252', 'EVERT NATHAN DE''FLEA', 1, 6, 3, 'PONDOK JATI 2 BLOK-AT RT.31 RW.07 PAGERWOJO BUDURAN-SIDOARJO', 0, '1', 2, 'SIDOARJO', '0000-00-00', 'CRISTY KARNADI', 'BAGUS PAMUNGKAS', '081290307880', 1, 9, 'PONDOK JATI 2 BLOK-AT RT.31 RW.07 PAGERWOJO BUDURAN-SIDOARJO', 'PONDOK JATI 2 BLOK-AT RT.31 RW.07 PAGERWOJO BUDURAN-SIDOARJO', 0, 0, 0),
+(207, '02251', 'DWI CHANDRA ARDI SYAHPUTRA', 1, 6, 3, 'Jl. JENGGOLO 3 NO.63 SIDOARJO', 0, '1', 1, 'SIDOARJO', '0000-00-00', 'BIBIT SUPRIATIN', 'NUR ARBA\'A YUSRON', '081235117555', 1, 6, 'Jl. JENGGOLO 3 NO.63 SIDOARJO', 'Jl. JENGGOLO 3 NO.63 SIDOARJO', 0, 0, 0),
+(208, '02252', 'EVERT NATHAN DE\'FLEA', 1, 6, 3, 'PONDOK JATI 2 BLOK-AT RT.31 RW.07 PAGERWOJO BUDURAN-SIDOARJO', 0, '1', 2, 'SIDOARJO', '0000-00-00', 'CRISTY KARNADI', 'BAGUS PAMUNGKAS', '081290307880', 1, 9, 'PONDOK JATI 2 BLOK-AT RT.31 RW.07 PAGERWOJO BUDURAN-SIDOARJO', 'PONDOK JATI 2 BLOK-AT RT.31 RW.07 PAGERWOJO BUDURAN-SIDOARJO', 0, 0, 0),
 (209, '02253', 'FAWASS AYDHIN HILMY RAFFA', 1, 6, 3, 'PERUM JADE VILLE SIDOKEPUNG, BUDURAN-SIDOARJO', 0, '1', 1, 'SIDOARJO', '0000-00-00', 'ENY SULISTYOWATI', 'ALIM SUDARMANTO', '082330735375', 1, 6, 'PERUM JADE VILLE SIDOKEPUNG, BUDURAN-SIDOARJO', 'PERUM JADE VILLE SIDOKEPUNG, BUDURAN-SIDOARJO', 0, 0, 0),
 (210, '02254', 'GALIH SATRIA DHARMAWAN', 1, 6, 3, 'PERUM CITRA SURYA MAS BLOK G/20 RT.39 RW.10 JUMPUTREJO SUKODONO', 0, '1', 1, 'BOJONEGORO', '0000-00-00', 'MYLINA SARI DEWI', 'BUDI HARTADI', '081141614810', 1, 6, 'PERUM CITRA SURYA MAS BLOK G/20 RT.39 RW.10 JUMPUTREJO SUKODONO', 'PERUM CITRA SURYA MAS BLOK G/20 RT.39 RW.10 JUMPUTREJO SUKODONO', 0, 0, 0),
 (211, '02255', 'HILWA RAISA SOCHEH', 1, 6, 3, 'KUPANG KIDUL 01/04 JABON', 0, '2', 1, 'SIDOARJO', '0000-00-00', 'IIN ZAINAH AUDAH', 'SOCHEH CHUSNAN ', '081234534975', 1, 6, 'KUPANG KIDUL 01/04 JABON', 'KUPANG KIDUL 01/04 JABON', 0, 0, 0),
@@ -949,9 +945,9 @@ INSERT INTO `student_siswa` (`siswa_id`, `nim`, `nama`, `prodi_id`, `kelas_id`, 
 (214, '02258', 'LUH PUTU RESTIANA WULANDARI', 1, 6, 3, 'Jl. BALAI DESA GG V NO.40 01/02 TEBEL BARAT', 0, '2', 5, 'SIDOARJO', '0000-00-00', 'DESAK NYOMAN PRIMAYANTI', 'I NYOMAN BUDI WIJANA', '081230812579', 1, 6, 'Jl. BALAI DESA GG V NO.40 01/02 TEBEL BARAT', 'Jl. BALAI DESA GG V NO.40 01/02 TEBEL BARAT', 0, 0, 0),
 (215, '02259', 'MARIA DWI SUCIATI', 1, 6, 3, 'SLAUTAN 16/03 NO.27 SIDOKUMPUL ', 0, '2', 1, 'SIDOARJO', '0000-00-00', 'HERNI RIWAYATI', 'SUPRIYANTO', '081216253893', 1, 6, 'SLAUTAN 16/03 NO.27 SIDOKUMPUL ', 'SLAUTAN 16/03 NO.27 SIDOKUMPUL ', 0, 0, 0),
 (216, '02260', 'MICHELLIA IKA ANGGREANI', 1, 6, 3, 'PERUM GADING KIRANA ESTATE D12A', 0, '2', 1, 'SIDOARJO', '0000-00-00', 'YUNI KRISTIANI', 'ACHMAD YANI', '089699254857', 1, 6, 'PERUM GADING KIRANA ESTATE D12A', 'PERUM GADING KIRANA ESTATE D12A', 0, 0, 0),
-(217, '02261', 'MOCH. YANUAR', 1, 6, 3, 'BANJAR KEMANTREN RT/07/02 JAMBE BUDURAN', 0, '1', 1, 'SIDOARJO', '0000-00-00', 'SITI FAT''AH', 'MOCH. IMRON', '081216514733', 1, 66, 'BANJAR KEMANTREN RT/07/02 JAMBE BUDURAN', 'BANJAR KEMANTREN RT/07/02 JAMBE BUDURAN', 0, 0, 0),
+(217, '02261', 'MOCH. YANUAR', 1, 6, 3, 'BANJAR KEMANTREN RT/07/02 JAMBE BUDURAN', 0, '1', 1, 'SIDOARJO', '0000-00-00', 'SITI FAT\'AH', 'MOCH. IMRON', '081216514733', 1, 66, 'BANJAR KEMANTREN RT/07/02 JAMBE BUDURAN', 'BANJAR KEMANTREN RT/07/02 JAMBE BUDURAN', 0, 0, 0),
 (218, '02262', 'MOHAMMAD FAISAL ARDIANSYAH', 1, 6, 3, 'KEMIRI 5/2 SIDOARJO', 0, '1', 1, 'SIDOARJO', '0000-00-00', 'KHOIROTIN', 'MUSAFAK', '085843463927', 1, 6, 'KEMIRI 5/2 SIDOARJO', 'KEMIRI 5/2 SIDOARJO', 0, 0, 0),
-(219, '02263', 'MUHAMMAD AGUNG RIZKIANTO', 1, 6, 3, 'KARANGGAYAM GG PELABUHAN NO.11 17/04 SIDOARJO', 0, '1', 1, 'SIDOARJO', '0000-00-00', 'SHOLICHATUL MU''AWANAH', 'MULYONO', '081216595340', 1, 9, 'KARANGGAYAM GG PELABUHAN NO.11 17/04 SIDOARJO', 'KARANGGAYAM GG PELABUHAN NO.11 17/04 SIDOARJO', 0, 0, 0),
+(219, '02263', 'MUHAMMAD AGUNG RIZKIANTO', 1, 6, 3, 'KARANGGAYAM GG PELABUHAN NO.11 17/04 SIDOARJO', 0, '1', 1, 'SIDOARJO', '0000-00-00', 'SHOLICHATUL MU\'AWANAH', 'MULYONO', '081216595340', 1, 9, 'KARANGGAYAM GG PELABUHAN NO.11 17/04 SIDOARJO', 'KARANGGAYAM GG PELABUHAN NO.11 17/04 SIDOARJO', 0, 0, 0),
 (220, '02264', 'MUHAMMAD FARHAN', 1, 6, 3, 'BLURU KIDUL 01/03 SIDOARJO', 0, '1', 1, 'SIDOARJO', '0000-00-00', 'JAMINAH', 'MUJIONO', '081330728300', 1, 8, 'BLURU KIDUL 01/03 SIDOARJO', 'BLURU KIDUL 01/03 SIDOARJO', 0, 0, 0),
 (221, '02265', 'MUHAMMAD SYARIPUDIN HIDAYATULLOH', 1, 6, 3, 'Jl. SENTANA GG V 10/05 TEBEL ', 0, '1', 1, 'SIDOARJO', '0000-00-00', 'ISRORI HINDUN', 'HERI SUBAGIYO', '081553957602', 1, 6, 'Jl. SENTANA GG V 10/05 TEBEL ', 'Jl. SENTANA GG V 10/05 TEBEL ', 0, 0, 0),
 (222, '02266', 'NANDA DWI KUMARA', 1, 6, 3, 'PAGERWOJO 15/04 BUDURAN', 0, '1', 1, 'SIDOARJO', '0000-00-00', 'NURUL CHONISAH', 'DWI YUDIKARTO', '082281115711', 1, 6, 'PAGERWOJO 15/04 BUDURAN', 'PAGERWOJO 15/04 BUDURAN', 0, 0, 0),
@@ -967,7 +963,7 @@ INSERT INTO `student_siswa` (`siswa_id`, `nim`, `nama`, `prodi_id`, `kelas_id`, 
 (232, '02276', 'TALITHA AUREL', 1, 6, 3, 'PURI SURYA JAYA SIDNEY GARDEN L9/05 RT.02 RW.07 PUNGGUL GEDANGAN SIDOARJO', 0, '2', 1, 'SURABAYA', '0000-00-00', 'HENDRIYANI', 'ENDY AUGUST', '081331060083', 1, 6, 'PURI SURYA JAYA SIDNEY GARDEN L9/05 RT.02 RW.07 PUNGGUL GEDANGAN SIDOARJO', 'PURI SURYA JAYA SIDNEY GARDEN L9/05 RT.02 RW.07 PUNGGUL GEDANGAN SIDOARJO', 0, 0, 0),
 (233, '02277', 'YANUAR TRI PRASETYA', 1, 6, 3, 'PERUM MAGERSARI BLOK.AO MAGERSARI-SIDOARJO', 0, '1', 1, 'SURABAYA', '0000-00-00', 'HANAKATI', 'AGUS SUROSO', '085100945447', 1, 6, 'PERUM MAGERSARI BLOK.AO MAGERSARI-SIDOARJO', 'PERUM MAGERSARI BLOK.AO MAGERSARI-SIDOARJO', 0, 0, 0),
 (234, '02278', 'ZAHRA SAFI RAMADHANI', 1, 6, 3, 'PERUM KARANG INDAH BLOK B NO.11 KARANGBONG, GEDANGAN-SIDOARJO', 0, '2', 1, 'SURABAYA', '0000-00-00', 'MISNI PUJI ASTUTI', 'KHOIRUL HUDA', '082257080564', 1, 6, 'PERUM KARANG INDAH BLOK B NO.11 KARANGBONG, GEDANGAN-SIDOARJO', 'PERUM KARANG INDAH BLOK B NO.11 KARANGBONG, GEDANGAN-SIDOARJO', 0, 0, 0),
-(235, '02279', 'ZULFIKAR AMROH', 1, 6, 3, 'KARANGBONG RT 03 RW 02', 0, '1', 1, 'SIDOARJO', '0000-00-00', 'MU''ALLAFAH', 'BUDI ERMAWAN', '082244685594', 1, 6, 'KARANGBONG RT 03 RW 02', 'KARANGBONG RT 03 RW 02', 0, 0, 0),
+(235, '02279', 'ZULFIKAR AMROH', 1, 6, 3, 'KARANGBONG RT 03 RW 02', 0, '1', 1, 'SIDOARJO', '0000-00-00', 'MU\'ALLAFAH', 'BUDI ERMAWAN', '082244685594', 1, 6, 'KARANGBONG RT 03 RW 02', 'KARANGBONG RT 03 RW 02', 0, 0, 0),
 (236, '02280', 'ADAM GASSYA JOEWORO', 1, 7, 3, 'TAMAN HEDONA REGENCY B2-2 14/06 PRASUNG BUDURAN', 0, '1', 1, 'MALANG', '0000-00-00', 'SITI CHOTIJAH MEGA L', 'JB SUSILO', '082245426344', 1, 9, 'TAMAN HEDONA REGENCY B2-2 14/06 PRASUNG BUDURAN', 'TAMAN HEDONA REGENCY B2-2 14/06 PRASUNG BUDURAN', 0, 0, 0),
 (237, '02281', 'AFRIZA EKA RISKY FIRGIANSYAH', 1, 7, 3, 'SIWALANPANJI 13/04 BUDURAN', 0, '1', 1, 'SURABAYA', '0000-00-00', 'MAGHFIROTUN NASUKHA', 'BAMBANG SUGIANTO', '08155177015', 1, 6, 'SIWALANPANJI 13/04 BUDURAN', 'SIWALANPANJI 13/04 BUDURAN', 0, 0, 0),
 (238, '02282', 'AHMAD ALDI FIRMANSYAH NASUTION', 1, 7, 3, 'PERUM GEBANG RAYA BLOK AF20 RT22 RW06', 0, '1', 1, 'DEPOK', '0000-00-00', 'LATIFAH', 'BISMAR NASUTION', '087851570243', 1, 6, 'PERUM GEBANG RAYA BLOK AF20 RT22 RW06', 'PERUM GEBANG RAYA BLOK AF20 RT22 RW06', 0, 0, 0),
@@ -1015,34 +1011,34 @@ INSERT INTO `student_siswa` (`siswa_id`, `nim`, `nama`, `prodi_id`, `kelas_id`, 
 -- Table structure for table `submenu`
 --
 
-CREATE TABLE IF NOT EXISTS `submenu` (
-`id_submenu` int(11) NOT NULL,
+CREATE TABLE `submenu` (
+  `id_submenu` int(11) NOT NULL,
   `id_mainmenu` int(11) NOT NULL,
   `nama_submenu` varchar(50) NOT NULL,
   `link` varchar(50) NOT NULL,
   `aktif` enum('y','t') NOT NULL,
   `icon` varchar(30) NOT NULL,
   `level` int(11) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=99 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `submenu`
 --
 
 INSERT INTO `submenu` (`id_submenu`, `id_mainmenu`, `nama_submenu`, `link`, `aktif`, `icon`, `level`) VALUES
-(10, 26, 'siswa', 'siswa', 'y', 'fa fa-group', 1),
-(20, 26, 'jenis pembayaran', 'jenisbayar', 'y', 'fa fa-puzzle-piece', 1),
-(21, 26, 'biaya sekolah', 'setupbiaya', 'y', 'fa fa-money', 1),
-(79, 29, 'form pembayaran', 'keuangan/pembayaran', 'y', 'fa fa-coins', 1),
-(89, 26, 'tahun angkatan', 'tahunangkatan', 'y', 'fa fa-calendar', 1),
-(91, 41, 'form pembayaran', 'keuangan/pembayaran', 'y', 'fa fa-coins', 2),
-(92, 41, 'laporan keuangan', 'keuangan/laporan', 'y', 'fa fa-notes_2', 2),
-(93, 29, 'laporan keuangan', 'keuangan/laporan', 'y', 'fa fa-notes_2', 1),
-(94, 42, 'data sekolah', 'setting', 'y', '', 1),
-(95, 42, 'pengguna sistem', 'users', 'y', '', 1),
-(96, 31, 'siswa', 'siswa', 'y', 'fa fa-group', 2),
-(97, 31, 'biaya sekolah', 'setupbiaya', 'y', 'fa fa-money', 2),
-(98, 31, 'tahun angkatan', 'tahunangkatan', 'y', 'fa fa-calendar', 2);
+(10, 26, 'siswa', 'siswa', 'y', 'fa fa-group fa-lg', 1),
+(20, 26, 'jenis pembayaran', 'jenisbayar', 'y', 'fa fa-tasks fa-lg', 1),
+(21, 26, 'biaya sekolah', 'setupbiaya', 'y', 'fa fa-money fa-lg', 1),
+(79, 29, 'form pembayaran', 'keuangan/pembayaran', 'y', 'fa fa-file fa-lg', 1),
+(89, 26, 'tahun angkatan', 'tahunangkatan', 'y', 'fa fa-calendar fa-lg', 1),
+(91, 41, 'form pembayaran', 'keuangan/pembayaran', 'y', 'fa fa-file fa-lg', 2),
+(92, 41, 'laporan keuangan', 'keuangan', 'y', 'fa fa-paste fa-lg', 2),
+(93, 29, 'laporan keuangan', 'keuangan', 'y', 'fa fa-paste fa-lg', 1),
+(94, 42, 'data sekolah', 'setting', 'y', 'fa fa-home fa-lg', 1),
+(95, 42, 'pengguna sistem', 'users', 'y', 'fa fa-wrench fa-lg', 1),
+(96, 31, 'siswa', 'siswa', 'y', 'fa fa-group fa-lg', 2),
+(97, 31, 'biaya sekolah', 'setupbiaya', 'y', 'fa fa-money fa-lg', 2),
+(98, 31, 'tahun angkatan', 'tahunangkatan', 'y', 'fa fa-calendar fa-lg', 2);
 
 -- --------------------------------------------------------
 
@@ -1050,13 +1046,13 @@ INSERT INTO `submenu` (`id_submenu`, `id_mainmenu`, `nama_submenu`, `link`, `akt
 -- Table structure for table `telegram`
 --
 
-CREATE TABLE IF NOT EXISTS `telegram` (
-`id` int(9) NOT NULL,
+CREATE TABLE `telegram` (
+  `id` int(9) NOT NULL,
   `chat_id` varchar(9) NOT NULL,
   `nis` varchar(13) NOT NULL,
   `tgl_daftar` date NOT NULL,
   `status` varchar(1) NOT NULL COMMENT 'y=aktif ,n=tdk aktif'
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `telegram`
@@ -1074,151 +1070,157 @@ INSERT INTO `telegram` (`id`, `chat_id`, `nis`, `tgl_daftar`, `status`) VALUES
 -- Indexes for table `akademik_konsentrasi`
 --
 ALTER TABLE `akademik_konsentrasi`
- ADD PRIMARY KEY (`konsentrasi_id`);
+  ADD PRIMARY KEY (`konsentrasi_id`);
 
 --
 -- Indexes for table `akademik_prodi`
 --
 ALTER TABLE `akademik_prodi`
- ADD PRIMARY KEY (`prodi_id`);
+  ADD PRIMARY KEY (`prodi_id`);
 
 --
 -- Indexes for table `akademik_tahun_akademik`
 --
 ALTER TABLE `akademik_tahun_akademik`
- ADD PRIMARY KEY (`tahun_akademik_id`);
+  ADD PRIMARY KEY (`tahun_akademik_id`);
 
 --
 -- Indexes for table `app_agama`
 --
 ALTER TABLE `app_agama`
- ADD PRIMARY KEY (`agama_id`);
+  ADD PRIMARY KEY (`agama_id`);
 
 --
 -- Indexes for table `app_dosen`
 --
 ALTER TABLE `app_dosen`
- ADD PRIMARY KEY (`dosen_id`);
+  ADD PRIMARY KEY (`dosen_id`);
 
 --
 -- Indexes for table `app_hari`
 --
 ALTER TABLE `app_hari`
- ADD PRIMARY KEY (`hari_id`);
+  ADD PRIMARY KEY (`hari_id`);
 
 --
 -- Indexes for table `app_kelas`
 --
 ALTER TABLE `app_kelas`
- ADD PRIMARY KEY (`kelas_id`);
+  ADD PRIMARY KEY (`kelas_id`);
 
 --
 -- Indexes for table `app_pekerjaan`
 --
 ALTER TABLE `app_pekerjaan`
- ADD PRIMARY KEY (`pekerjaan_id`);
+  ADD PRIMARY KEY (`pekerjaan_id`);
 
 --
 -- Indexes for table `app_users`
 --
 ALTER TABLE `app_users`
- ADD PRIMARY KEY (`id_users`);
+  ADD PRIMARY KEY (`id_users`);
 
 --
 -- Indexes for table `inbox`
 --
 ALTER TABLE `inbox`
- ADD PRIMARY KEY (`ID`);
+  ADD PRIMARY KEY (`ID`);
 
 --
 -- Indexes for table `keuangan_biaya_kuliah`
 --
 ALTER TABLE `keuangan_biaya_kuliah`
- ADD PRIMARY KEY (`biaya_kuliah_id`);
+  ADD PRIMARY KEY (`biaya_kuliah_id`);
 
 --
 -- Indexes for table `keuangan_jenis_bayar`
 --
 ALTER TABLE `keuangan_jenis_bayar`
- ADD PRIMARY KEY (`jenis_bayar_id`);
+  ADD PRIMARY KEY (`jenis_bayar_id`);
 
 --
 -- Indexes for table `keuangan_pembayaran`
 --
 ALTER TABLE `keuangan_pembayaran`
- ADD PRIMARY KEY (`pembayaran_id`);
+  ADD PRIMARY KEY (`pembayaran_id`);
 
 --
 -- Indexes for table `keuangan_pembayaran_detail`
 --
 ALTER TABLE `keuangan_pembayaran_detail`
- ADD PRIMARY KEY (`pembayara_detail_id`);
+  ADD PRIMARY KEY (`pembayara_detail_id`);
 
 --
 -- Indexes for table `mainmenu`
 --
 ALTER TABLE `mainmenu`
- ADD PRIMARY KEY (`id_mainmenu`);
+  ADD PRIMARY KEY (`id_mainmenu`);
 
 --
 -- Indexes for table `outbox`
 --
 ALTER TABLE `outbox`
- ADD PRIMARY KEY (`ID`), ADD KEY `outbox_date` (`SendingDateTime`,`SendingTimeOut`), ADD KEY `outbox_sender` (`SenderID`);
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `outbox_date` (`SendingDateTime`,`SendingTimeOut`),
+  ADD KEY `outbox_sender` (`SenderID`);
 
 --
 -- Indexes for table `outbox_multipart`
 --
 ALTER TABLE `outbox_multipart`
- ADD PRIMARY KEY (`ID`,`SequencePosition`);
+  ADD PRIMARY KEY (`ID`,`SequencePosition`);
 
 --
 -- Indexes for table `pbk`
 --
 ALTER TABLE `pbk`
- ADD PRIMARY KEY (`ID`);
+  ADD PRIMARY KEY (`ID`);
 
 --
 -- Indexes for table `pbk_groups`
 --
 ALTER TABLE `pbk_groups`
- ADD PRIMARY KEY (`ID`);
+  ADD PRIMARY KEY (`ID`);
 
 --
 -- Indexes for table `phones`
 --
 ALTER TABLE `phones`
- ADD PRIMARY KEY (`IMEI`);
+  ADD PRIMARY KEY (`IMEI`);
 
 --
 -- Indexes for table `sentitems`
 --
 ALTER TABLE `sentitems`
- ADD PRIMARY KEY (`ID`,`SequencePosition`), ADD KEY `sentitems_date` (`DeliveryDateTime`), ADD KEY `sentitems_tpmr` (`TPMR`), ADD KEY `sentitems_dest` (`DestinationNumber`), ADD KEY `sentitems_sender` (`SenderID`);
+  ADD PRIMARY KEY (`ID`,`SequencePosition`),
+  ADD KEY `sentitems_date` (`DeliveryDateTime`),
+  ADD KEY `sentitems_tpmr` (`TPMR`),
+  ADD KEY `sentitems_dest` (`DestinationNumber`),
+  ADD KEY `sentitems_sender` (`SenderID`);
 
 --
 -- Indexes for table `student_angkatan`
 --
 ALTER TABLE `student_angkatan`
- ADD PRIMARY KEY (`angkatan_id`);
+  ADD PRIMARY KEY (`angkatan_id`);
 
 --
 -- Indexes for table `student_siswa`
 --
 ALTER TABLE `student_siswa`
- ADD PRIMARY KEY (`siswa_id`);
+  ADD PRIMARY KEY (`siswa_id`);
 
 --
 -- Indexes for table `submenu`
 --
 ALTER TABLE `submenu`
- ADD PRIMARY KEY (`id_submenu`);
+  ADD PRIMARY KEY (`id_submenu`);
 
 --
 -- Indexes for table `telegram`
 --
 ALTER TABLE `telegram`
- ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -1228,97 +1230,97 @@ ALTER TABLE `telegram`
 -- AUTO_INCREMENT for table `akademik_konsentrasi`
 --
 ALTER TABLE `akademik_konsentrasi`
-MODIFY `konsentrasi_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=41;
+  MODIFY `konsentrasi_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 --
 -- AUTO_INCREMENT for table `akademik_prodi`
 --
 ALTER TABLE `akademik_prodi`
-MODIFY `prodi_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+  MODIFY `prodi_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `akademik_tahun_akademik`
 --
 ALTER TABLE `akademik_tahun_akademik`
-MODIFY `tahun_akademik_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+  MODIFY `tahun_akademik_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `app_dosen`
 --
 ALTER TABLE `app_dosen`
-MODIFY `dosen_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=35;
+  MODIFY `dosen_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 --
 -- AUTO_INCREMENT for table `app_hari`
 --
 ALTER TABLE `app_hari`
-MODIFY `hari_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+  MODIFY `hari_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `app_users`
 --
 ALTER TABLE `app_users`
-MODIFY `id_users` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
+  MODIFY `id_users` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `inbox`
 --
 ALTER TABLE `inbox`
-MODIFY `ID` int(10) unsigned NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `keuangan_biaya_kuliah`
 --
 ALTER TABLE `keuangan_biaya_kuliah`
-MODIFY `biaya_kuliah_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=49;
+  MODIFY `biaya_kuliah_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 --
 -- AUTO_INCREMENT for table `keuangan_jenis_bayar`
 --
 ALTER TABLE `keuangan_jenis_bayar`
-MODIFY `jenis_bayar_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+  MODIFY `jenis_bayar_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `keuangan_pembayaran`
 --
 ALTER TABLE `keuangan_pembayaran`
-MODIFY `pembayaran_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `pembayaran_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `keuangan_pembayaran_detail`
 --
 ALTER TABLE `keuangan_pembayaran_detail`
-MODIFY `pembayara_detail_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=32;
+  MODIFY `pembayara_detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
 --
 -- AUTO_INCREMENT for table `mainmenu`
 --
 ALTER TABLE `mainmenu`
-MODIFY `id_mainmenu` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=43;
+  MODIFY `id_mainmenu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 --
 -- AUTO_INCREMENT for table `outbox`
 --
 ALTER TABLE `outbox`
-MODIFY `ID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=52;
+  MODIFY `ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 --
 -- AUTO_INCREMENT for table `pbk`
 --
 ALTER TABLE `pbk`
-MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `pbk_groups`
 --
 ALTER TABLE `pbk_groups`
-MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `student_angkatan`
 --
 ALTER TABLE `student_angkatan`
-MODIFY `angkatan_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+  MODIFY `angkatan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `student_siswa`
 --
 ALTER TABLE `student_siswa`
-MODIFY `siswa_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=276;
+  MODIFY `siswa_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=276;
 --
 -- AUTO_INCREMENT for table `submenu`
 --
 ALTER TABLE `submenu`
-MODIFY `id_submenu` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=99;
+  MODIFY `id_submenu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=99;
 --
 -- AUTO_INCREMENT for table `telegram`
 --
 ALTER TABLE `telegram`
-MODIFY `id` int(9) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+  MODIFY `id` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
