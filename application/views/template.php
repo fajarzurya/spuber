@@ -115,61 +115,26 @@ if($this->session->userdata('id_users')=='')
 <!-- DataTables JavaScript -->
 <script src="<?php echo base_url(); ?>assets/datatables/datatables.min.js" type="text/javascript"></script>
 <script>
-	$('.date-picker').each(function(){
-		$(this).datepicker({
-			changeMonth: true,
-			format: 'yyyy-mm-dd',
-			changeYear: true
-			});
-	});
-	// $(function() {
-		// $( "#datepicker" ).datepicker({
-                // changeMonth: true,
-                // dateFormat: 'yy-mm-dd',
-                // changeYear: true
-                // });
+	
+	<!-- javascript for init -->
+$('.date-picker').each(function(){
+    $(this).datepicker({
+        templates:{
+            leftArrow: '<i class="now-ui-icons arrows-1_minimal-left"></i>',
+            rightArrow: '<i class="now-ui-icons arrows-1_minimal-right"></i>'
+        },
+		format: 'yyyy-mm-dd'
+    }).on('show', function() {
+            $('.datepicker').addClass('open');
 
-                // $( "#datepicker1" ).datepicker({
-                // changeMonth: true,
-                // dateFormat: 'yy-mm-dd',
-                // changeYear: true
-                // });
-
-                // $( "#datepicker2" ).datepicker({
-                // changeMonth: true,
-                // dateFormat: 'yy-mm-dd',
-                // changeYear: true
-                // });
-                // $( "#datepicker3" ).datepicker({
-                // changeMonth: true,
-                // dateFormat: 'yy-mm-dd',
-                // changeYear: true
-                // });
-
-                // $( "#datepicker4" ).datepicker({
-                // changeMonth: true,
-                // dateFormat: 'yy-mm-dd',
-                // changeYear: true
-                // });
-                
-                // $( "#datepicker5" ).datepicker({
-                // changeMonth: true,
-                // dateFormat: 'yy-mm-dd',
-                // changeYear: true
-                // });
-                
-                // $( "#datepicker6" ).datepicker({
-                // changeMonth: true,
-                // dateFormat: 'yy-mm-dd',
-                // changeYear: true
-                // });
-                
-                // $( "#datepicker7" ).datepicker({
-                // changeMonth: true,
-                // dateFormat: 'yy-mm-dd',
-                // changeYear: true
-                // });
-	// });
+            datepicker_color = $(this).data('datepicker-color');
+            if( datepicker_color.length != 0){
+                $('.datepicker').addClass('datepicker-'+ datepicker_color +'');
+            }
+        }).on('hide', function() {
+            $('.datepicker').removeClass('open');
+        });
+});
 	</script>
         
 

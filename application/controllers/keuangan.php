@@ -27,9 +27,9 @@ class keuangan extends CI_Controller
             $kelas			=  $this->input->post('kelas');
             $tipe			=  $this->input->post('tipe');
 			$tahun			=  $this->input->post('tahun_angkatan');
-			//$jurnal2="SELECT kd.nim, s.nama FROM keuangan_pembayaran_detail as kd JOIN student_siswa as s ON kd.nim = s.nim WHERE kd.nim '".$data['tanggal1']."' and '".$data['tanggal2']."' GROUP BY kd.nim";
-			//$data['jurnal2']		= $this->db->query($jurnal2)->result();
-			$data['nama']			=  $this->db->get_where('student_siswa',array('prodi_id'=>$kelas,'angkatan_id'=>$tahun,'kelas_id'=>$tipe))->result();
+			$data['kelasX']	=  getField('akademik_prodi', 'nama_prodi', 'prodi_id', $kelas);
+			$data['tipeX']	=  getField('app_kelas', 'keterangan', 'kelas_id', $tipe);
+			$data['nama']	=  $this->db->get_where('student_siswa',array('prodi_id'=>$kelas,'angkatan_id'=>$tahun,'kelas_id'=>$tipe))->result();
         }
         else
         {
@@ -589,14 +589,21 @@ class keuangan extends CI_Controller
 	
 	function notifikasi($nis)
 	{
-		$id			= $this->db->get_where('telegram', array('nis'=>$nis))->row();
-		$nama		= $this->db->get_where('student_siswa',array('nim'=>$nis))->row();
-		$tgl_bayar 	= $this->db->get_where('keuangan_pembayaran_detail', array('nim'=>$nis))->row();
-		//$query		= "SELECT sum(jumlah) as jumlah from keuangan_pembayaran_detail where nim='$nis' and jenis_bayar_id='$jenis_bayar_id' group by jenis_bayar_id";
-		$jenis_bayar= $this->db->get_where('keuangan_jenis_bayar', array('jenis_bayar_id'=>$tgl_bayar->jenis_bayar_id))->row();
-		$text	= 'Yth Bpk/Ibu. Siswa/i '.$nama->nama.' sudah melakukan Pembayaran '.$jenis_bayar->keterangan.' sebesar Rp.'.rp((int)$tgl_bayar->jumlah).' pada tanggal '.$tgl_bayar->tanggal;
+		$id			= getField('telegram', 'chat_id', 'nis', $nis);
+		$nama		= getField('student_siswa', 'nama', 'nim', $nis);
+		$now		= substr(waktu(),0,10);
+		$tgl_bayar 	= $this->db->get_where('keuangan_pembayaran_detail', array('nim'=>$nis,'left(tanggal,10)'=>$now))->result();
+		$text		= "Yth Bpk/Ibu. Siswa/i ".$nama." sudah melakukan Pembayaran :\n";
+		$no			= 1;
+		foreach($tgl_bayar as $tb)
+		{ 
+			$jenis_bayar= getField('keuangan_jenis_bayar', 'keterangan', 'jenis_bayar_id', $tb->jenis_bayar_id);
+			$detail		= $no.". ".$jenis_bayar." sebesar Rp.".rp((int)$tb->jumlah);
+			$text .= " ".$detail .= " pada tanggal ".$tb->tanggal."\n";
+			$no++;
+		}
 		$data = [
-				'chat_id'             => $id->chat_id,
+				'chat_id'             => $id,
 				'text'                => $text,
 				'parse_mode'          => 'Markdown'
 				];

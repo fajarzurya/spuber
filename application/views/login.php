@@ -55,7 +55,7 @@
                     <?php
 					echo form_open('auth/login');
 					?>
-                        <div class="card-header text-center">
+                        <div class="card-header">
                             <div class="logo-container">
                                 <img src="<?php echo base_url();?>assets/img/spuber-logo.png" alt="">
                             </div>
@@ -74,7 +74,7 @@
                                 <input type="password" name="password" placeholder="Password" required="" class="form-control">
                             </div>
                         </div>
-                        <div class="footer text-center">
+                        <div class="card-footer">
 							<input type="submit" name="submit" value="Enter" class="btn btn-primary btn-round btn-lg btn-block">
                         </div>
                 </div>

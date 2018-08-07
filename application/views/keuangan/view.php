@@ -6,7 +6,12 @@
         <li class="breadcrumb-item active">Laporan Keuangan</li>
     </ol>
 </div>
-
+<style>
+span {
+    position: fixed;
+    right: 5px;
+}
+</style>
 <?php
 
 $status=array(0=>'Lunas',1=>'Pembayaran Ke 1',2=>'Pembayaran Ke 2',3=>'Pembayaran Ke 3',4=>'Pembayaran Ke 4');
@@ -22,7 +27,7 @@ echo form_open('keuangan');
 
                             <div class="card-body">
 							<div class="tab-content">
-                                <div class="tab-pane active" id="bulan" role="tabpanel">
+                                <div class="tab-pane active" id="bulan" role="tabpanel" >
 								
 								<!--<table class="table table-bordered">
 									<tr class="success"><td colspan="2">PERIODE LAPORAN</td></tr>-->
@@ -32,7 +37,7 @@ echo form_open('keuangan');
 									</div>
 									<div class="col-md-3">
 										<div class="form-group">
-											<input type="text" class="form-control date-picker" data-datepicker-color="primary" name="tanggal1" placeholder="Tanggal Awal">
+											<input type="text" class="form-control date-picker" name="tanggal1" placeholder="Tanggal Awal">
 									   </div>
 									</div>
 									<div class="col-md-7"></div>
@@ -42,7 +47,7 @@ echo form_open('keuangan');
 									</div>
 									<div class="col-md-3">
 									<div class="form-group">
-											<input type="text" class="form-control date-picker" data-datepicker-color="primary" name="tanggal2" placeholder="Tanggal Akhir">
+											<input type="text" class="form-control date-picker" name="tanggal2" placeholder="Tanggal Akhir" >
 									   </div>
 									</div>
 								<!--</table>-->
@@ -96,6 +101,16 @@ if(isset($_POST['submit']))
 {
 ?>
 <div class="card">
+<a class="pull-right" href="keuangan/cetak">
+	<span class="btn btn-success btn-sm btn-round">
+		<i class="fa fa-print"></i>
+	</span>
+</a><br><br>
+<a class="pull-right" href="#">
+	<span class="btn btn-primary btn-sm btn-round">
+		<i class="fa fa-arrow-up"></i>
+	</span>
+</a>
 <div class="card-body">
 							<div class="tab-content">
                                 <div class="tab-pane active" role="tabpanel">
@@ -161,12 +176,22 @@ if(isset($_POST['submit2']))
 {
 ?>
 <div class="card">
+<a class="pull-right" href="keuangan/cetak">
+	<span class="btn btn-success btn-sm btn-round">
+		<i class="fa fa-print"></i>
+	</span>
+</a><br><br>
+<a class="pull-right" href="#">
+	<span class="btn btn-primary btn-sm btn-round">
+		<i class="fa fa-arrow-up"></i>
+	</span>
+</a>
 <div class="card-body">
 							<div class="tab-content">
                                 <div class="tab-pane active" role="tabpanel">
 <table class="table table-responsive table-hover">
 	<thead>
-	<?php echo "<tr><th colspan=".($jenis_bayar->num_rows()+6)."><div align='center'>LAPORAN KEUANGAN</div></th></tr>";?>
+	<?php echo "<tr><th colspan=".($jenis_bayar->num_rows()+6)."><div align='center'>LAPORAN KEUANGAN ".strtoupper($kelasX)." ".$tipeX."</div></th></tr>";?>
     <tr><th rowspan='2'>No</th>
         <th rowspan='2'>NIS</th>
         <th rowspan='2'>Nama Siswa</th>
@@ -225,6 +250,7 @@ if(isset($_POST['submit2']))
 </div>
 </div>
 <?php } ?>
+
 <script type="text/javascript">
 function cetak(id,id2)
 {
