@@ -137,7 +137,7 @@ echo form_open('keuangan/pembayaran');
                         }
                         ?>
                     </select>
-					<select name="semester" id="uts_uas" class="form-control">
+					<select name="uts_uas" id="uts_uas" class="form-control">
                         <?php
                         for($sms=1;$sms<=2;$sms++)
                         {

@@ -1,6 +1,6 @@
 <?php
 // Load library phpspreadsheet
-require('./excel/vendor/autoload.php');
+//require('./excel/vendor/autoload.php');
 
 use PhpOffice\PhpSpreadsheet\Helper\Sample;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -20,6 +20,75 @@ class keuangan extends CI_Controller
 		//$this->load->helper('telegram');
     }
     
+	// Export ke excel
+	public function export()
+	{
+		$jb	= $this->db->get('keuangan_jenis_bayar')->result();
+		// Create new Spreadsheet object
+		$spreadsheet = new Spreadsheet();
+
+		// Set document properties
+		$spreadsheet->getProperties()->setCreator('Fidhya Utami')
+		->setLastModifiedBy('Fidhya Utami')
+		->setTitle('Laporan Keuangan')
+		->setSubject('Office 2007 XLSX Test Document')
+		->setDescription('Document for Office 2007 XLSX, generated using PHP classes.')
+		->setKeywords('office 2007 openxml php')
+		->setCategory('Test result file');
+
+		// Add some data
+		// $spreadsheet->setActiveSheetIndex(0)
+		// ->setCellValue('A1', 'LAPORAN KEUANGAN')
+		// ->setCellValue('A2', 'No')
+		// ->setCellValue('B2', 'NIS')
+		// ->setCellValue('C2', 'Nama Siswa');
+		// $i='D';foreach($jb as $jb)
+		// {
+			// $spreadsheet->setActiveSheetIndex(0)
+			// ->setCellValue($i.'2', $jb->keterangan);
+			// $i++;
+		// }
+		// $spreadsheet->setActiveSheetIndex(0)
+		// ->setCellValue($i++.'2', 'Jumlah')
+		// ->setCellValue($i++.'2', 'Kredit')
+		// ->setCellValue($i++.'2', 'Keterangan');
+		// $a=1;foreach()
+		// {
+			
+		// }
+
+		// Miscellaneous glyphs, UTF-8
+		// $i=2; foreach($provinsi as $provinsi) {
+
+		// $spreadsheet->setActiveSheetIndex(0)
+		// ->setCellValue('A'.$i, $provinsi->id_provinsi)
+		// ->setCellValue('B'.$i, $provinsi->nama_provinsi);
+		// $i++;
+		// }
+		// Rename worksheet
+		$spreadsheet->getActiveSheet()->setTitle('Report Excel'.date('d-m-Y H'));
+
+		// Set active sheet index to the first sheet, so Excel opens this as the first sheet
+		$spreadsheet->setActiveSheetIndex(0);
+
+		// Redirect output to a client’s web browser (Xlsx)
+		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+		header('Content-Disposition: attachment;filename="Report Excel.xlsx"');
+		header('Cache-Control: max-age=0');
+		// If you're serving to IE 9, then the following may be needed
+		header('Cache-Control: max-age=1');
+
+		// If you're serving to IE over SSL, then the following may be needed
+		header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+		header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); // always modified
+		header('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+		header('Pragma: public'); // HTTP/1.0
+
+		$writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+		$writer->save('php://output');
+		exit;
+	}
+	
     function index()
     {
         //$this->load->helper('telegram');
@@ -221,6 +290,7 @@ class keuangan extends CI_Controller
             $jenis  =   $this->input->post('jenis');
             $jumlah =   $this->input->post('jumlah');
             $bulan	=  $this->input->post('semester');
+			$semester = $this->input->post('uts_uas');
             // chek dulu udah lunas belum jenis bayarnya, jika sudah berikan pesan
             $idnim=$this->session->userdata('pembayaran_mahasiswa_nim');
             $tahun_akademik = getField('student_siswa', 'angkatan_id', 'nim', $idnim);
@@ -292,7 +362,7 @@ class keuangan extends CI_Controller
                                         'jumlah'=>$jumlah,
                                         'id_users'=> $this->session->userdata('id_users'),
                                         'tanggal'=>  waktu(),
-										'semester'=>$bulan,
+										'semester'=>$semester,
                                         'nim'=>$this->session->userdata('pembayaran_mahasiswa_nim'));
             $this->db->insert('keuangan_pembayaran_detail',$data);
                     
@@ -530,76 +600,6 @@ class keuangan extends CI_Controller
         $this->load->view('keuangan/cetaklap',$data);
     }
 	
-	// Export ke excel
-	public function export()
-	{
-		//$provinsi = $this->provinsi_model->listing();
-		$jb	= $this->db->get('keuangan_jenis_bayar')->result();
-		// Create new Spreadsheet object
-		$spreadsheet = new Spreadsheet();
-
-		// Set document properties
-		$spreadsheet->getProperties()->setCreator('Fidhya Utami')
-		->setLastModifiedBy('Fidhya Utami')
-		->setTitle('Laporan Keuangan')
-		->setSubject('Office 2007 XLSX Test Document')
-		->setDescription('Document for Office 2007 XLSX, generated using PHP classes.')
-		->setKeywords('office 2007 openxml php')
-		->setCategory('Test result file');
-
-		// Add some data
-		$spreadsheet->setActiveSheetIndex(0)
-		->setCellValue('A1', 'LAPORAN KEUANGAN')
-		->setCellValue('A2', 'No')
-		->setCellValue('B2', 'NIS')
-		->setCellValue('C2', 'Nama Siswa');
-		$i='D';foreach($jb as $jb)
-		{
-			$spreadsheet->setActiveSheetIndex(0)
-			->setCellValue($i.'2', $jb->keterangan);
-			$i++;
-		}
-		$spreadsheet->setActiveSheetIndex(0)
-		->setCellValue($i++.'2', 'Jumlah')
-		->setCellValue($i++.'2', 'Kredit')
-		->setCellValue($i++.'2', 'Keterangan');
-		// $a=1;foreach()
-		// {
-			
-		// }
-
-		// Miscellaneous glyphs, UTF-8
-		// $i=2; foreach($provinsi as $provinsi) {
-
-		// $spreadsheet->setActiveSheetIndex(0)
-		// ->setCellValue('A'.$i, $provinsi->id_provinsi)
-		// ->setCellValue('B'.$i, $provinsi->nama_provinsi);
-		// $i++;
-		// }
-		// Rename worksheet
-		$spreadsheet->getActiveSheet()->setTitle('Report Excel'.date('d-m-Y H'));
-
-		// Set active sheet index to the first sheet, so Excel opens this as the first sheet
-		$spreadsheet->setActiveSheetIndex(0);
-
-		// Redirect output to a client’s web browser (Xlsx)
-		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-		header('Content-Disposition: attachment;filename="Report Excel.xlsx"');
-		header('Cache-Control: max-age=0');
-		// If you're serving to IE 9, then the following may be needed
-		header('Cache-Control: max-age=1');
-
-		// If you're serving to IE over SSL, then the following may be needed
-		header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
-		header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); // always modified
-		header('Cache-Control: cache, must-revalidate'); // HTTP/1.1
-		header('Pragma: public'); // HTTP/1.0
-
-		$writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
-		$writer->save('php://output');
-		exit;
-	}
-	
     function pdf()
     {
         $this->load->library(array('cfpdf'));
@@ -685,8 +685,8 @@ class keuangan extends CI_Controller
 				'text'                => $text,
 				'parse_mode'          => 'Markdown'
 				];
-		// apiRequest('sendMessage', $data);
-		$this->telegram->apiRequest('sendMessage', $data);
+		apiRequest('sendMessage', $data);
+		//$this->telegram->apiRequest('sendMessage', $data);
 		//echo $this->telegram->send->chat("403119565");
 		// echo $this->telegram->send();
 		// echo $this->telegram->send->text(json_encode('ABC'))->send();

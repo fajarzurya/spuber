@@ -3,7 +3,6 @@
 if ( ! function_exists('generatehtml'))
 {
 	
-//require_once 'telegram_action.php';
 // masukkan bot token di sini
 define('BOT_TOKEN', '590086026:AAGfE5F9UArMVX4WyxMKxt_9L6JsbyeF3xQ');
 
@@ -16,7 +15,7 @@ define('myVERSI', '0.1');
 define('lastUPDATE', '20 Juli 2018');
 
 // aktifkan ini jika ingin menampilkan debugging poll
-$debug = true;
+$debug = false;
 
 function exec_curl_request($handle)
 {
@@ -187,10 +186,19 @@ function processMessage($message)
           break;
 
         case '/daftar':
-          if (isset($pecah[1])) {
-              $pesanproses = $pecah[1];
+		require_once('telegram_db.php');
+          // if (isset($pecah[1])) {
+              // $pesanproses = $pecah[1];
+              // $r = daftar($iduser, $pesanproses);
+              // $text = '😘 Selamat `$namamu` sudah terdaftar\n';
+          // } else {
+              // $text = '⛔️ *ERROR:* Maaf perintah yang Anda masukkan salah!';
+              // $text .= "\n\n Ketik seperti contoh: `/daftar 1000`";
+          // }
+		  if (isset($pecah[1])) {
+			  $pesanproses = $pecah[1];
               $r = daftar($iduser, $pesanproses);
-              $text = '😘 Selamat `$namamu` sudah terdaftar\n';
+              $text = "Selamat Anda sudah terdaftar\n";
           } else {
               $text = '⛔️ *ERROR:* Maaf perintah yang Anda masukkan salah!';
               $text .= "\n\n Ketik seperti contoh: `/daftar 1000`";

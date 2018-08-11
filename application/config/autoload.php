@@ -65,8 +65,8 @@ $autoload['libraries'] = array( 'database','session',
 |	$autoload['helper'] = array('url', 'file');
 */
 
-//$autoload['helper'] = array('url','file','form','htmlgenerate','mylib','telegram');
-$autoload['helper'] = array('url','file','form','htmlgenerate','mylib');
+$autoload['helper'] = array('url','file','form','htmlgenerate','mylib','telegram');
+//$autoload['helper'] = array('url','file','form','htmlgenerate','mylib');
 
 /*
 | -------------------------------------------------------------------
@@ -81,8 +81,8 @@ $autoload['helper'] = array('url','file','form','htmlgenerate','mylib');
 |
 */
 
-//$autoload['config'] = array();
-$autoload['config'] = array('telegram');
+$autoload['config'] = array();
+//$autoload['config'] = array('telegram');
 
 
 /*
@@ -111,8 +111,8 @@ $autoload['language'] = array();
 |
 */
 
-//$autoload['model'] = array('mcrud');
-$autoload['model'] = array('mcrud','telegram');
+$autoload['model'] = array('mcrud');
+//$autoload['model'] = array('mcrud','telegram');
 
 
 /* End of file autoload.php */

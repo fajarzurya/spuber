@@ -16,6 +16,7 @@ namespace Complex;
  * @return    Complex
  */
 function add(...$complexValues)
+//function add($complexValues)
 {
     if (count($complexValues) < 2) {
         throw new \Exception('This function requires at least 2 arguments');
