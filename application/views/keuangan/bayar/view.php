@@ -141,7 +141,7 @@ echo form_open('keuangan/pembayaran');
                         <?php
                         for($sms=1;$sms<=2;$sms++)
                         {
-							echo $sms==1?"<option VALUE='$sms'>SEMESTER $sms GANJIL</option>":"<option VALUE='$sms'>SEMESTER $sms GENAP</option>";
+							echo $sms==1?"<option VALUE='$sms'>SEMESTER GANJIL</option>":"<option VALUE='$sms'>SEMESTER GENAP</option>";
                         }
                         ?>
                     </select>
@@ -192,7 +192,7 @@ if($statuss!="kosong"){
 			$kondisi = strtoupper(getbln($r->semester));
 		}elseif($a==5 || $a==6)
 		{
-			$kondisi =$r->semester==0?'GANJIL':'GENAP';
+			$kondisi =$r->semester==1?'GANJIL':'GENAP';
 		}else
 		{
 			$kondisi = '';

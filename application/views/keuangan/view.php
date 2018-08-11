@@ -101,7 +101,7 @@ if(isset($_POST['submit']))
 {
 ?>
 <div class="card">
-<a class="pull-right" href="keuangan/cetak">
+<a class="pull-right" href="keuangan/cetakbulan">
 	<span class="btn btn-success btn-sm btn-round">
 		<i class="fa fa-print"></i>
 	</span>
@@ -176,7 +176,7 @@ if(isset($_POST['submit2']))
 {
 ?>
 <div class="card">
-<a class="pull-right" href="keuangan/cetak">
+<a class="pull-right" href="keuangan/export">
 	<span class="btn btn-success btn-sm btn-round">
 		<i class="fa fa-print"></i>
 	</span>
