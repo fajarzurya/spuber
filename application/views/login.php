@@ -25,19 +25,19 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" rel="tooltip" title="Follow us on Twitter" data-placement="bottom" href="https://twitter.com/smp10nop" target="_blank">
-                            <i class="fa fa-twitter"></i>
+                            <i class="fa fa-twitter fa-2x"></i>
                             <p class="d-lg-none d-xl-none">Twitter</p>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" rel="tooltip" title="Like us on Facebook" data-placement="bottom" href="https://www.facebook.com/smp10nop" target="_blank">
-                            <i class="fa fa-facebook-square"></i>
+                            <i class="fa fa-facebook-square fa-2x"></i>
                             <p class="d-lg-none d-xl-none">Facebook</p>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" rel="tooltip" title="Follow us on Instagram" data-placement="bottom" href="https://www.instagram.com/smp10nop" target="_blank">
-                            <i class="fa fa-instagram"></i>
+                            <i class="fa fa-instagram fa-2x"></i>
                             <p class="d-lg-none d-xl-none">Instagram</p>
                         </a>
                     </li>
@@ -55,7 +55,7 @@
                     <?php
 					echo form_open('auth/login');
 					?>
-                        <div class="card-header text-center">
+                        <div class="card-header">
                             <div class="logo-container">
                                 <img src="<?php echo base_url();?>assets/img/spuber-logo.png" alt="">
                             </div>
@@ -74,7 +74,7 @@
                                 <input type="password" name="password" placeholder="Password" required="" class="form-control">
                             </div>
                         </div>
-                        <div class="footer text-center">
+                        <div class="card-footer">
 							<input type="submit" name="submit" value="Enter" class="btn btn-primary btn-round btn-lg btn-block">
                         </div>
                 </div>

@@ -6,8 +6,12 @@
         <li class="breadcrumb-item active">Data</li>
     </ol>
 </div>
-
-
+<style>
+span {
+    position: fixed;
+    right: 5px;
+}
+</style>
 <script src="<?php echo base_url();?>assets/js/1.8.2.min.js"></script>
  
   <script>
@@ -55,11 +59,11 @@ function hidesemster()
 				$("#semester").hide();
 				$("#uts_uas").show();
 			}
-            else
-                {
-                     $("#semester").hide();
-					 $("#uts_uas").hide();
-                }
+        else
+            {
+                $("#semester").hide();
+				$("#uts_uas").hide();
+            }
 }
 </script>
 <?php
@@ -133,21 +137,11 @@ echo form_open('keuangan/pembayaran');
                         }
                         ?>
                     </select>
-					<select name="uts_uas" id="uts_uas" class="form-control">
+					<select name="semester" id="uts_uas" class="form-control">
                         <?php
-						$gjl='ganjil';
-						$gnp='genap';
                         for($sms=1;$sms<=2;$sms++)
                         {
-                            // if($sms==1)
-							// {
-								// echo "<option VALUE='ganjil'>SEMESTER GANJIL</option>";
-							// }
-							// else
-							// {
-								// echo "<option VALUE='genap'>SEMESTER GENAP</option>";
-							// }
-							echo $sms==1?"<option VALUE='$sms'>SEMESTER ".strtoupper($gjl)."</option>":"<option VALUE='$sms'>SEMESTER ".strtoupper($gnp)."</option>";
+							echo $sms==1?"<option VALUE='$sms'>SEMESTER GANJIL</option>":"<option VALUE='$sms'>SEMESTER GENAP</option>";
                         }
                         ?>
                     </select>
@@ -168,6 +162,11 @@ echo form_open('keuangan/pembayaran');
 </div>
 </div>
 </div>
+<a class="pull-right" href="#">
+	<span class="btn btn-primary btn-sm btn-round">UP
+		<i class="fa fa-arrow-up"></i>
+	</span>
+</a>
 <?php
 if($statuss!="kosong"){
 ?>
@@ -193,7 +192,7 @@ if($statuss!="kosong"){
 			$kondisi = strtoupper(getbln($r->semester));
 		}elseif($a==5 || $a==6)
 		{
-			$kondisi =$r->semester==0?'GANJIL':'GENAP';
+			$kondisi =$r->semester==1?'GANJIL':'GENAP';
 		}else
 		{
 			$kondisi = '';
@@ -205,7 +204,6 @@ if($statuss!="kosong"){
             <td>Rp ".rp((int)$r->jumlah)."</td>
             <td>".  strtoupper($r->nama)."</td>
             <td align='center'>".anchor('keuangan/delete/'.$r->pembayara_detail_id,'<i class="fa fa-trash-o"></i>',array('title'=>'Hapus Transaksi'))."</td></tr>";
-			//<td align='center'>".anchor('keuangan/delete/'.$r->pembayara_detail_id,'<i class="fa fa-trash-o"></i>',array('title'=>'Hapus Catatan'))."</td></tr>";
         $i++;
     }
     ?>

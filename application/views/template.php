@@ -42,7 +42,7 @@ if($this->session->userdata('id_users')=='')
                                         //looping
                                         echo "<li class='nav-item dropdown'>
 												<a href='javascript:void(0)' class='nav-link dropdown-toggle' data-toggle='dropdown' id='navbarDropdownMenuLink'>
-													<i class='".$m->icon."'></i> ".  strtoupper($m->nama_mainmenu)."
+													<i class='".$m->icon."'></i> <p>".  strtoupper($m->nama_mainmenu)."</p>
 												</a>
 												<ul class='dropdown-menu' aria-labelledby='navbarDropdownMenuLink'>";
                                         foreach ($submenu->result() as $s)
@@ -67,14 +67,14 @@ if($this->session->userdata('id_users')=='')
                             <ul class="navbar-nav">
                                 <li class="nav-item dropdown">
                                     <a href="javascript:void(0)" class="nav-link dropdown-toggle" data-toggle="dropdown" id="navbarDropdownMenuLink">
-										<i class="fa fa-user" ></i> <?php echo strtoupper($this->session->userdata('username'));?>
+										<i class="fa fa-user fa-lg" >&nbsp;</i> <?php echo strtoupper($this->session->userdata('username'));?>
 									</a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 										<a class="dropdown-item" href="<?php echo base_url().''.$this->uri->segment(0).'users/profile'?>">
-											<i class="fa fa-cogs"></i>Account
+											<i class="fa fa-cogs fa-lg"></i>Account
 										</a>
 										<a class="dropdown-item" href="<?php echo base_url().''.$this->uri->segment(0).'auth/logout'?>">
-											<i class="fa fa-sign-out"></i>Logout
+											<i class="fa fa-sign-out fa-lg"></i>Logout
 										</a>
                                     </ul>
                                 </li>
@@ -115,61 +115,26 @@ if($this->session->userdata('id_users')=='')
 <!-- DataTables JavaScript -->
 <script src="<?php echo base_url(); ?>assets/datatables/datatables.min.js" type="text/javascript"></script>
 <script>
-	$('.date-picker').each(function(){
-		$(this).datepicker({
-			changeMonth: true,
-			format: 'yyyy-mm-dd',
-			changeYear: true
-			});
-	});
-	// $(function() {
-		// $( "#datepicker" ).datepicker({
-                // changeMonth: true,
-                // dateFormat: 'yy-mm-dd',
-                // changeYear: true
-                // });
+	
+	<!-- javascript for init -->
+$('.date-picker').each(function(){
+    $(this).datepicker({
+        templates:{
+            leftArrow: '<i class="now-ui-icons arrows-1_minimal-left"></i>',
+            rightArrow: '<i class="now-ui-icons arrows-1_minimal-right"></i>'
+        },
+		format: 'yyyy-mm-dd'
+    }).on('show', function() {
+            $('.datepicker').addClass('open');
 
-                // $( "#datepicker1" ).datepicker({
-                // changeMonth: true,
-                // dateFormat: 'yy-mm-dd',
-                // changeYear: true
-                // });
-
-                // $( "#datepicker2" ).datepicker({
-                // changeMonth: true,
-                // dateFormat: 'yy-mm-dd',
-                // changeYear: true
-                // });
-                // $( "#datepicker3" ).datepicker({
-                // changeMonth: true,
-                // dateFormat: 'yy-mm-dd',
-                // changeYear: true
-                // });
-
-                // $( "#datepicker4" ).datepicker({
-                // changeMonth: true,
-                // dateFormat: 'yy-mm-dd',
-                // changeYear: true
-                // });
-                
-                // $( "#datepicker5" ).datepicker({
-                // changeMonth: true,
-                // dateFormat: 'yy-mm-dd',
-                // changeYear: true
-                // });
-                
-                // $( "#datepicker6" ).datepicker({
-                // changeMonth: true,
-                // dateFormat: 'yy-mm-dd',
-                // changeYear: true
-                // });
-                
-                // $( "#datepicker7" ).datepicker({
-                // changeMonth: true,
-                // dateFormat: 'yy-mm-dd',
-                // changeYear: true
-                // });
-	// });
+            datepicker_color = $(this).data('datepicker-color');
+            if( datepicker_color.length != 0){
+                $('.datepicker').addClass('datepicker-'+ datepicker_color +'');
+            }
+        }).on('hide', function() {
+            $('.datepicker').removeClass('open');
+        });
+});
 	</script>
         
 

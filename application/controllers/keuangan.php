@@ -1,4 +1,12 @@
 <?php
+// Load library phpspreadsheet
+require('./excel/vendor/autoload.php');
+
+use PhpOffice\PhpSpreadsheet\Helper\Sample;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+// End load library phpspreadsheet
+
 class keuangan extends CI_Controller
 {
     
@@ -27,9 +35,9 @@ class keuangan extends CI_Controller
             $kelas			=  $this->input->post('kelas');
             $tipe			=  $this->input->post('tipe');
 			$tahun			=  $this->input->post('tahun_angkatan');
-			//$jurnal2="SELECT kd.nim, s.nama FROM keuangan_pembayaran_detail as kd JOIN student_siswa as s ON kd.nim = s.nim WHERE kd.nim '".$data['tanggal1']."' and '".$data['tanggal2']."' GROUP BY kd.nim";
-			//$data['jurnal2']		= $this->db->query($jurnal2)->result();
-			$data['nama']			=  $this->db->get_where('student_siswa',array('prodi_id'=>$kelas,'angkatan_id'=>$tahun,'kelas_id'=>$tipe))->result();
+			$data['kelasX']	=  getField('akademik_prodi', 'nama_prodi', 'prodi_id', $kelas);
+			$data['tipeX']	=  getField('app_kelas', 'keterangan', 'kelas_id', $tipe);
+			$data['nama']	=  $this->db->get_where('student_siswa',array('prodi_id'=>$kelas,'angkatan_id'=>$tahun,'kelas_id'=>$tipe))->result();
         }
         else
         {
@@ -47,18 +55,6 @@ class keuangan extends CI_Controller
         $data['tahun_angkatan']=  $this->db->get('akademik_tahun_akademik')->result();
         $this->template->load('template', 'keuangan/laporan',$data);
     }
-    
-    function cetak()
-    {
-        $jenis="SELECT * FROM `keuangan_jenis_bayar` WHERE jenis_bayar_id not in('3') ";
-        $data['tahun_akademik']      =  $this->input->post('tahun');
-        //$data['konsentrasi_id']=  $this->input->post('konsentrasi');
-		$data['prodi_id']=  $this->input->post('kelas');
-        $data['tahun']=  $this->db->get('student_angkatan')->result();
-        $data['jenis_bayar']=  $this->db->query($jenis);
-        $this->load->view('keuangan/cetaklap',$data);
-    }
-    
 
     function loadlaporan()
     {
@@ -296,6 +292,7 @@ class keuangan extends CI_Controller
                                         'jumlah'=>$jumlah,
                                         'id_users'=> $this->session->userdata('id_users'),
                                         'tanggal'=>  waktu(),
+										'semester'=>$bulan,
                                         'nim'=>$this->session->userdata('pembayaran_mahasiswa_nim'));
             $this->db->insert('keuangan_pembayaran_detail',$data);
                     
@@ -522,6 +519,87 @@ class keuangan extends CI_Controller
         echo "SMS SUDAH DIKIRIM";
     }
     
+	function cetak()
+    {
+        $jenis="SELECT * FROM `keuangan_jenis_bayar` WHERE jenis_bayar_id not in('3') ";
+        $data['tahun_akademik']      =  $this->input->post('tahun');
+        //$data['konsentrasi_id']=  $this->input->post('konsentrasi');
+		$data['prodi_id']=  $this->input->post('kelas');
+        $data['tahun']=  $this->db->get('student_angkatan')->result();
+        $data['jenis_bayar']=  $this->db->query($jenis);
+        $this->load->view('keuangan/cetaklap',$data);
+    }
+	
+	// Export ke excel
+	public function export()
+	{
+		//$provinsi = $this->provinsi_model->listing();
+		$jb	= $this->db->get('keuangan_jenis_bayar')->result();
+		// Create new Spreadsheet object
+		$spreadsheet = new Spreadsheet();
+
+		// Set document properties
+		$spreadsheet->getProperties()->setCreator('Fidhya Utami')
+		->setLastModifiedBy('Fidhya Utami')
+		->setTitle('Laporan Keuangan')
+		->setSubject('Office 2007 XLSX Test Document')
+		->setDescription('Document for Office 2007 XLSX, generated using PHP classes.')
+		->setKeywords('office 2007 openxml php')
+		->setCategory('Test result file');
+
+		// Add some data
+		$spreadsheet->setActiveSheetIndex(0)
+		->setCellValue('A1', 'LAPORAN KEUANGAN')
+		->setCellValue('A2', 'No')
+		->setCellValue('B2', 'NIS')
+		->setCellValue('C2', 'Nama Siswa');
+		$i='D';foreach($jb as $jb)
+		{
+			$spreadsheet->setActiveSheetIndex(0)
+			->setCellValue($i.'2', $jb->keterangan);
+			$i++;
+		}
+		$spreadsheet->setActiveSheetIndex(0)
+		->setCellValue($i++.'2', 'Jumlah')
+		->setCellValue($i++.'2', 'Kredit')
+		->setCellValue($i++.'2', 'Keterangan');
+		// $a=1;foreach()
+		// {
+			
+		// }
+
+		// Miscellaneous glyphs, UTF-8
+		// $i=2; foreach($provinsi as $provinsi) {
+
+		// $spreadsheet->setActiveSheetIndex(0)
+		// ->setCellValue('A'.$i, $provinsi->id_provinsi)
+		// ->setCellValue('B'.$i, $provinsi->nama_provinsi);
+		// $i++;
+		// }
+		// Rename worksheet
+		$spreadsheet->getActiveSheet()->setTitle('Report Excel'.date('d-m-Y H'));
+
+		// Set active sheet index to the first sheet, so Excel opens this as the first sheet
+		$spreadsheet->setActiveSheetIndex(0);
+
+		// Redirect output to a client’s web browser (Xlsx)
+		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+		header('Content-Disposition: attachment;filename="Report Excel.xlsx"');
+		header('Cache-Control: max-age=0');
+		// If you're serving to IE 9, then the following may be needed
+		header('Cache-Control: max-age=1');
+
+		// If you're serving to IE over SSL, then the following may be needed
+		header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+		header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); // always modified
+		header('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+		header('Pragma: public'); // HTTP/1.0
+
+		$writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+		$writer->save('php://output');
+		exit;
+	}
+	
     function pdf()
     {
         $this->load->library(array('cfpdf'));
@@ -589,18 +667,29 @@ class keuangan extends CI_Controller
 	
 	function notifikasi($nis)
 	{
-		$id			= $this->db->get_where('telegram', array('nis'=>$nis))->row();
-		$nama		= $this->db->get_where('student_siswa',array('nim'=>$nis))->row();
-		$tgl_bayar 	= $this->db->get_where('keuangan_pembayaran_detail', array('nim'=>$nis))->row();
-		//$query		= "SELECT sum(jumlah) as jumlah from keuangan_pembayaran_detail where nim='$nis' and jenis_bayar_id='$jenis_bayar_id' group by jenis_bayar_id";
-		$jenis_bayar= $this->db->get_where('keuangan_jenis_bayar', array('jenis_bayar_id'=>$tgl_bayar->jenis_bayar_id))->row();
-		$text	= 'Yth Bpk/Ibu. Siswa/i '.$nama->nama.' sudah melakukan Pembayaran '.$jenis_bayar->keterangan.' sebesar Rp.'.rp((int)$tgl_bayar->jumlah).' pada tanggal '.$tgl_bayar->tanggal;
+		$id			= getField('telegram', 'chat_id', 'nis', $nis);
+		$nama		= getField('student_siswa', 'nama', 'nim', $nis);
+		$now		= substr(waktu(),0,10);
+		$tgl_bayar 	= $this->db->get_where('keuangan_pembayaran_detail', array('nim'=>$nis,'left(tanggal,10)'=>$now))->result();
+		$text		= "Yth Bpk/Ibu. Siswa/i ".$nama." sudah melakukan Pembayaran :\n";
+		$no			= 1;
+		foreach($tgl_bayar as $tb)
+		{ 
+			$jenis_bayar= getField('keuangan_jenis_bayar', 'keterangan', 'jenis_bayar_id', $tb->jenis_bayar_id);
+			$detail		= $no.". ".$jenis_bayar." sebesar Rp.".rp((int)$tb->jumlah);
+			$text .= " ".$detail .= " tanggal ".$tb->tanggal."\n";
+			$no++;
+		}
 		$data = [
-				'chat_id'             => $id->chat_id,
+				'chat_id'             => $id,
 				'text'                => $text,
 				'parse_mode'          => 'Markdown'
 				];
-		apiRequest('sendMessage', $data);
+		// apiRequest('sendMessage', $data);
+		$this->telegram->apiRequest('sendMessage', $data);
+		//echo $this->telegram->send->chat("403119565");
+		// echo $this->telegram->send();
+		// echo $this->telegram->send->text(json_encode('ABC'))->send();
 	}
 }
 ?>

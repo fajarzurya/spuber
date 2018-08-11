@@ -76,7 +76,7 @@
 				$sisa_total=$sisa_total+$sisa;
 			}
 			// looping semester
-			for($i=1;$i<=$semester;$i++)
+			for($i=1;$i<=12;$i++)
 			{
 				//$spp            =   (int) get_biaya_kuliah($tahun_akademik_id, 3, $konsentrasi_id, 'jumlah');
 				$spp            =   (int) get_biaya_sekolah($tahun_akademik_id, 1, $kelas, 'jumlah');
