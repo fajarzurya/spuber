@@ -3,7 +3,7 @@
 require_once 'telegram_helper.php';
 
 // ambil databasenya
-require_once 'telegram_db.php';
+require_once 'telegram_db2.php';
 
 // AKTIFKAN INI jika menggunakan metode poll
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

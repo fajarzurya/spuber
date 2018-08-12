@@ -15,7 +15,7 @@ define('myVERSI', '0.1');
 define('lastUPDATE', '20 Juli 2018');
 
 // aktifkan ini jika ingin menampilkan debugging poll
-$debug = false;
+$debug = true;
 
 function exec_curl_request($handle)
 {
@@ -83,7 +83,7 @@ function apiRequest($method, $parameters = null)
 
     $handle = curl_init($url);
     curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($handle, CURLOPT_CONNECTTIMEOUT, 5);
+    curl_setopt($handle, CURLOPT_CONNECTTIMEOUT, 0);
     curl_setopt($handle, CURLOPT_TIMEOUT, 60);
     curl_setopt($handle, CURLOPT_SSL_VERIFYPEER, false);
 
@@ -110,7 +110,7 @@ function apiRequestJson($method, $parameters)
 
     $handle = curl_init(API_URL);
     curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($handle, CURLOPT_CONNECTTIMEOUT, 5);
+    curl_setopt($handle, CURLOPT_CONNECTTIMEOUT, 0);
     curl_setopt($handle, CURLOPT_TIMEOUT, 60);
     curl_setopt($handle, CURLOPT_POSTFIELDS, json_encode($parameters));
     curl_setopt($handle, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
@@ -186,19 +186,11 @@ function processMessage($message)
           break;
 
         case '/daftar':
-		require_once('telegram_db.php');
-          // if (isset($pecah[1])) {
-              // $pesanproses = $pecah[1];
-              // $r = daftar($iduser, $pesanproses);
-              // $text = '😘 Selamat `$namamu` sudah terdaftar\n';
-          // } else {
-              // $text = '⛔️ *ERROR:* Maaf perintah yang Anda masukkan salah!';
-              // $text .= "\n\n Ketik seperti contoh: `/daftar 1000`";
-          // }
+		require_once('telegram_db2.php');
 		  if (isset($pecah[1])) {
 			  $pesanproses = $pecah[1];
               $r = daftar($iduser, $pesanproses);
-              $text = "Selamat Anda sudah terdaftar\n";
+			  $text = $r;
           } else {
               $text = '⛔️ *ERROR:* Maaf perintah yang Anda masukkan salah!';
               $text .= "\n\n Ketik seperti contoh: `/daftar 1000`";
